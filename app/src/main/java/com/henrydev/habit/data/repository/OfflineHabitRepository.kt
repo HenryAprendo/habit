@@ -18,7 +18,9 @@ class OfflineHabitRepository @Inject constructor(
 ): HabitRepository {
 
     override fun getHabitsWithHistory(): Flow<List<HabitWithHistory>> {
-        TODO("Not yet implemented")
+        return habitDao.getHabitsWithLogs().map { habitWithLogs ->
+            habitWithLogs.map{ item -> item.toDomain() }
+        }
     }
 
     override fun getAllHabits(): Flow<List<Habit>> {
