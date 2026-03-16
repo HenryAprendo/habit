@@ -51,15 +51,7 @@ fun HomeScreen(
                 .padding(innerPadding)
         ){
             when(val state = uiState) {
-                is HomeUiState.Empty ->
-                    HabitsList(
-                        habits = habitPreviewList,
-                        onToggleHabit = { habitId, currentStatus ->
-                            coroutineScope.launch {
-                                viewModel.toggleHabit(habitId,currentStatus)
-                            }
-                        }
-                    )
+                is HomeUiState.Empty -> EmptyComponent()
                 is HomeUiState.Loading -> LoadingComponent()
                 is HomeUiState.Error -> ErrorComponent()
                 is HomeUiState.Success ->
