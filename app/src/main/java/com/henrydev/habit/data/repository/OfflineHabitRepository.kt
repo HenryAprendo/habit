@@ -39,6 +39,7 @@ class OfflineHabitRepository @Inject constructor(
     ) {
         val normalizedDate = date.toStartOfDay()
         val log = HabitLogEntity(
+            logId = 0,
             habitId = habitId,
             date = normalizedDate,
             isCompleted = isCompleted

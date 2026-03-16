@@ -22,14 +22,23 @@ class AddItemViewModel @Inject constructor(
 
     fun onChangeForm(input: HabitDetail) {
         _uiState.update {
-            it.copy(habitDetail = input)
+            it.copy(
+                habitDetail = input,
+                isEntryValid = validate(input)
+            )
         }
     }
 
     fun insertHabit() {
-        viewModelScope.launch {
-            if (validate()) {
-                habitRepository.insertHabit(uiState.value.habitDetail.toHabit())
+        if (validate(_uiState.value.habitDetail)) {
+            _uiState.update { it.copy(isSaving = true) }
+            viewModelScope.launch {
+                try {
+                    habitRepository.insertHabit(_uiState.value.habitDetail.toHabit())
+                    _uiState.update { it.copy(isSaving = false, isSaveSuccess = true) }
+                } catch(e: Exception) {
+                    _uiState.update { it.copy(isSaving = false, error = e.message) }
+                }
             }
         }
     }
@@ -45,9 +54,12 @@ class AddItemViewModel @Inject constructor(
 
 }
 
-
 data class AddHabitUiState(
-    val habitDetail: HabitDetail = HabitDetail()
+    val habitDetail: HabitDetail = HabitDetail(),
+    val isEntryValid: Boolean = false,
+    val isSaving: Boolean = false,
+    val isSaveSuccess: Boolean = false,
+    val error: String? = null
 )
 
 data class HabitDetail(
