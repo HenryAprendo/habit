@@ -1,0 +1,29 @@
+package com.henrydev.habit.ui.navigation
+
+import androidx.annotation.StringRes
+import com.henrydev.habit.R
+
+sealed class HabitScreen(
+    val route: String,
+    @StringRes val title: Int,
+) {
+
+    data object Home: HabitScreen(
+        route = "home_screen",
+        title = R.string.home_title
+    )
+
+    data object AddHabit: HabitScreen(
+        route = "add_habit_screen",
+        title = R.string.add_habit_title
+    )
+
+    data object Edithabit: HabitScreen(
+        route = "edit_habit_screen/{habitId}",
+        title = R.string.edit_habit_title
+    ) {
+        fun createRoute(habitId: Int): String = "edit_habit_screen/$habitId"
+        const val itemIdArg = "habitId"
+    }
+
+}

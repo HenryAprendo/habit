@@ -5,13 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,31 +18,44 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.henrydev.habit.HabitTopAppBar
+import com.henrydev.habit.ui.navigation.HabitScreen
 
 @Composable
 fun AddItemScreen(
+    onNavigateBack: () -> Unit,
+    onNavigateUp: () -> Unit,
     viewModel: AddItemViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+    Scaffold(
+        topBar = {
+            HabitTopAppBar(
+                title = HabitScreen.AddHabit.title,
+                navigateUp = onNavigateUp,
+                canNavigateBack = true
+            )
+        },
         modifier = modifier
-            .systemBarsPadding()
-            .fillMaxSize()
-            .padding(12.dp)
-    ) {
-        Text(
-            text = "Agrega un nuevo habito",
-            style = MaterialTheme.typography.titleLarge
-        )
-        InputForm(
-            habitDetail = uiState.habitDetail,
-            onChangeForm = { habitDetail -> viewModel.onChangeForm(habitDetail) }
-        )
-        Button(onClick = { viewModel.insertHabit() }) {
-            Text("Guardar")
+    ) { innerPadding ->
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+        ) {
+            InputForm(
+                habitDetail = uiState.habitDetail,
+                onChangeForm = { habitDetail -> viewModel.onChangeForm(habitDetail) }
+            )
+            Button(onClick = {
+                viewModel.insertHabit()
+                onNavigateBack()
+            }) {
+                Text("Guardar")
+            }
         }
     }
 }

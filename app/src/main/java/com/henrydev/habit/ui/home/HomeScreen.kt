@@ -10,15 +10,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,21 +31,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.henrydev.habit.HabitTopAppBar
 import com.henrydev.habit.domain.model.Habit
+import com.henrydev.habit.ui.navigation.HabitScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    onNavigateToAddHabit: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
-            TopAppBar( title = { Text("My Habits") })
+            HabitTopAppBar(
+                title = HabitScreen.Home.title,
+                canNavigateBack = false
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onNavigateToAddHabit,
+                shape = CutCornerShape(topStart = 15.dp, bottomEnd = 15.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = "Add habit"
+                )
+            }
         }
     ) { innerPadding ->
 
@@ -53,14 +73,12 @@ fun HomeScreen(
             when(val state = uiState) {
                 is HomeUiState.Empty -> EmptyComponent()
                 is HomeUiState.Loading -> LoadingComponent()
-                is HomeUiState.Error -> ErrorComponent()
+                is HomeUiState.Error -> ErrorComponent(message = state.message)
                 is HomeUiState.Success ->
                     HabitsList(
                         habits = state.habits,
                         onToggleHabit = { habitId, currentStatus ->
-                            coroutineScope.launch {
-                                viewModel.toggleHabit(habitId,currentStatus)
-                            }
+                            viewModel.toggleHabit(habitId,currentStatus)
                         }
                     )
             }
@@ -140,7 +158,7 @@ fun HabitItem(
 ) {
     Card(
         elevation = CardDefaults.cardElevation(2.dp),
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxWidth()
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -156,10 +174,13 @@ fun HabitItem(
                     text = itemState.habit.name,
                     style = MaterialTheme.typography.titleMedium
                 )
-                Text(
-                    text = itemState.habit.description,
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                if(itemState.habit.description.isNotBlank()) {
+                    Text(
+                        text = itemState.habit.description,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
             Checkbox(
                 checked = itemState.isCompleted,
