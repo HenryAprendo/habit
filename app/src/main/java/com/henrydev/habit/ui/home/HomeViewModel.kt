@@ -30,9 +30,31 @@ class HomeViewModel @Inject constructor (
                         val isCompletedToday = item.history.any { log ->
                             isToday(log.date) && log.isCompleted
                         }
+
+                        val lastSevenDays = (0..6).map { daysAgo ->
+                            Calendar.getInstance().apply {
+                                add(Calendar.DAY_OF_YEAR,-daysAgo)
+                                set(Calendar.HOUR_OF_DAY,0)
+                                set(Calendar.MINUTE,0)
+                                set(Calendar.SECOND,0)
+                                set(Calendar.MILLISECOND,0)
+                            }.timeInMillis
+                        }.reversed()
+
+                        val weeklyProgress = lastSevenDays.map { referenceDate ->
+                            val isDayCompleted = item.history.any { log ->
+                                isSameDay(log.date,referenceDate) && log.isCompleted
+                            }
+                            HabitDayState(
+                                date = referenceDate,
+                                isCompleted = isDayCompleted
+                            )
+                        }
+
                         HabitItemState(
                             habit = item.habit,
-                            isCompleted = isCompletedToday
+                            isCompleted = isCompletedToday,
+                            weeklyProgress = weeklyProgress
                         )
                     }
                     HomeUiState.Success(habits = items)
@@ -44,7 +66,7 @@ class HomeViewModel @Inject constructor (
                 initialValue = HomeUiState.Loading
             )
 
-    fun toggleHabit(habitId:Int, currentStatus: Boolean) {
+    fun toggleHabit(habitId: Int, currentStatus: Boolean) {
         viewModelScope.launch {
             habitRepository.toggleHabitCompletion(
                 habitId = habitId,
@@ -64,10 +86,23 @@ class HomeViewModel @Inject constructor (
                 today.get(Calendar.DAY_OF_YEAR) == logDate.get(Calendar.DAY_OF_YEAR)
     }
 
+    private fun isSameDay(date1: Long, date2: Long): Boolean {
+        val cal1 = Calendar.getInstance().apply { timeInMillis = date1 }
+        val cal2 = Calendar.getInstance().apply { timeInMillis = date2 }
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
+    }
+
 }
 
 data class HabitItemState(
     val habit: Habit,
+    val isCompleted: Boolean,
+    val weeklyProgress: List<HabitDayState>
+)
+
+data class HabitDayState(
+    val date: Long,
     val isCompleted: Boolean
 )
 

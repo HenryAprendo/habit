@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -28,6 +29,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.henrydev.habit.HabitTopAppBar
 import com.henrydev.habit.ui.navigation.HabitScreen
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddItemScreen(
     onNavigateBack: () -> Unit,
