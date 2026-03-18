@@ -1,5 +1,12 @@
 package com.henrydev.habit.ui.home
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.repeatable
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +26,7 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -38,6 +46,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -148,14 +158,36 @@ fun HabitItem(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val scale by animateFloatAsState(
+        targetValue = if (itemState.isCompleted) 1.02f else 1f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        ),
+        label = "CardScale"
+    )
+
+    val backgroundColor by animateColorAsState(
+        targetValue = if (itemState.isCompleted) {
+            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.1f)
+        } else {
+            MaterialTheme.colorScheme.surfaceContainerLow
+        },
+        label = "CardColor"
+    )
+
     Card(
         shape = MaterialTheme.shapes.large,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+            containerColor = backgroundColor
         ),
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
     ) {
        Column(
            modifier = Modifier.padding(20.dp).fillMaxWidth()
@@ -173,6 +205,7 @@ fun HabitItem(
                        style = MaterialTheme.typography.titleLarge,
                        color = MaterialTheme.colorScheme.onSurface
                    )
+                   StreakCounter(itemState.streakCounter)
                    if(itemState.habit.description.isNotBlank()) {
                        Text(
                            text = itemState.habit.description,
@@ -265,6 +298,61 @@ fun DayIndicator(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun StreakCounter(
+    count: Int,
+    modifier: Modifier = Modifier
+) {
+    val activeStreakColor = Color(0xFFFF9800)
+
+    val iconScale by animateFloatAsState(
+        targetValue = if (count > 0) 1.2f else 1f,
+        animationSpec = repeatable(
+            iterations = if (count > 0) 3 else 1,
+            animation = tween(durationMillis = 300),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "FireScale"
+    )
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier.padding(4.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Whatshot,
+            contentDescription = null,
+            tint = if (count > 0) {
+                //MaterialTheme.colorScheme.tertiary
+                activeStreakColor
+            } else {
+                MaterialTheme.colorScheme.outline.copy(alpha = 0.5F)
+            },
+            modifier = Modifier
+                .size(16.dp)
+                .graphicsLayer {
+                    scaleX = iconScale
+                    scaleY = iconScale
+                }
+        )
+        Text(
+            text = if (count == 1) {
+                "1 day streak"
+            } else {
+                "$count days streak"
+            },
+            style = MaterialTheme.typography.labelMedium,
+            color = if (count > 0) {
+               //MaterialTheme.colorScheme.tertiary
+                activeStreakColor
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            }
+        )
     }
 }
 

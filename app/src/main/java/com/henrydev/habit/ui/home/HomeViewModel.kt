@@ -51,10 +51,43 @@ class HomeViewModel @Inject constructor (
                             )
                         }
 
+                        val referenceDate = Calendar.getInstance().apply {
+                            set(Calendar.HOUR_OF_DAY,0)
+                            set(Calendar.MINUTE,0)
+                            set(Calendar.SECOND,0)
+                            set(Calendar.MILLISECOND,0)
+                        }
+                        val sortedHistory = item.history.sortedByDescending { it.date }
+                        var streakCounter = 0
+                        var checkDate = referenceDate.clone() as Calendar
+
+                        // 3. Special Case: If not completed today, check if it was completed yesterday
+                        // to decide if the streak is still "active"
+                        val completedToday = sortedHistory.any {
+                            isSameDay(it.date, referenceDate.timeInMillis) && it.isCompleted
+                        }
+
+                        // If not done today, the streak is based on yesterday
+                        if (!completedToday) {
+                            checkDate.add(Calendar.DAY_OF_YEAR,-1)
+                        }
+
+                        for (dayOffset in 0..item.history.size) {
+                            val dateToFind = checkDate.timeInMillis
+                            val logFound = sortedHistory.find { isSameDay(it.date,dateToFind) }
+                            if (logFound != null && logFound.isCompleted) {
+                                streakCounter++
+                                checkDate.add(Calendar.DAY_OF_YEAR,-1)
+                            } else {
+                                break
+                            }
+                        }
+
                         HabitItemState(
                             habit = item.habit,
                             isCompleted = isCompletedToday,
-                            weeklyProgress = weeklyProgress
+                            weeklyProgress = weeklyProgress,
+                            streakCounter = streakCounter
                         )
                     }
                     HomeUiState.Success(habits = items)
@@ -98,7 +131,8 @@ class HomeViewModel @Inject constructor (
 data class HabitItemState(
     val habit: Habit,
     val isCompleted: Boolean,
-    val weeklyProgress: List<HabitDayState>
+    val weeklyProgress: List<HabitDayState>,
+    val streakCounter: Int
 )
 
 data class HabitDayState(
