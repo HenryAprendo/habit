@@ -3,4 +3,7 @@
     <string name="home_title">My habits</string>
     <string name="add_habit_title">New Habit</string>
     <string name="edit_habit_title">Edit Habit</string>
+    <string name="progress_title">Progress</string>
+    <string name="challenges_title">Challenges</string>
+    <string name="settings_title">Settings</string>
 </resources>

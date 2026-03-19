@@ -104,7 +104,6 @@ fun HomeScreen(
             contentPadding = innerPadding
         )
     }
-
 }
 
 @Composable
