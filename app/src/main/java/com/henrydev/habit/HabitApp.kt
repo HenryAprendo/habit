@@ -24,8 +24,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.henrydev.habit.ui.navigation.HabitNavHost
 import com.henrydev.habit.ui.navigation.HabitScreen
-import hilt_aggregated_deps._com_henrydev_habit_ui_screen_AddItemViewModel_HiltModules_BindsModule
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HabitApp(
     modifier: Modifier = Modifier
@@ -73,7 +73,8 @@ fun HabitApp(
                     }
                 }
             }
-        }
+        },
+        modifier = modifier
     ) { innerPadding ->
         HabitNavHost(
             controller = navController,

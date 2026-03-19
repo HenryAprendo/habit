@@ -1,4 +1,4 @@
-package com.henrydev.habit.ui.screen
+package com.henrydev.habit.ui.screen.add_habit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

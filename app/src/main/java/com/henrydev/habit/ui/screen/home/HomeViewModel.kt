@@ -1,4 +1,4 @@
-package com.henrydev.habit.ui.home
+package com.henrydev.habit.ui.screen.home
 
 import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel

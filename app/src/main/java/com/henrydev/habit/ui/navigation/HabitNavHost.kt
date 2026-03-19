@@ -11,8 +11,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.henrydev.habit.ui.home.HomeScreen
-import com.henrydev.habit.ui.screen.AddItemScreen
+import com.henrydev.habit.ui.screen.home.HomeScreen
+import com.henrydev.habit.ui.screen.add_habit.AddItemScreen
 
 @Composable
 fun HabitNavHost(
