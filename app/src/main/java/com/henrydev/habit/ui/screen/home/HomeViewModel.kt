@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor (
-    private val getHabitsWithHistoryUseCase: GetHabitsWithHistoryUseCase,
+    getHabitsWithHistoryUseCase: GetHabitsWithHistoryUseCase,
     private val habitRepository: HabitRepository
 ) : ViewModel() {
 

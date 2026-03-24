@@ -70,6 +70,9 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.animation:animation:1.10.5")
 
+    //DataStore
+    implementation("androidx.datastore:datastore-preferences:1.1.2")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

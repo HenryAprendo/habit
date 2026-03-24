@@ -6,4 +6,5 @@
     <string name="progress_title">Progress</string>
     <string name="challenges_title">Challenges</string>
     <string name="settings_title">Settings</string>
+    <string name="paywall_title">Upgrade to Pro</string>
 </resources>

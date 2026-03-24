@@ -5,20 +5,28 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.henrydev.habit.domain.subscription.usecase.IsProUserUseCase
 import com.henrydev.habit.ui.screen.home.HomeScreen
 import com.henrydev.habit.ui.screen.add_habit.AddItemScreen
+import com.henrydev.habit.ui.screen.settings.PaywallScreen
 
 @Composable
 fun HabitNavHost(
     controller: NavHostController,
+    isProUserUseCase: IsProUserUseCase,
     modifier: Modifier = Modifier
 ) {
+
+    val isPro by isProUserUseCase().collectAsStateWithLifecycle(false)
+
     NavHost(
         navController = controller,
         startDestination = HabitScreen.Home.route,
@@ -33,7 +41,15 @@ fun HabitNavHost(
         }
 
         composable(route = HabitScreen.Progress.route) {
-            PlaceholderScreen(HabitScreen.Progress.title)
+            if (isPro) {
+                PlaceholderScreen(HabitScreen.Progress.title)
+            } else {
+                PaywallScreen(
+                    onDismiss = {
+                        controller.popBackStack(HabitScreen.Home.route,false)
+                    }
+                )
+            }
         }
 
         composable(route = HabitScreen.Challenges.route) {
@@ -50,6 +66,9 @@ fun HabitNavHost(
                 onNavigateUp = { controller.navigateUp() }
             )
         }
+        composable(route = HabitScreen.Paywall.route) {
+            PaywallScreen(onDismiss = { controller.popBackStack() })
+        }
     }
 }
 
@@ -65,17 +84,3 @@ fun PlaceholderScreen(title: Int) {
         )
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

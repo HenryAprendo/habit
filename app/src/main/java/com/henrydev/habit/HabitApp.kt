@@ -16,29 +16,35 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.henrydev.habit.domain.subscription.usecase.IsProUserUseCase
 import com.henrydev.habit.ui.navigation.HabitNavHost
 import com.henrydev.habit.ui.navigation.HabitScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HabitApp(
+    isProUserUseCase: IsProUserUseCase,
     modifier: Modifier = Modifier
 ) {
+
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    val isBottomBarVisible = HabitScreen.bottomNavItems.any {
+
+    val isBottomBarVisible =  HabitScreen.bottomNavItems.any {
         it.route == currentDestination?.route
     }
 
     Scaffold(
-        topBar = {},
+        topBar = {
+        },
         bottomBar = {
             if (isBottomBarVisible) {
                 NavigationBar {
@@ -78,6 +84,7 @@ fun HabitApp(
     ) { innerPadding ->
         HabitNavHost(
             controller = navController,
+            isProUserUseCase = isProUserUseCase,
             modifier = Modifier.padding(innerPadding)
         )
     }

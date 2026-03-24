@@ -52,6 +52,11 @@ sealed class HabitScreen(
         const val itemIdArg = "habitId"
     }
 
+    data object Paywall: HabitScreen(
+        route = "paywall_screen",
+        title = R.string.paywall_title
+    )
+
     companion object {
         val bottomNavItems = listOf(HabitScreen.Home, Progress, Challenges, HabitScreen.Settings)
     }
