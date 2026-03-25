@@ -61,74 +61,38 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onNavigateToAddHabit: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-    Scaffold(
+    HomeBody(
+        uiState = uiState,
+        onToggleHabitState = { habitId, currentStatus ->
+            viewModel.toggleHabit(habitId,currentStatus)
+        },
+        modifier = modifier
+    )
 
-        topBar = {
-            HabitTopAppBar(
-                title = HabitScreen.Home.title,
-                canNavigateBack = false,
-                scrollBehavior = scrollBehavior
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = onNavigateToAddHabit,
-                shape = CutCornerShape(topStart = 15.dp, bottomEnd = 15.dp),
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                elevation = FloatingActionButtonDefaults.elevation(
-                    defaultElevation = 6.dp,
-                    pressedElevation = 2.dp
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = "Add habit",
-                    modifier = Modifier.size(28.dp)
-                )
-            }
-        },
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-    ) { innerPadding ->
-        HomeBody(
-            uiState = uiState,
-            onToggleHabitState = { habitId, currentStatus ->
-                viewModel.toggleHabit(habitId,currentStatus)
-            },
-            contentPadding = innerPadding
-        )
-    }
 }
 
 @Composable
 fun HomeBody(
     uiState: HomeUiState,
     onToggleHabitState: (Int,Boolean) -> Unit,
-    contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier
-            .fillMaxSize()
-            .padding(contentPadding)
-    ){
-        when(uiState) {
-            is HomeUiState.Empty -> EmptyComponent()
-            is HomeUiState.Loading -> LoadingComponent()
-            is HomeUiState.Error -> ErrorComponent(message = uiState.message)
-            is HomeUiState.Success ->
-                HabitsList(
-                    habits = uiState.habits,
-                    onToggleHabit = onToggleHabitState
-                )
-        }
+    when(uiState) {
+        is HomeUiState.Empty -> EmptyComponent()
+        is HomeUiState.Loading -> LoadingComponent()
+        is HomeUiState.Error -> ErrorComponent(message = uiState.message)
+        is HomeUiState.Success ->
+            HabitsList(
+                habits = uiState.habits,
+                onToggleHabit = onToggleHabitState,
+                modifier = modifier
+            )
     }
 }
 

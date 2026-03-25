@@ -33,11 +33,7 @@ fun HabitNavHost(
         modifier = modifier
     ) {
         composable(route = HabitScreen.Home.route) {
-            HomeScreen(
-                onNavigateToAddHabit = {
-                    controller.navigate(HabitScreen.AddHabit.route)
-                }
-            )
+            HomeScreen()
         }
 
         composable(route = HabitScreen.Progress.route) {
@@ -63,7 +59,6 @@ fun HabitNavHost(
         composable(route = HabitScreen.AddHabit.route) {
             AddItemScreen(
                 onNavigateBack = { controller.popBackStack() },
-                onNavigateUp = { controller.navigateUp() }
             )
         }
         composable(route = HabitScreen.Paywall.route) {

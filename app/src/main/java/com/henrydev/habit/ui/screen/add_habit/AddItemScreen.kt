@@ -2,6 +2,7 @@ package com.henrydev.habit.ui.screen.add_habit
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,7 +41,6 @@ import com.henrydev.habit.ui.navigation.HabitScreen
 @Composable
 fun AddItemScreen(
     onNavigateBack: () -> Unit,
-    onNavigateUp: () -> Unit,
     viewModel: AddItemViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -53,28 +53,14 @@ fun AddItemScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            HabitTopAppBar(
-                title = HabitScreen.AddHabit.title,
-                navigateUp = onNavigateUp,
-                canNavigateBack = true
-            )
-        },
-        modifier = modifier
-    ) { innerPadding ->
-        AddItemBody(
-            habitDetail = uiState.habitDetail,
-            isEntryValid = uiState.isEntryValid,
-            isSaving = uiState.isSaving,
-            onValueChange = { viewModel.onChangeForm(it) },
-            onSaveClick = { viewModel.insertHabit() },
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxWidth()
-
-        )
-    }
+    AddItemBody(
+        habitDetail = uiState.habitDetail,
+        isEntryValid = uiState.isEntryValid,
+        isSaving = uiState.isSaving,
+        onValueChange = { viewModel.onChangeForm(it) },
+        onSaveClick = { viewModel.insertHabit() },
+        modifier = modifier.fillMaxSize()
+    )
 }
 
 @Composable
