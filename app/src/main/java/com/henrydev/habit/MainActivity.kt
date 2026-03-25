@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
 import com.henrydev.habit.domain.subscription.usecase.IsProUserUseCase
+import com.henrydev.habit.domain.use_cases.CanCreateHabitUseCase
 import com.henrydev.habit.ui.theme.HabitTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -23,6 +24,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject lateinit var isProUserUseCase: IsProUserUseCase
+    @Inject lateinit var canCreateHabitUseCase: CanCreateHabitUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +35,10 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    HabitApp(isProUserUseCase = isProUserUseCase)
+                    HabitApp(
+                        isProUserUseCase = isProUserUseCase,
+                        canCreateHabitUseCase = canCreateHabitUseCase
+                    )
                 }
             }
         }

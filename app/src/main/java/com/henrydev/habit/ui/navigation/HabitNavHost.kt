@@ -17,6 +17,7 @@ import com.henrydev.habit.domain.subscription.usecase.IsProUserUseCase
 import com.henrydev.habit.ui.screen.home.HomeScreen
 import com.henrydev.habit.ui.screen.add_habit.AddItemScreen
 import com.henrydev.habit.ui.screen.settings.PaywallScreen
+import com.henrydev.habit.ui.screen.settings.SettingsScreen
 
 @Composable
 fun HabitNavHost(
@@ -53,7 +54,11 @@ fun HabitNavHost(
         }
 
         composable(route = HabitScreen.Settings.route) {
-            PlaceholderScreen(HabitScreen.Settings.title)
+            SettingsScreen(
+                onNavigateToPaywall = {
+                    controller.navigate(HabitScreen.Paywall.route)
+                }
+            )
         }
 
         composable(route = HabitScreen.AddHabit.route) {

@@ -27,11 +27,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.henrydev.habit.domain.subscription.usecase.IsProUserUseCase
+import com.henrydev.habit.domain.use_cases.CanCreateHabitUseCase
 import com.henrydev.habit.ui.navigation.HabitNavHost
 import com.henrydev.habit.ui.navigation.HabitScreen
 
@@ -39,6 +41,7 @@ import com.henrydev.habit.ui.navigation.HabitScreen
 @Composable
 fun HabitApp(
     isProUserUseCase: IsProUserUseCase,
+    canCreateHabitUseCase: CanCreateHabitUseCase,
     modifier: Modifier = Modifier
 ) {
 
@@ -51,6 +54,8 @@ fun HabitApp(
     val isBottomBarVisible =  HabitScreen.bottomNavItems.any {
         it.route == currentDestination?.route
     }
+
+    val canCreateHabit by canCreateHabitUseCase().collectAsStateWithLifecycle(true)
 
     Scaffold(
         topBar = {
@@ -99,7 +104,13 @@ fun HabitApp(
         floatingActionButton = {
             if (currentDestination?.route == HabitScreen.Home.route) {
                 FloatingActionButton(
-                    onClick = { navController.navigate(HabitScreen.AddHabit.route) },
+                    onClick = {
+                        if (canCreateHabit) {
+                            navController.navigate(HabitScreen.AddHabit.route)
+                        } else {
+                            navController.navigate(HabitScreen.Paywall.route)
+                        }
+                    },
                     shape = CutCornerShape(topStart = 15.dp, bottomEnd = 15.dp),
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
