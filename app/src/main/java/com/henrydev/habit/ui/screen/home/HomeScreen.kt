@@ -26,12 +26,14 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -40,6 +42,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,6 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -61,17 +65,18 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    onNavigateToPaywall: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     HomeBody(
         uiState = uiState,
         onToggleHabitState = { habitId, currentStatus ->
             viewModel.toggleHabit(habitId,currentStatus)
         },
+        onUpgradeClick = onNavigateToPaywall,
         modifier = modifier
     )
 
@@ -81,6 +86,7 @@ fun HomeScreen(
 fun HomeBody(
     uiState: HomeUiState,
     onToggleHabitState: (Int,Boolean) -> Unit,
+    onUpgradeClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     when(uiState) {
@@ -90,7 +96,9 @@ fun HomeBody(
         is HomeUiState.Success ->
             HabitsList(
                 habits = uiState.habits,
+                showAds = uiState.showAds,
                 onToggleHabit = onToggleHabitState,
+                onUpgradeClick = { },
                 modifier = modifier
             )
     }
@@ -99,7 +107,9 @@ fun HomeBody(
 @Composable
 fun HabitsList(
     habits: List<HabitItemState>,
+    showAds: Boolean,
     onToggleHabit: (Int,Boolean) -> Unit,
+    onUpgradeClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -111,6 +121,11 @@ fun HabitsList(
                 itemState = item,
                 onCheckedChange = { onToggleHabit(item.habit.id, item.isCompleted) }
             )
+        }
+        if (showAds) {
+            item(key = "ad_banner") {
+                AdBannerPlaceholder(onUpgradeClick = onUpgradeClick)
+            }
         }
     }
 }
@@ -154,7 +169,9 @@ fun HabitItem(
             }
     ) {
        Column(
-           modifier = Modifier.padding(20.dp).fillMaxWidth()
+           modifier = Modifier
+               .padding(20.dp)
+               .fillMaxWidth()
        ) {
            Row(
                verticalAlignment = Alignment.CenterVertically,
@@ -244,7 +261,7 @@ fun DayIndicator(
             modifier = Modifier
                 .size(24.dp)
                 .background(
-                    color = if(dayState.isCompleted) {
+                    color = if (dayState.isCompleted) {
                         MaterialTheme.colorScheme.primary
                     } else {
                         MaterialTheme.colorScheme.surfaceVariant
@@ -321,6 +338,50 @@ fun StreakCounter(
 }
 
 @Composable
+fun AdBannerPlaceholder(
+    onUpgradeClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ElevatedCard(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
+        ),
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Info, // O un icono de "AD"
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "Sponsored Content",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.6f)
+                )
+                Text(
+                    text = "Remove all ads with Habit Pro",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            }
+            TextButton(onClick = onUpgradeClick) {
+                Text("UPGRADE")
+            }
+        }
+    }
+}
+
+@Composable
 fun LoadingComponent() {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -347,7 +408,9 @@ fun ErrorComponent(message: String = "") {
 @Composable
 fun EmptyComponent() {
     Column(
-        modifier = Modifier.fillMaxSize().padding(32.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

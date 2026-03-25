@@ -34,7 +34,9 @@ fun HabitNavHost(
         modifier = modifier
     ) {
         composable(route = HabitScreen.Home.route) {
-            HomeScreen()
+            HomeScreen(
+                onNavigateToPaywall = { controller.navigate(HabitScreen.Paywall.route)}
+            )
         }
 
         composable(route = HabitScreen.Progress.route) {
