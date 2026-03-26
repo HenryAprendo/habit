@@ -10,7 +10,8 @@ import com.henrydev.habit.data.entities.HabitLogEntity
 @Database(
     entities = [HabitEntity::class, HabitLogEntity::class],
     version = 1,
-    exportSchema = false
+    autoMigrations = [],
+    exportSchema = true
 )
 abstract class HabitDatabase : RoomDatabase() {
 
@@ -31,11 +32,6 @@ abstract class HabitDatabase : RoomDatabase() {
                     HabitDatabase::class.java,
                     "habit_database"
                 )
-                    /**
-                     * Estrategia de migración: Si cambias el esquema (añadir columnas),
-                     * esto borrará los datos. Para producción se usan migraciones reales.
-                     */
-                    .fallbackToDestructiveMigration()
                     .build()
                     .also { Instance = it }
             }

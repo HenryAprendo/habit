@@ -17,6 +17,10 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        ksp {
+            arg("room.schemaLocation","$projectDir/schemas")
+        }
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -38,6 +42,10 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+
+    sourceSets {
+        getByName("main").assets.srcDir(file("$projectDir/schemas"))
     }
 }
 
