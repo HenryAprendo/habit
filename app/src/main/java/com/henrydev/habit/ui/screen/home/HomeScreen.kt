@@ -98,7 +98,7 @@ fun HomeBody(
                 habits = uiState.habits,
                 showAds = uiState.showAds,
                 onToggleHabit = onToggleHabitState,
-                onUpgradeClick = { },
+                onUpgradeClick = onUpgradeClick,
                 modifier = modifier
             )
     }

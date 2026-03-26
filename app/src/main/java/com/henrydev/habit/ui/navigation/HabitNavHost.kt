@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import com.henrydev.habit.domain.subscription.usecase.IsProUserUseCase
 import com.henrydev.habit.ui.screen.home.HomeScreen
 import com.henrydev.habit.ui.screen.add_habit.AddItemScreen
+import com.henrydev.habit.ui.screen.progress.ProgressScreen
 import com.henrydev.habit.ui.screen.settings.PaywallScreen
 import com.henrydev.habit.ui.screen.settings.SettingsScreen
 
@@ -41,7 +42,7 @@ fun HabitNavHost(
 
         composable(route = HabitScreen.Progress.route) {
             if (isPro) {
-                PlaceholderScreen(HabitScreen.Progress.title)
+                ProgressScreen(modifier = modifier)
             } else {
                 PaywallScreen(
                     onDismiss = {
