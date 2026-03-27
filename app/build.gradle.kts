@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -73,13 +74,15 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     //Navigation compose
-    implementation("androidx.navigation:navigation-compose:2.9.7")
+    implementation("androidx.navigation:navigation-compose:2.8.5")
 
     implementation("androidx.compose.material:material-icons-extended")
-    implementation("androidx.compose.animation:animation:1.10.5")
+    // Removed implementation("androidx.compose.animation:animation:1.10.5") - let BOM handle it or use standard version
 
     //DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.2")
+
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

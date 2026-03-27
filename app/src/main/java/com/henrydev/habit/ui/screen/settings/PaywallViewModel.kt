@@ -24,7 +24,7 @@ class PaywallViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             delay(1500)
-            subscriptionRepository.updateSubscriptionStatus(false)
+            subscriptionRepository.updateSubscriptionStatus(true)
             _uiState.update { it.copy(isLoading = false, isSuccess = true) }
         }
     }

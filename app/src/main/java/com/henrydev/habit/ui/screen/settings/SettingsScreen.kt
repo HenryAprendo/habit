@@ -1,25 +1,35 @@
 package com.henrydev.habit.ui.screen.settings
 
+import android.content.Context
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CardMembership
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,6 +43,27 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val exportStatus by viewModel.exportStatus.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    val createFileLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/json")
+    ) { uri ->
+        uri?.let {
+            val status = exportStatus
+            if (status is ExportStatus.Success) {
+                val json = status.jsonData
+                saveJsonToUri(context,it,json)
+                viewModel.resetExportStatus()
+            }
+        }
+    }
+
+    LaunchedEffect(exportStatus) {
+        if (exportStatus is ExportStatus.Success) {
+            createFileLauncher.launch("habit_backup_${System.currentTimeMillis()}.json")
+        }
+    }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -50,10 +81,25 @@ fun SettingsScreen(
             status = uiState.userStatus,
             onUpgradeClick = onNavigateToPaywall
         )
+
+        Spacer(modifier = Modifier.height(24.dp))
+        ExportSection(
+            isLoading = exportStatus is ExportStatus.Loading,
+            onExportClick = { viewModel.startExport() }
+        )
     }
 
 }
 
+private fun saveJsonToUri(context: Context, uri: Uri, json: String) {
+    try {
+        context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+            outputStream.write(json.toByteArray())
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
 
 @Composable
 fun SubscriptionStatusCard(
@@ -80,7 +126,7 @@ fun SubscriptionStatusCard(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Icon(
-                    imageVector = if (isPro) Icons.Default.CardMembership else Icons.Default.Star,
+                    imageVector = if (isPro) Icons.Default.Star else Icons.Default.CardMembership,
                     contentDescription = null,
                     tint = if (isPro)
                         MaterialTheme.colorScheme.tertiary
@@ -132,7 +178,57 @@ fun SubscriptionStatusCard(
 
 }
 
+@Composable
+fun ExportSection(
+    isLoading: Boolean,
+    onExportClick: () -> Unit
+) {
+    Column() {
+        Text(
+            text = "Data Management",
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
 
+        ElevatedCard(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    text = "Backup & Restore",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "Export your habits and history to a JSON file to keep them safe or move them to another device.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                Button(
+                    onClick = onExportClick,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading,
+                    shape = MaterialTheme.shapes.medium
+                ) {
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            strokeWidth = 2.dp,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    } else {
+                        Text("Export to JSON")
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 

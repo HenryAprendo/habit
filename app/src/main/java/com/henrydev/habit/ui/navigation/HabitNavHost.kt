@@ -42,7 +42,7 @@ fun HabitNavHost(
 
         composable(route = HabitScreen.Progress.route) {
             if (isPro) {
-                ProgressScreen(modifier = modifier)
+                ProgressScreen()
             } else {
                 PaywallScreen(
                     onDismiss = {
