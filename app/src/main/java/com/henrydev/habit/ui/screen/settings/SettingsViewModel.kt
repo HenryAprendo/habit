@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.henrydev.habit.domain.subscription.model.UserStatus
 import com.henrydev.habit.domain.subscription.repository.SubscriptionRepository
 import com.henrydev.habit.domain.use_cases.ExportDataUseCase
+import com.henrydev.habit.domain.use_cases.ImportDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val subscriptionRepository: SubscriptionRepository,
-    private val exportDataUseCase: ExportDataUseCase
+    private val exportDataUseCase: ExportDataUseCase,
+    private val importDataUseCase: ImportDataUseCase
 ): ViewModel() {
 
     private val _exportStatus = MutableStateFlow<ExportStatus>(ExportStatus.Idle)
@@ -49,6 +51,20 @@ class SettingsViewModel @Inject constructor(
         _exportStatus.value = ExportStatus.Idle
     }
 
+    fun startImport(jsonString: String) {
+        viewModelScope.launch {
+            _exportStatus.value = ExportStatus.Loading
+            val result = importDataUseCase(jsonString)
+            if (result.isSuccess) {
+                _exportStatus.value = ExportStatus.Idle
+            } else {
+                _exportStatus.value = ExportStatus.Error(
+                    result.exceptionOrNull()?.message ?: "Import failed"
+                )
+            }
+        }
+    }
+
 }
 
 data class SettingsUiState(
@@ -64,6 +80,3 @@ sealed interface ExportStatus {
     data class Success(val jsonData: String) : ExportStatus
     data class Error(val message: String): ExportStatus
 }
-
-
-

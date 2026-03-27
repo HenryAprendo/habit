@@ -20,8 +20,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,6 +61,17 @@ fun SettingsScreen(
         }
     }
 
+    val openFileLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let { resource ->
+            val jsonString = readJsonFromUri(context,resource)
+            if (jsonString != null) {
+                viewModel.startImport(jsonString)
+            }
+        }
+    }
+
     LaunchedEffect(exportStatus) {
         if (exportStatus is ExportStatus.Success) {
             createFileLauncher.launch("habit_backup_${System.currentTimeMillis()}.json")
@@ -85,7 +98,8 @@ fun SettingsScreen(
         Spacer(modifier = Modifier.height(24.dp))
         ExportSection(
             isLoading = exportStatus is ExportStatus.Loading,
-            onExportClick = { viewModel.startExport() }
+            onExportClick = { viewModel.startExport() },
+            onImportClick = { openFileLauncher.launch("application/json") }
         )
     }
 
@@ -98,6 +112,20 @@ private fun saveJsonToUri(context: Context, uri: Uri, json: String) {
         }
     } catch (e: Exception) {
         e.printStackTrace()
+    }
+}
+
+private fun readJsonFromUri(
+    context: Context,
+    uri: Uri
+): String? {
+    return try {
+        context.contentResolver.openInputStream(uri)?.use { inputStream ->
+            inputStream.bufferedReader().use { it.readText() }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
     }
 }
 
@@ -181,9 +209,10 @@ fun SubscriptionStatusCard(
 @Composable
 fun ExportSection(
     isLoading: Boolean,
-    onExportClick: () -> Unit
+    onExportClick: () -> Unit,
+    onImportClick: () -> Unit
 ) {
-    Column() {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
             text = "Data Management",
             style = MaterialTheme.typography.titleLarge,
@@ -225,25 +254,17 @@ fun ExportSection(
                         Text("Export to JSON")
                     }
                 }
+
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                OutlinedButton(
+                    onClick = onImportClick,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading,
+                    shape = MaterialTheme.shapes.medium
+                ) {
+                    Text("Import from JSON")
+                }
             }
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

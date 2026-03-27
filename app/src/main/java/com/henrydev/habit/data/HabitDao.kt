@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 interface HabitDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertHabit(habit: HabitEntity)
+    suspend fun insertHabit(habit: HabitEntity): Long
 
     @Query("SELECT * from habits")
     fun getAllHabits(): Flow<List<HabitEntity>>
@@ -25,5 +25,25 @@ interface HabitDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLog(log: HabitLogEntity)
+
+    @Transaction
+    suspend fun replaceAllData(habitsWithLogs: List<Pair<HabitEntity, List<HabitLogEntity>>>) {
+        clearAllHabits()
+        habitsWithLogs.forEach { (habit, logs) ->
+            val newIdLong = insertHabit(habit)
+            if (newIdLong != -1L) {
+                val newHabitId = newIdLong.toInt()
+                val updatedLogs = logs.map { it.copy(habitId = newHabitId) }
+                insertAllLogs(updatedLogs)
+            }
+
+        }
+    }
+
+    @Query("DELETE FROM habits")
+    suspend fun clearAllHabits()
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAllLogs(logs: List<HabitLogEntity>)
 
 }

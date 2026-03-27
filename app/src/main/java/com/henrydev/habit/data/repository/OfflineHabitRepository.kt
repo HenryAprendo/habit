@@ -1,6 +1,7 @@
 package com.henrydev.habit.data.repository
 
 import com.henrydev.habit.data.HabitDao
+import com.henrydev.habit.data.entities.HabitEntity
 import com.henrydev.habit.data.entities.HabitLogEntity
 import com.henrydev.habit.data.mapper.toDomain
 import com.henrydev.habit.data.mapper.toEntity
@@ -28,7 +29,7 @@ class OfflineHabitRepository @Inject constructor(
             entities.map { it.toDomain() }
         }
     }
-    override suspend fun insertHabit(habit: Habit) {
+    override suspend fun insertHabit(habit: Habit): Long {
         return habitDao.insertHabit(habit.toEntity())
     }
 
@@ -45,6 +46,10 @@ class OfflineHabitRepository @Inject constructor(
             isCompleted = isCompleted
         )
         habitDao.insertLog(log)
+    }
+
+    override suspend fun restoreBackup(data: List<Pair<HabitEntity, List<HabitLogEntity>>>) {
+        habitDao.replaceAllData(data)
     }
 
 }
