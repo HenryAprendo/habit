@@ -11,6 +11,6 @@ interface HabitRepository {
     fun getHabitsWithHistory(): Flow<List<HabitWithHistory>>
     fun getAllHabits(): Flow<List<Habit>>
     suspend fun insertHabit(habit: Habit): Long
-    suspend fun toggleHabitCompletion(habitId: Int, date: Long, isCompleted: Boolean)
+    suspend fun toggleHabitCompletion(habitId: Long, date: Long, isCompleted: Boolean)
     suspend fun restoreBackup(data: List<Pair<HabitEntity, List<HabitLogEntity>>>)
 }

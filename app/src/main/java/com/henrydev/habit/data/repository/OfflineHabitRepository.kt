@@ -1,6 +1,6 @@
 package com.henrydev.habit.data.repository
 
-import com.henrydev.habit.data.HabitDao
+import com.henrydev.habit.data.db.HabitDao
 import com.henrydev.habit.data.entities.HabitEntity
 import com.henrydev.habit.data.entities.HabitLogEntity
 import com.henrydev.habit.data.mapper.toDomain
@@ -34,7 +34,7 @@ class OfflineHabitRepository @Inject constructor(
     }
 
     override suspend fun toggleHabitCompletion(
-        habitId: Int,
+        habitId: Long,
         date: Long,
         isCompleted: Boolean
     ) {

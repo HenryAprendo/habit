@@ -85,7 +85,7 @@ fun HomeScreen(
 @Composable
 fun HomeBody(
     uiState: HomeUiState,
-    onToggleHabitState: (Int,Boolean) -> Unit,
+    onToggleHabitState: (Long,Boolean) -> Unit,
     onUpgradeClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -108,7 +108,7 @@ fun HomeBody(
 fun HabitsList(
     habits: List<HabitItemState>,
     showAds: Boolean,
-    onToggleHabit: (Int,Boolean) -> Unit,
+    onToggleHabit: (Long,Boolean) -> Unit,
     onUpgradeClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {

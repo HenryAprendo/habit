@@ -102,7 +102,7 @@ class HomeViewModel @Inject constructor (
             initialValue = HomeUiState.Loading
         )
 
-    fun toggleHabit(habitId: Int, currentStatus: Boolean) {
+    fun toggleHabit(habitId: Long, currentStatus: Boolean) {
         viewModelScope.launch {
             habitRepository.toggleHabitCompletion(
                 habitId = habitId,

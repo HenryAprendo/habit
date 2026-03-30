@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import com.henrydev.habit.domain.subscription.usecase.IsProUserUseCase
 import com.henrydev.habit.ui.screen.home.HomeScreen
 import com.henrydev.habit.ui.screen.add_habit.AddItemScreen
+import com.henrydev.habit.ui.screen.challenges.ChallengesScreen
 import com.henrydev.habit.ui.screen.progress.ProgressScreen
 import com.henrydev.habit.ui.screen.settings.PaywallScreen
 import com.henrydev.habit.ui.screen.settings.SettingsScreen
@@ -53,7 +54,11 @@ fun HabitNavHost(
         }
 
         composable(route = HabitScreen.Challenges.route) {
-            PlaceholderScreen(HabitScreen.Challenges.title)
+            ChallengesScreen(
+                onNavigateToPaywall = {
+                    controller.navigate(HabitScreen.Paywall.route)
+                }
+            )
         }
 
         composable(route = HabitScreen.Settings.route) {

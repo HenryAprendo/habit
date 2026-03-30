@@ -1,4 +1,4 @@
-package com.henrydev.habit.data
+package com.henrydev.habit.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface HabitDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
     suspend fun insertHabit(habit: HabitEntity): Long
 
     @Query("SELECT * from habits")
@@ -23,7 +23,7 @@ interface HabitDao {
     @Query("SELECT * FROM habits")
     fun getHabitsWithLogs(): Flow<List<HabitWithLogs>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertLog(log: HabitLogEntity)
 
     @Transaction
@@ -32,7 +32,7 @@ interface HabitDao {
         habitsWithLogs.forEach { (habit, logs) ->
             val newIdLong = insertHabit(habit)
             if (newIdLong != -1L) {
-                val newHabitId = newIdLong.toInt()
+                val newHabitId = newIdLong
                 val updatedLogs = logs.map { it.copy(habitId = newHabitId) }
                 insertAllLogs(updatedLogs)
             }
@@ -43,7 +43,7 @@ interface HabitDao {
     @Query("DELETE FROM habits")
     suspend fun clearAllHabits()
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
     suspend fun insertAllLogs(logs: List<HabitLogEntity>)
 
 }

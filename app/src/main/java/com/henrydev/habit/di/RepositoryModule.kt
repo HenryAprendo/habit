@@ -1,6 +1,8 @@
 package com.henrydev.habit.di
 
+import com.henrydev.habit.data.repository.OfflineChallengeRepository
 import com.henrydev.habit.data.repository.OfflineHabitRepository
+import com.henrydev.habit.domain.repository.ChallengeRepository
 import com.henrydev.habit.domain.repository.HabitRepository
 import dagger.Binds
 import dagger.Module
@@ -17,5 +19,11 @@ abstract class RepositoryModule {
     abstract fun bindHabitRepository(
         offlineHabitRepository: OfflineHabitRepository
     ): HabitRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindChallengeRepository(
+        offlineChallengeRepository: OfflineChallengeRepository
+    ): ChallengeRepository
 
 }
