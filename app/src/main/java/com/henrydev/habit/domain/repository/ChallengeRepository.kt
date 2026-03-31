@@ -9,4 +9,5 @@ interface ChallengeRepository {
     fun getActiveChallenges(): Flow<List<Challenge>>
     suspend fun subscribeToChallenge(challengeId: Long,linkedHabitId: Long)
     suspend fun updateChallengesStatus(challengeId: Long, status: ChallengeStatus, linkedHabitId: Long)
+    fun getLinkedHabitId(challengeId: Long): Flow<Long?>
 }

@@ -37,4 +37,7 @@ interface ChallengeDao {
     @Query("SELECT * FROM challenges LIMIT 1")
     suspend fun getAnyChallenge(): ChallengeEntity?
 
+    @Query("SELECT linkedHabitId FROM challenge_subscriptions WHERE challengeId = :challengeId LIMIT 1")
+    fun getLinkedHabitId(challengeId: Long): Flow<Long?>
+
 }

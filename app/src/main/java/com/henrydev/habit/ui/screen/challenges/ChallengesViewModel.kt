@@ -3,16 +3,26 @@ package com.henrydev.habit.ui.screen.challenges
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.henrydev.habit.domain.model.Challenge
+import com.henrydev.habit.domain.model.ChallengeProgress
+import com.henrydev.habit.domain.model.Habit
+import com.henrydev.habit.domain.repository.ChallengeRepository
 import com.henrydev.habit.domain.repository.HabitRepository
 import com.henrydev.habit.domain.use_cases.GetAvailableChallengesUseCase
+import com.henrydev.habit.domain.use_cases.GetChallengeProgressUseCase
 import com.henrydev.habit.domain.use_cases.JoinChallengeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,30 +30,73 @@ import javax.inject.Inject
 class ChallengesViewModel @Inject constructor(
     private val getAvailableChallengesUseCase: GetAvailableChallengesUseCase,
     private val joinChallengeUseCase: JoinChallengeUseCase,
-    private val habitRepository: HabitRepository
+    private val getChallengeProgressUseCase: GetChallengeProgressUseCase,
+    private val habitRepository: HabitRepository,
+    private val challengeRepository: ChallengeRepository
 ): ViewModel() {
 
     private val _joinStatus = MutableStateFlow<JoinChallengeStatus>(JoinChallengeStatus.Idle)
     private val _errorMessage = MutableStateFlow<String?>(null)
 
-    val availableHabits = habitRepository.getAllHabits()
+    val availableHabits: StateFlow<List<Habit>> = habitRepository.getAllHabits()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = emptyList()
         )
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<ChallengesUiState> = combine(
         getAvailableChallengesUseCase(),
         _joinStatus,
-        _errorMessage
+        _errorMessage,
     ) { challenges, joinStatus, error ->
-        ChallengesUiState(
-            isLoading = false,
-            challenges = challenges,
-            joinStatus = joinStatus,
-            errorMessage = error
-        )
+        Triple(challenges,joinStatus, error)
+    }.flatMapLatest { (challenges, joinStatus, error) ->
+        if (challenges.isEmpty()) {
+            flowOf(
+                ChallengesUiState(
+                    isLoading = false,
+                    challenges = emptyList(),
+                    joinStatus = joinStatus,
+                    errorMessage = error
+                )
+            )
+        } else {
+            // Create a list of progress flows for each challenge
+            val progressFlows = challenges.map { challenge ->
+                challengeRepository.getLinkedHabitId(challenge.id).flatMapLatest { linkedId ->
+                    if (linkedId != null) {
+                        val mockStartDate = System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)
+                        getChallengeProgressUseCase(challenge, linkedId, mockStartDate)
+                    } else {
+                        flowOf(
+                            ChallengeProgress(
+                                challengeId = challenge.id,
+                                linkedHabitId = 0L,
+                                currentStreak = 0,
+                                completedDays = 0,
+                                totalDays = challenge.durationDays,
+                                progressPercentage = 0f,
+                                daysRemaining = challenge.durationDays,
+                                isCompleted = false
+                            )
+                        )
+                    }
+                }
+            }
+
+            combine(progressFlows) { progressArray ->
+                ChallengesUiState(
+                    isLoading = false,
+                    challenges = challenges,
+                    progressMap = progressArray.associateBy { it.challengeId },
+                    joinStatus = joinStatus,
+                    errorMessage = error
+                )
+            }
+        }
+
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -85,6 +138,7 @@ sealed interface JoinChallengeStatus {
 data class ChallengesUiState(
     val isLoading: Boolean = true,
     val challenges: List<Challenge> = emptyList(),
+    val progressMap: Map<Long, ChallengeProgress> = emptyMap(),
     val joinStatus: JoinChallengeStatus = JoinChallengeStatus.Idle,
     val errorMessage: String? = null
 )

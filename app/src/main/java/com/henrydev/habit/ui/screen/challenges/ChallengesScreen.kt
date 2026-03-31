@@ -1,5 +1,6 @@
 package com.henrydev.habit.ui.screen.challenges
 
+import android.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,11 +13,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.henrydev.habit.domain.model.Challenge
+import com.henrydev.habit.domain.model.ChallengeProgress
 import com.henrydev.habit.domain.model.Habit
 
 @Composable
@@ -55,6 +58,7 @@ fun ChallengesScreen(
         } else {
             ChallengesList(
                 challenges = uiState.challenges,
+                progressMap = uiState.progressMap,
                 onJoinClick = { challenge ->
                     selectedChallenge = challenge
                     showDialog = true
@@ -98,6 +102,7 @@ fun HabitSelectionDialog(
 private fun ChallengesList(
     challenges: List<Challenge>,
     onJoinClick: (Challenge) -> Unit,
+    progressMap: Map<Long,ChallengeProgress>,
     joinStatus: JoinChallengeStatus
 ) {
     LazyColumn(
@@ -109,7 +114,8 @@ private fun ChallengesList(
             ChallengeItem(
                 challenge = challenge,
                 onJoinClick = { onJoinClick(challenge) },
-                isLoading = joinStatus is JoinChallengeStatus.Loading
+                isLoading = joinStatus is JoinChallengeStatus.Loading,
+                progress = progressMap[challenge.id]
             )
         }
     }
@@ -118,9 +124,12 @@ private fun ChallengesList(
 @Composable
 private fun ChallengeItem(
     challenge: Challenge,
+    progress: ChallengeProgress?,
     onJoinClick: () -> Unit,
     isLoading: Boolean
 ) {
+    val isJoined = progress != null && progress.linkedHabitId != 0L
+
     ElevatedCard(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp).fillMaxWidth()) {
             Row(
@@ -150,19 +159,48 @@ private fun ChallengeItem(
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = challenge.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             Text(text = challenge.description, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Spacer(modifier = Modifier.height(16.dp))
 
+            //Progress Section
+            if (isJoined) {
+                Spacer(modifier = Modifier.height(16.dp))
+                LinearProgressIndicator(
+                    progress = { progress.progressPercentage },
+                    modifier = Modifier.fillMaxWidth().height(8.dp),
+                    strokeCap = StrokeCap.Round
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "${progress.completedDays} of ${progress.totalDays} days completed",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "${challenge.durationDays} days", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
-                Button(onClick = onJoinClick, enabled = !isLoading) {
+                Text(
+                    text = "${challenge.durationDays} days",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold
+                )
+                Button(
+                    onClick = onJoinClick,
+                    enabled = !isLoading && !isJoined
+                ) {
                     if (isLoading) {
                         CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
                     } else {
-                        Text(if (challenge.isPro) "Join PRO" else "Accept Challenge")
+                        val buttonText = when {
+                            isJoined -> "Active"
+                            challenge.isPro -> "Join PRO"
+                            else -> "Accept challenge"
+                        }
+                        Text(buttonText)
                     }
                 }
             }
