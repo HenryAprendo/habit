@@ -1,5 +1,7 @@
 package com.henrydev.habit.ui.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +23,7 @@ import com.henrydev.habit.ui.screen.progress.ProgressScreen
 import com.henrydev.habit.ui.screen.settings.PaywallScreen
 import com.henrydev.habit.ui.screen.settings.SettingsScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HabitNavHost(
     controller: NavHostController,
@@ -42,15 +45,11 @@ fun HabitNavHost(
         }
 
         composable(route = HabitScreen.Progress.route) {
-            if (isPro) {
-                ProgressScreen()
-            } else {
-                PaywallScreen(
-                    onDismiss = {
-                        controller.popBackStack(HabitScreen.Home.route,false)
-                    }
-                )
-            }
+            ProgressScreen(
+                onNavigateToPaywall = {
+                    controller.navigate(HabitScreen.Paywall.route)
+                }
+            )
         }
 
         composable(route = HabitScreen.Challenges.route) {

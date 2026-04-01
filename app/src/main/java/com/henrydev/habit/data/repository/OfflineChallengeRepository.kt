@@ -54,4 +54,7 @@ class OfflineChallengeRepository @Inject constructor (
     override fun getLinkedHabitId(challengeId: Long): Flow<Long?> =
         challengeDao.getLinkedHabitId(challengeId)
 
+    override fun getSubscriptionStartDate(challengeId: Long): Flow<Long?> =
+        challengeDao.getSubscriptionStartDate(challengeId)
+
 }

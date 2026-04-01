@@ -1,5 +1,7 @@
 package com.henrydev.habit.ui.screen.progress
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
@@ -20,10 +23,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoGraph
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -40,11 +46,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.henrydev.habit.domain.model.HabitProgressDetail
 import com.henrydev.habit.domain.subscription.model.HabitStats
 import java.util.Calendar
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ProgressScreen(
+    onNavigateToPaywall: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ProgressViewModel = hiltViewModel()
 ){
@@ -56,6 +65,9 @@ fun ProgressScreen(
         is ProgressUiState.Success -> {
             ProgressContent(
                 stats = state.stats,
+                habitsProgress = state.habitsProgress,
+                isPro = state.isPro,
+                onLockedClick = onNavigateToPaywall,
                 modifier = modifier.fillMaxSize()
             )
         }
@@ -65,6 +77,9 @@ fun ProgressScreen(
 @Composable
 fun ProgressContent(
     stats: HabitStats,
+    habitsProgress: List<HabitProgressDetail>,
+    isPro: Boolean,
+    onLockedClick: () -> Unit,
     modifier: Modifier = Modifier
 ){
     Column(
@@ -105,6 +120,31 @@ fun ProgressContent(
             heatmapData = stats.heatmapData,
             modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Habit Performance",
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.SemiBold
+        )
+        if (!isPro) {
+            // Show a "Teaser" for Free users
+            Text(
+                text = "Upgrade to Pro to see detailed progress for each of your habits.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            // Optional: Show a blurred or locked example card
+        }
+
+        habitsProgress.forEach { progress ->
+            HabitProgressItem(
+                progress = progress,
+                isPro = isPro,
+                onClick = { if(!isPro) onLockedClick() }
+            )
+        }
+
         StatCard(
             title = "Total Active Days",
             value = "${stats.perfectDaysCount} Days Completed",
@@ -112,6 +152,110 @@ fun ProgressContent(
             modifier = Modifier.fillMaxWidth(),
             containerColor = MaterialTheme.colorScheme.secondaryContainer
         )
+    }
+}
+
+@Composable
+fun HabitProgressItem(
+    progress: HabitProgressDetail,
+    isPro: Boolean,
+    onClick: () -> Unit
+) {
+    ElevatedCard(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
+            // Header: Name and 7-day Sparkline
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = progress.habitName,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(1f)
+                )
+
+                // Weekly Trend: Mini Sparkline
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    progress.lastSevenDays.forEach { day ->
+                        Box(
+                            modifier = Modifier
+                                .size(12.dp)
+                                .clip(MaterialTheme.shapes.extraSmall)
+                                .background(
+                                    if (day.isCompleted && isPro) MaterialTheme.colorScheme.primary
+                                    else MaterialTheme.colorScheme.surfaceVariant
+                                )
+                        )
+                    }
+                }
+            }
+
+            HorizontalDivider(
+                modifier = Modifier
+                    .padding(vertical = 12.dp),
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+            )
+
+            // Metrics Grid: Using all HabitProgressDetail parameters
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Metric 1: Current vs Best Streak
+                StatMiniItem(
+                    label = "Streak",
+                    value = if (isPro) "${progress.currentStreak}d" else "--",
+                    subLabel = "Best: ${progress.bestStreak}d",
+                    icon = Icons.Default.Whatshot, // Ensure you have Icons.Default.Whatshot
+                    isPro = isPro
+                )
+
+                // Metric 2: Completion Rate
+                StatMiniItem(
+                    label = "Success",
+                    value = if (isPro) "${(progress.completionRate * 100).toInt()}%" else "--",
+                    subLabel = "Total: ${progress.totalCompletions}",
+                    icon = Icons.Default.CheckCircle,
+                    isPro = isPro
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun StatMiniItem(
+    label: String,
+    value: String,
+    subLabel: String,
+    icon: ImageVector,
+    isPro: Boolean
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(24.dp),
+            tint = if (isPro) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Column {
+            Text(text = label, style = MaterialTheme.typography.labelSmall)
+            Text(text = value, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+            Text(text = subLabel, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline)
+        }
     }
 }
 
@@ -185,7 +329,7 @@ fun MonthlyHeatmap(
                             .clip(MaterialTheme.shapes.extraSmall)
                             .background(
                                 if (isActive) MaterialTheme.colorScheme.primary
-                                        else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+                                else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
                             )
                     )
                 }

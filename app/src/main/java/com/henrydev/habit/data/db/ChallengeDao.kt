@@ -40,4 +40,7 @@ interface ChallengeDao {
     @Query("SELECT linkedHabitId FROM challenge_subscriptions WHERE challengeId = :challengeId LIMIT 1")
     fun getLinkedHabitId(challengeId: Long): Flow<Long?>
 
+    @Query("SELECT startDate FROM challenge_subscriptions WHERE challengeId = :challengeId LIMIT 1")
+    fun getSubscriptionStartDate(challengeId: Long): Flow<Long?>
+
 }

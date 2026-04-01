@@ -83,7 +83,7 @@ fun HabitSelectionDialog(
                 Text("You need to create a habit first to join a challenge.")
             } else {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                    items(habits) { habit ->
+                    items(habits, key = { it.id }) { habit ->
                         ListItem(
                             headlineContent = { Text(habit.name) },
                             modifier = Modifier.clickable { onHabitSelected(habit.id) }

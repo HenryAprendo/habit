@@ -10,4 +10,5 @@ interface ChallengeRepository {
     suspend fun subscribeToChallenge(challengeId: Long,linkedHabitId: Long)
     suspend fun updateChallengesStatus(challengeId: Long, status: ChallengeStatus, linkedHabitId: Long)
     fun getLinkedHabitId(challengeId: Long): Flow<Long?>
+    fun getSubscriptionStartDate(challengeId: Long): Flow<Long?>
 }

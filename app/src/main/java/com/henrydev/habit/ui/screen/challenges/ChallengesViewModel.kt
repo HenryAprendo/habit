@@ -65,10 +65,18 @@ class ChallengesViewModel @Inject constructor(
         } else {
             // Create a list of progress flows for each challenge
             val progressFlows = challenges.map { challenge ->
-                challengeRepository.getLinkedHabitId(challenge.id).flatMapLatest { linkedId ->
-                    if (linkedId != null) {
-                        val mockStartDate = System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)
-                        getChallengeProgressUseCase(challenge, linkedId, mockStartDate)
+                combine(
+                    challengeRepository.getLinkedHabitId(challenge.id),
+                    challengeRepository.getSubscriptionStartDate(challenge.id)
+                ) { linkedId, startDate ->
+                    Pair(linkedId,startDate)
+                }.flatMapLatest{ (linkedId, startDate) ->
+                    if (linkedId != null && startDate != null) {
+                        getChallengeProgressUseCase(
+                            challenge = challenge,
+                            linkedHabitId = linkedId,
+                            startDate
+                        )
                     } else {
                         flowOf(
                             ChallengeProgress(
