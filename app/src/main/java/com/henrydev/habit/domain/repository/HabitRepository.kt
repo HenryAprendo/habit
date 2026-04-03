@@ -13,4 +13,7 @@ interface HabitRepository {
     suspend fun insertHabit(habit: Habit): Long
     suspend fun toggleHabitCompletion(habitId: Long, date: Long, isCompleted: Boolean)
     suspend fun restoreBackup(data: List<Pair<HabitEntity, List<HabitLogEntity>>>)
+    suspend fun updateHabit(habit: Habit)
+    suspend fun deleteHabit(habit: Habit)
+    suspend fun getHabitById(id: Long): Habit?
 }

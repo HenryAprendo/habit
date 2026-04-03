@@ -8,6 +8,8 @@ import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,8 +28,12 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Whatshot
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -39,14 +45,20 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,6 +70,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.henrydev.habit.HabitTopAppBar
+import com.henrydev.habit.domain.model.Habit
 import com.henrydev.habit.ui.navigation.HabitScreen
 import java.util.Calendar
 import java.util.Locale
@@ -70,11 +83,43 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val actionState by viewModel.actionState.collectAsStateWithLifecycle()
+
+    if (actionState.showActionSheet) {
+        HabitActionSheet(
+            onDismiss = { viewModel.dismissAllActions() },
+            onEdit = { viewModel.openEditDialog() },
+            onDelete = { viewModel.openDeleteConfirmation() }
+        )
+    }
+    // 2. Show Delete Confirmation if active
+    if (actionState.showDeleteConfirmation) {
+        DeleteHabitConfirmation(
+            habitName = actionState.selectedHabit?.name ?: "",
+            onDismiss = { viewModel.dismissAllActions() },
+            onConfirm = { viewModel.deleteHabit() }
+        )
+    }
+
+    if (actionState.showEditDialog) {
+        actionState.selectedHabit?.let {
+            EditHabitDialog(
+                habit = it,
+                onDismiss = { viewModel.dismissAllActions() },
+                onConfirm = { newName, newDescription ->
+                    viewModel.updateHabit(newName, newDescription)
+                }
+            )
+        }
+    }
 
     HomeBody(
         uiState = uiState,
         onToggleHabitState = { habitId, currentStatus ->
             viewModel.toggleHabit(habitId,currentStatus)
+        },
+        onLongClick = { habit ->
+            viewModel.onHabitLongClick(habit)
         },
         onUpgradeClick = onNavigateToPaywall,
         modifier = modifier
@@ -86,6 +131,7 @@ fun HomeScreen(
 fun HomeBody(
     uiState: HomeUiState,
     onToggleHabitState: (Long,Boolean) -> Unit,
+    onLongClick: (Habit) -> Unit,
     onUpgradeClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -98,6 +144,7 @@ fun HomeBody(
                 habits = uiState.habits,
                 showAds = uiState.showAds,
                 onToggleHabit = onToggleHabitState,
+                onLongClick = onLongClick,
                 onUpgradeClick = onUpgradeClick,
                 modifier = modifier
             )
@@ -109,6 +156,7 @@ fun HabitsList(
     habits: List<HabitItemState>,
     showAds: Boolean,
     onToggleHabit: (Long,Boolean) -> Unit,
+    onLongClick: (Habit) -> Unit,
     onUpgradeClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -119,7 +167,9 @@ fun HabitsList(
         items( items = habits, key = { it.habit.id }) { item ->
             HabitItem(
                 itemState = item,
-                onCheckedChange = { onToggleHabit(item.habit.id, item.isCompleted) }
+                onCheckedChange = { onToggleHabit(item.habit.id, item.isCompleted) },
+                onLongClick = { onLongClick(item.habit) }
+
             )
         }
         if (showAds) {
@@ -135,6 +185,7 @@ fun HabitsList(
 fun HabitItem(
     itemState: HabitItemState,
     onCheckedChange: (Boolean) -> Unit,
+    onLongClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scale by animateFloatAsState(
@@ -167,6 +218,10 @@ fun HabitItem(
                 scaleX = scale
                 scaleY = scale
             }
+            .combinedClickable(
+                onClick = { onCheckedChange(itemState.isCompleted) },
+                onLongClick = { onLongClick() }
+            )
     ) {
        Column(
            modifier = Modifier
@@ -198,7 +253,7 @@ fun HabitItem(
                }
                Checkbox(
                    checked = itemState.isCompleted,
-                   onCheckedChange = onCheckedChange,
+                   onCheckedChange = { onCheckedChange(itemState.isCompleted)},
                    colors = CheckboxDefaults.colors(
                        checkedColor = MaterialTheme.colorScheme.primary,
                        uncheckedColor = MaterialTheme.colorScheme.outline
@@ -436,5 +491,110 @@ fun EmptyComponent() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HabitActionSheet(
+    onDismiss: () -> Unit,
+    onEdit: () -> Unit,
+    onDelete: () -> Unit
+) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = rememberModalBottomSheetState()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(32.dp)
+        ) {
+            ListItem(
+                headlineContent = { Text("Edit Habit") },
+                leadingContent = { Icon(Icons.Default.Edit, contentDescription = null) },
+                modifier = Modifier.clickable { onEdit() }
+            )
+            ListItem(
+                headlineContent = { Text("Delete Habit", color = MaterialTheme.colorScheme.error) },
+                leadingContent = { Icon(Icons.Default.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
+                modifier = Modifier.clickable { onDelete() }
+            )
+        }
+    }
+}
 
+@Composable
+fun DeleteHabitConfirmation(
+    habitName: String,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Delete Habit?") },
+        text = { Text("Are you sure you want to delete \"$habitName\"? All historical data will be lost forever.") },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text("Delete", color = MaterialTheme.colorScheme.error)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
+}
 
+@Composable
+fun EditHabitDialog(
+    habit: Habit,
+    onDismiss: () -> Unit,
+    onConfirm: (String, String) -> Unit
+) {
+    // We initialize the state with current habit data
+    var name by remember { mutableStateOf(habit.name) }
+    var description by remember { mutableStateOf(habit.description) }
+    val isNameValid = name.isNotBlank()
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(text = "Edit Habit", style = MaterialTheme.typography.titleLarge) },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text("Habit Name") },
+                    placeholder = { Text("e.g. Drink Water") },
+                    singleLine = true,
+                    isError = !isNameValid,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                OutlinedTextField(
+                    value = description,
+                    onValueChange = { description = it },
+                    label = { Text("Description") },
+                    placeholder = { Text("e.g. 2 liters a day") },
+                    modifier = Modifier.fillMaxWidth(),
+                    minLines = 2
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = { if (isNameValid) onConfirm(name, description) },
+                enabled = isNameValid
+            ) {
+                Text("Save Changes")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
+}

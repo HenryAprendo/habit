@@ -1,7 +1,5 @@
 package com.henrydev.habit.ui.navigation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +21,6 @@ import com.henrydev.habit.ui.screen.progress.ProgressScreen
 import com.henrydev.habit.ui.screen.settings.PaywallScreen
 import com.henrydev.habit.ui.screen.settings.SettingsScreen
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HabitNavHost(
     controller: NavHostController,

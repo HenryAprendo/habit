@@ -26,9 +26,18 @@ data class ChallengeEntity(
             parentColumns = ["id"],
             childColumns = ["challengeId"],
             onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = HabitEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["linkedHabitId"],
+            onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index(value = ["challengeId"])]
+    indices = [
+        Index(value = ["challengeId"]),
+        Index(value = ["linkedHabitId"])
+    ]
 )
 data class  ChallengeSubscriptionEntity(
     @PrimaryKey(autoGenerate = true)

@@ -1,8 +1,6 @@
 package com.henrydev.habit.domain.subscription.usecase
 
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.henrydev.habit.domain.model.DayStatus
 import com.henrydev.habit.domain.model.HabitProgressDetail
 import com.henrydev.habit.domain.repository.HabitRepository
@@ -11,13 +9,11 @@ import kotlinx.coroutines.flow.map
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
-import java.util.Calendar
 import javax.inject.Inject
 
 class GetHabitsProgressUseCase @Inject constructor(
     private val habitRepository: HabitRepository
 ) {
-    @RequiresApi(Build.VERSION_CODES.O)
     operator fun invoke(): Flow<List<HabitProgressDetail>> {
         return habitRepository.getHabitsWithHistory().map { habitsWithHistory ->
             habitsWithHistory.map { item ->

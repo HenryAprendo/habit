@@ -52,4 +52,16 @@ class OfflineHabitRepository @Inject constructor(
         habitDao.replaceAllData(data)
     }
 
+    override suspend fun updateHabit(habit: Habit) {
+        habitDao.updateHabit(habit.toEntity())
+    }
+
+    override suspend fun deleteHabit(habit: Habit) {
+        habitDao.deleteHabit(habit.toEntity())
+    }
+
+    override suspend fun getHabitById(id: Long): Habit? {
+        return habitDao.getHabitById(id)?.toDomain()
+    }
+
 }

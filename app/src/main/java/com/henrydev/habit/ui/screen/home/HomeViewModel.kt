@@ -6,12 +6,17 @@ import androidx.lifecycle.viewModelScope
 import com.henrydev.habit.domain.model.Habit
 import com.henrydev.habit.domain.repository.HabitRepository
 import com.henrydev.habit.domain.subscription.usecase.IsProUserUseCase
+import com.henrydev.habit.domain.use_cases.DeleteHabitUseCase
 import com.henrydev.habit.domain.use_cases.GetHabitsWithHistoryUseCase
+import com.henrydev.habit.domain.use_cases.UpdateHabitUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,8 +24,49 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor (
     getHabitsWithHistoryUseCase: GetHabitsWithHistoryUseCase,
     isProUserUseCase: IsProUserUseCase,
-    private val habitRepository: HabitRepository
+    private val habitRepository: HabitRepository,
+    private val updateHabitUseCase: UpdateHabitUseCase,
+    private val deleteHabitUseCase: DeleteHabitUseCase
 ) : ViewModel() {
+
+    private val _actionState = MutableStateFlow(HabitActionState())
+    val actionState = _actionState.asStateFlow()
+
+    fun onHabitLongClick(habit: Habit) {
+        _actionState.update { it.copy( selectedHabit = habit, showActionSheet = true) }
+    }
+
+    fun openEditDialog() {
+        _actionState.update { it.copy(showActionSheet = false, showEditDialog = true) }
+    }
+
+    fun  openDeleteConfirmation() {
+        _actionState.update { it.copy(showActionSheet = false, showDeleteConfirmation = true) }
+    }
+
+    fun dismissAllActions() {
+        _actionState.update { HabitActionState() }
+    }
+
+    fun deleteHabit() {
+        val habitToDelete = _actionState.value.selectedHabit ?: return
+        viewModelScope.launch {
+            deleteHabitUseCase(habitToDelete)
+            dismissAllActions()
+        }
+    }
+
+    fun updateHabit(newName: String, newDescription: String) {
+        val habitToUpdate = _actionState.value.selectedHabit ?: return
+        viewModelScope.launch {
+            val updatedHabit = habitToUpdate.copy(
+                name = newName,
+                description = newDescription
+            )
+            updateHabitUseCase(updatedHabit)
+            dismissAllActions()
+        }
+    }
 
     val uiState: StateFlow<HomeUiState> = combine(
         getHabitsWithHistoryUseCase(),
@@ -151,3 +197,10 @@ sealed interface HomeUiState {
         val showAds: Boolean
     ) : HomeUiState
 }
+
+data class HabitActionState(
+    val selectedHabit: Habit? = null,
+    val showActionSheet: Boolean = false,
+    val showEditDialog: Boolean = false,
+    val showDeleteConfirmation: Boolean = false
+)

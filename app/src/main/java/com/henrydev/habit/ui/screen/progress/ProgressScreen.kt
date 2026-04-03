@@ -1,7 +1,5 @@
 package com.henrydev.habit.ui.screen.progress
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,7 +24,6 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -39,7 +35,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -48,9 +43,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.henrydev.habit.domain.model.HabitProgressDetail
 import com.henrydev.habit.domain.subscription.model.HabitStats
+import com.henrydev.habit.ui.screen.home.AdBannerPlaceholder
 import java.util.Calendar
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ProgressScreen(
     onNavigateToPaywall: () -> Unit,
@@ -120,6 +115,18 @@ fun ProgressContent(
             heatmapData = stats.heatmapData,
             modifier = Modifier.fillMaxWidth()
         )
+
+        if (!isPro) {
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Reusing your existing Ad Component
+            AdBannerPlaceholder(
+                onUpgradeClick = onLockedClick,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
         Text(

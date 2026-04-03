@@ -43,4 +43,7 @@ interface ChallengeDao {
     @Query("SELECT startDate FROM challenge_subscriptions WHERE challengeId = :challengeId LIMIT 1")
     fun getSubscriptionStartDate(challengeId: Long): Flow<Long?>
 
+    @Query("SELECT * FROM challenge_subscriptions WHERE status = 'ACTIVE' ")
+    fun getActiveSubscriptions(): Flow<List<ChallengeSubscriptionEntity>>
+
 }

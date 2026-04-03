@@ -5,6 +5,7 @@ import com.henrydev.habit.data.entities.ChallengeSubscriptionEntity
 import com.henrydev.habit.data.mapper.toDomain
 import com.henrydev.habit.domain.model.Challenge
 import com.henrydev.habit.domain.model.ChallengeStatus
+import com.henrydev.habit.domain.model.ChallengeSubscription
 import com.henrydev.habit.domain.repository.ChallengeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -56,5 +57,11 @@ class OfflineChallengeRepository @Inject constructor (
 
     override fun getSubscriptionStartDate(challengeId: Long): Flow<Long?> =
         challengeDao.getSubscriptionStartDate(challengeId)
+
+    override fun getActiveSubscriptions(): Flow<List<ChallengeSubscription>> {
+        return challengeDao.getActiveSubscriptions().map { entities ->
+            entities.map { it.toDomain() }
+        }
+    }
 
 }

@@ -35,6 +35,8 @@ android {
         }
     }
     compileOptions {
+        //Use library DateTime
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -82,7 +84,15 @@ dependencies {
     //DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.2")
 
+    // WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.11.2")
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
+
     implementation(libs.kotlinx.serialization.json)
+
+
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

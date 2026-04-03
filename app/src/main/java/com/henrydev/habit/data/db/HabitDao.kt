@@ -1,10 +1,12 @@
 package com.henrydev.habit.data.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.henrydev.habit.data.entities.HabitEntity
 import com.henrydev.habit.data.entities.HabitLogEntity
 import com.henrydev.habit.data.model.HabitWithLogs
@@ -15,6 +17,15 @@ interface HabitDao {
 
     @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
     suspend fun insertHabit(habit: HabitEntity): Long
+
+    @Update
+    suspend fun updateHabit(habit: HabitEntity)
+
+    @Delete
+    suspend fun deleteHabit(habit: HabitEntity)
+
+    @Query("SELECT * FROM habits WHERE id = :id")
+    suspend fun getHabitById(id: Long): HabitEntity?
 
     @Query("SELECT * from habits")
     fun getAllHabits(): Flow<List<HabitEntity>>

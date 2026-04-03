@@ -1,7 +1,5 @@
 package com.henrydev.habit.ui.screen.progress
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.henrydev.habit.domain.model.HabitProgressDetail
@@ -15,7 +13,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -26,7 +23,6 @@ class ProgressViewModel @Inject constructor(
     private val subscriptionRepository: SubscriptionRepository
 ): ViewModel() {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     val uiState: StateFlow<ProgressUiState> = combine(
         getGlobalStatsUseCase(),
         getHabitsProgressUseCase(),

@@ -21,7 +21,8 @@ import javax.inject.Provider
         HabitEntity::class,
         HabitLogEntity::class,
         ChallengeEntity::class, ChallengeSubscriptionEntity::class],
-    version = 1,
+    version = 1
+    ,
     exportSchema = false
 )
 @TypeConverters(ChallengeConverters::class)
