@@ -12,6 +12,7 @@ import com.henrydev.habit.data.entities.ChallengeEntity
 import com.henrydev.habit.data.entities.ChallengeSubscriptionEntity
 import com.henrydev.habit.data.entities.HabitEntity
 import com.henrydev.habit.data.entities.HabitLogEntity
+import com.henrydev.habit.data.entities.UserProfileEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Provider
@@ -20,9 +21,10 @@ import javax.inject.Provider
     entities = [
         HabitEntity::class,
         HabitLogEntity::class,
-        ChallengeEntity::class, ChallengeSubscriptionEntity::class],
-    version = 1
-    ,
+        ChallengeEntity::class,
+        ChallengeSubscriptionEntity::class,
+        UserProfileEntity::class ],
+    version = 1,
     exportSchema = false
 )
 @TypeConverters(ChallengeConverters::class)
@@ -30,6 +32,7 @@ abstract class HabitDatabase : RoomDatabase() {
 
     abstract fun habitDao(): HabitDao
     abstract fun challengeDao(): ChallengeDao
+    abstract fun userDao(): UserDao
 
 }
 

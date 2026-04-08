@@ -40,6 +40,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -55,13 +56,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.henrydev.habit.domain.model.Habit
+import com.henrydev.habit.domain.model.UserStats
 import com.henrydev.habit.domain.use_cases.HabitDayState
 import com.henrydev.habit.domain.use_cases.HabitItemState
 import java.util.Calendar
@@ -76,6 +80,7 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val actionState by viewModel.actionState.collectAsStateWithLifecycle()
+    val userStats by viewModel.userStats.collectAsStateWithLifecycle()
 
     if (actionState.showActionSheet) {
         HabitActionSheet(
@@ -107,6 +112,7 @@ fun HomeScreen(
 
     HomeBody(
         uiState = uiState,
+        userStats = userStats,
         onToggleHabitState = { habitId, currentStatus ->
             viewModel.toggleHabit(habitId,currentStatus)
         },
@@ -122,6 +128,7 @@ fun HomeScreen(
 @Composable
 fun HomeBody(
     uiState: HomeUiState,
+    userStats: UserStats?,
     onToggleHabitState: (Long,Boolean) -> Unit,
     onLongClick: (Habit) -> Unit,
     onUpgradeClick: () -> Unit,
@@ -134,6 +141,7 @@ fun HomeBody(
         is HomeUiState.Success ->
             HabitsList(
                 habits = uiState.habits,
+                userStats = userStats,
                 showAds = uiState.showAds,
                 onToggleHabit = onToggleHabitState,
                 onLongClick = onLongClick,
@@ -146,6 +154,7 @@ fun HomeBody(
 @Composable
 fun HabitsList(
     habits: List<HabitItemState>,
+    userStats: UserStats?,
     showAds: Boolean,
     onToggleHabit: (Long,Boolean) -> Unit,
     onLongClick: (Habit) -> Unit,
@@ -156,6 +165,10 @@ fun HabitsList(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.padding(horizontal = 8.dp, vertical = 12.dp)
     ) {
+        item(key = "progress_header") {
+            userStats?.let { stats -> UserProgressHeader(stats = stats) }
+        }
+
         items( items = habits, key = { it.habit.id }) { item ->
             HabitItem(
                 itemState = item,
@@ -382,6 +395,101 @@ fun StreakCounter(
             }
         )
     }
+}
+
+@Composable
+fun UserProgressHeader(
+    stats: UserStats,
+    modifier: Modifier = Modifier
+) {
+    val animatedProgress by animateFloatAsState(
+        targetValue = stats.progressToNextLevel,
+        animationSpec = spring(stiffness = Spring.StiffnessLow),
+        label = "levelProgress"
+    )
+
+    ElevatedCard(
+        shape = MaterialTheme.shapes.extraLarge,
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        modifier = modifier.fillMaxWidth().padding(vertical = 8.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
+            ) {
+                Column {
+                    Text(
+                        text = stats.rankTitle.uppercase(),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
+                    )
+                    Text(
+                        text = "Level ${stats.level}",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(
+                        text = "TOTAL POINTS",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = "${stats.totalXp} XP",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
+            }
+
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Progress",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = "${(stats.progressToNextLevel * 100).toInt()}%",
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                LinearProgressIndicator(
+                    progress = { animatedProgress },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(10.dp),
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+                    strokeCap = StrokeCap.Round
+                )
+            }
+
+            Text(
+                text = "Only ${stats.xpRequiredForNext} points to next rank",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.End,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
+
 }
 
 @Composable

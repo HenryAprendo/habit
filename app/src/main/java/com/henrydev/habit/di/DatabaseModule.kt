@@ -6,6 +6,7 @@ import com.henrydev.habit.data.db.ChallengeDao
 import com.henrydev.habit.data.db.ChallengeDatabaseCallback
 import com.henrydev.habit.data.db.HabitDao
 import com.henrydev.habit.data.db.HabitDatabase
+import com.henrydev.habit.data.db.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,6 +49,12 @@ object DatabaseModule {
     @Singleton
     fun provideChallengeDao(database: HabitDatabase): ChallengeDao {
         return database.challengeDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserDao(database: HabitDatabase): UserDao {
+        return database.userDao()
     }
 
 }
