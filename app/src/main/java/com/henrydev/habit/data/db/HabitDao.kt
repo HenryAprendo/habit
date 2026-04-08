@@ -39,22 +39,39 @@ interface HabitDao {
 
     @Transaction
     suspend fun replaceAllData(habitsWithLogs: List<Pair<HabitEntity, List<HabitLogEntity>>>) {
-        clearAllHabits()
+
         habitsWithLogs.forEach { (habit, logs) ->
-            val newIdLong = insertHabit(habit)
-            if (newIdLong != -1L) {
-                val newHabitId = newIdLong
-                val updatedLogs = logs.map { it.copy(habitId = newHabitId) }
-                insertAllLogs(updatedLogs)
+            // 1. Try to find if the habit already exists by name (Logical Unique Key)
+            val existingHabit = getHabitByName(habit.name)
+
+            val targetHabitId: Long = if (existingHabit != null) {
+                // 2. If it exists, we update its metadata but keep its ID
+                updateHabit(habit.copy(id = existingHabit.id))
+                existingHabit.id
+            } else {
+                // 3. If it's new, we insert it
+                insertHabit(habit)
             }
 
+            // 4. Insert logs associated with this habit ID
+            if (targetHabitId != -1L) {
+                val updatedLogs = logs.map { it.copy(habitId = targetHabitId) }
+                insertAllLogs(updatedLogs)
+            }
         }
     }
+
+    // Needed for the logic above
+    @Query("SELECT * FROM habits WHERE name = :name LIMIT 1")
+    suspend fun getHabitByName(name: String): HabitEntity?
 
     @Query("DELETE FROM habits")
     suspend fun clearAllHabits()
 
     @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
     suspend fun insertAllLogs(logs: List<HabitLogEntity>)
+
+    @Query("SELECT * FROM habits LIMIT 1")
+    suspend fun getAnyHabit(): HabitEntity?
 
 }

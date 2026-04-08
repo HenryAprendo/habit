@@ -11,7 +11,6 @@ class EarnXpUseCase @Inject constructor(
 
     companion object {
         const val BASE_HABIT_XP = 10
-        const val BASE_HABIT_XP_PRO = 12
         const val CHALLENGE_COMPLETED_XP = 100
         const val PRO_STREAK_BONUS_MULTIPLIER = 2
     }
@@ -23,9 +22,7 @@ class EarnXpUseCase @Inject constructor(
 
     suspend fun onHabitCompleted(currentStreak: Int = 0) {
         val isPro = isProUserUseCase().first()
-
-        val baseReward = if (isPro) BASE_HABIT_XP_PRO else BASE_HABIT_XP
-        var totalXp = baseReward
+        var totalXp = BASE_HABIT_XP
         if (isPro && currentStreak > 0) {
             // PRO users get a bonus based on their commitment (streak)
             val streakBonus = currentStreak * PRO_STREAK_BONUS_MULTIPLIER

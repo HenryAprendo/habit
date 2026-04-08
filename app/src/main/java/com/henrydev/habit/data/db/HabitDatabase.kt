@@ -36,19 +36,28 @@ abstract class HabitDatabase : RoomDatabase() {
 
 }
 
-class ChallengeDatabaseCallback(
+class HabitDatabaseCallback(
     private val scope: CoroutineScope,
-    private val daoProvider: Provider<ChallengeDao>
+    private val challengeDaoProvider: Provider<ChallengeDao>,
+    private val habitDaoProvider: Provider<HabitDao>
 ): RoomDatabase.Callback() {
     override fun onOpen(db: SupportSQLiteDatabase) {
         super.onOpen(db)
         scope.launch {
-            val dao = daoProvider.get()
-            if (dao.getAnyChallenge() == null){
+            val challengeDao = challengeDaoProvider.get()
+            if (challengeDao.getAnyChallenge() == null){
                 ChallengeSeeds.DEFAULT_CHALLENGES.forEach {
-                    dao.insertChallenge(it)
+                    challengeDao.insertChallenge(it)
                 }
             }
+
+            val habitDao = habitDaoProvider.get()
+            if (habitDao.getAnyHabit() == null) {
+                HabitSeeds.DEFAULT_SPIRITUAL_HABITs.forEach {
+                    habitDao.insertHabit(it)
+                }
+            }
+
         }
     }
 }

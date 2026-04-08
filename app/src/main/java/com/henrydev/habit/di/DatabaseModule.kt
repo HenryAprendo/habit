@@ -3,9 +3,9 @@ package com.henrydev.habit.di
 import android.content.Context
 import androidx.room.Room
 import com.henrydev.habit.data.db.ChallengeDao
-import com.henrydev.habit.data.db.ChallengeDatabaseCallback
 import com.henrydev.habit.data.db.HabitDao
 import com.henrydev.habit.data.db.HabitDatabase
+import com.henrydev.habit.data.db.HabitDatabaseCallback
 import com.henrydev.habit.data.db.UserDao
 import dagger.Module
 import dagger.Provides
@@ -26,7 +26,8 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context,
-        challengeDaoProvider: Provider<ChallengeDao>
+        challengeDaoProvider: Provider<ChallengeDao>,
+        habitDaoProvider: Provider<HabitDao>
     ): HabitDatabase {
         val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
         return Room.databaseBuilder(
@@ -34,7 +35,13 @@ object DatabaseModule {
             HabitDatabase::class.java,
             "habit_database"
         )
-            .addCallback(ChallengeDatabaseCallback(scope,challengeDaoProvider))
+            .addCallback(
+                HabitDatabaseCallback(
+                    scope = scope,
+                    challengeDaoProvider = challengeDaoProvider,
+                    habitDaoProvider = habitDaoProvider
+                )
+            )
             .fallbackToDestructiveMigration()
             .build()
     }
