@@ -40,11 +40,11 @@ class GetUserLevelUseCase @Inject constructor(
 
     private fun getRankTitle(level: Int): String {
         return when {
-            level < 5 -> "Novice"
-            level < 15 -> "Steady"
-            level < 30 -> "Titan"
-            level < 50 -> "Master"
-            else -> "Legendary"
+            level < 5 -> "Seeker"
+            level < 15 -> "Servant"
+            level < 30 -> "Steward"
+            level < 50 -> "Warrior"
+            else -> "Ambassador"
         }
     }
 
