@@ -7,4 +7,109 @@
     <string name="challenges_title">Challenges</string>
     <string name="settings_title">Settings</string>
     <string name="paywall_title">Upgrade to Pro</string>
+    <!-- Day 1 -->
+    <string name="devotional_verse_1">Trust in the Lord with all your heart.</string>
+    <string name="devotional_ref_1">Proverbs 3:5</string>
+    <string name="devotional_reflect_1">Today, let go of control and lean on His wisdom.</string>
+
+    <!-- Day 2 -->
+    <string name="devotional_verse_2">The Lord is my shepherd; I have all that I need.</string>
+    <string name="devotional_ref_2">Psalm 23:1</string>
+    <string name="devotional_reflect_2">Rest in His perfect provision and care today.</string>
+
+    <!-- Day 3 -->
+    <string name="devotional_verse_3">Be strong and courageous. Do not be afraid.</string>
+    <string name="devotional_ref_3">Joshua 1:9</string>
+    <string name="devotional_reflect_3">Fear has no place in your walk; God is with you.</string>
+
+    <!-- Day 4 -->
+    <string name="devotional_verse_4">I can do all things through Christ who strengthens me.
+    </string>
+    <string name="devotional_ref_4">Philippians 4:13</string>
+    <string name="devotional_reflect_4">Your strength comes from Him, not from your own efforts.
+    </string>
+
+    <!-- Day 5 -->
+    <string name="devotional_verse_5">But seek first the kingdom of God and His righteousness.
+    </string>
+    <string name="devotional_ref_5">Matthew 6:33</string>
+    <string name="devotional_reflect_5">Align your priorities today with God\'s eternal heart.
+    </string>
+
+    <!-- Day 6 a 15 (Sigue este patrón hasta completar los 15) -->
+    <string name="devotional_verse_6">Your word is a lamp to my feet and a light to my path.
+    </string>
+    <string name="devotional_ref_6">Psalm 119:105</string>
+    <string name="devotional_reflect_6">Let His Word guide every decision you make today.</string>
+    <!-- Day 7 -->
+    <string name="devotional_verse_7">Be still, and know that I am God.</string>
+    <string name="devotional_ref_7">Psalm 46:10</string>
+    <string name="devotional_reflect_7">In the middle of the noise, find a moment of silence with
+        Him.
+    </string>
+
+    <!-- Day 8 -->
+    <string name="devotional_verse_8">Whatever you do, work at it with all your heart, as working
+        for the Lord.
+    </string>
+    <string name="devotional_ref_8">Colossians 3:23</string>
+    <string name="devotional_reflect_8">Every task today is an opportunity to honor God with your
+        excellence.
+    </string>
+
+    <!-- Day 9 -->
+    <string name="devotional_verse_9">The joy of the Lord is your strength.</string>
+    <string name="devotional_ref_9">Nehemiah 8:10</string>
+    <string name="devotional_reflect_9">Do not let circumstances steal your peace; His joy is your
+        fuel.
+    </string>
+
+    <!-- Day 10 -->
+    <string name="devotional_verse_10">Let all that you do be done in love.</string>
+    <string name="devotional_ref_10">1 Corinthians 16:14</string>
+    <string name="devotional_reflect_10">Every discipline and interaction today must be rooted in
+        His love.
+    </string>
+
+    <!-- Day 11 -->
+    <string name="devotional_verse_11">Come to me, all you who are weary and burdened, and I will
+        give you rest.
+    </string>
+    <string name="devotional_ref_11">Matthew 11:28</string>
+    <string name="devotional_reflect_11">You don\'t have to carry it all. Lay your burdens at His
+        feet today.
+    </string>
+
+    <!-- Day 12 -->
+    <string name="devotional_verse_12">For God has not given us a spirit of fear, but of power and
+        of love.
+    </string>
+    <string name="devotional_ref_12">2 Timothy 1:7</string>
+    <string name="devotional_reflect_12">Walk in the authority and sound mind that the Holy Spirit
+        provides.
+    </string>
+
+    <!-- Day 13 -->
+    <string name="devotional_verse_13">Give thanks in all circumstances; for this is God’s will for
+        you.
+    </string>
+    <string name="devotional_ref_13">1 Thessalonians 5:18</string>
+    <string name="devotional_reflect_13">Gratitude changes your perspective. Find three things to
+        thank God for today.
+    </string>
+
+    <!-- Day 14 -->
+    <string name="devotional_verse_14">But those who hope in the Lord will renew their strength.
+    </string>
+    <string name="devotional_ref_14">Isaiah 40:31</string>
+    <string name="devotional_reflect_14">Wait on Him. He is restoring your energy for the path
+        ahead.
+    </string>
+
+    <!-- Day 15 -->
+    <string name="devotional_verse_15">I am the way and the truth and the life.</string>
+    <string name="devotional_ref_15">John 14:6</string>
+    <string name="devotional_reflect_15">Keep your eyes on Jesus; He is the compass for your daily
+        walk.
+    </string>
 </resources>

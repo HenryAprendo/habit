@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hábito</string>
+    <string name="home_title">Mis Disciplinas</string>
+    <string name="add_habit_title">Nueva Disciplina</string>
+    <string name="edit_habit_title">Editar Disciplina</string>
+    <string name="progress_title">Progreso</string>
+    <string name="challenges_title">Desafíos</string>
+    <string name="settings_title">Ajustes</string>
+    <string name="paywall_title">Mejorar a Pro</string>
+
+    <!-- Día 1 -->
+    <string name="devotional_verse_1">Confía en el Señor con todo tu corazón.</string>
+    <string name="devotional_ref_1">Proverbios 3:5</string>
+    <string name="devotional_reflect_1">Hoy, suelta el control y apóyate en Su sabiduría.</string>
+
+    <!-- Día 2 -->
+    <string name="devotional_verse_2">El Señor es mi pastor; nada me faltará.</string>
+    <string name="devotional_ref_2">Salmo 23:1</string>
+    <string name="devotional_reflect_2">Descansa hoy en Su perfecta provisión y cuidado.</string>
+
+    <!-- Día 3 -->
+    <string name="devotional_verse_3">Sé fuerte y valiente. No tengas miedo.</string>
+    <string name="devotional_ref_3">Josué 1:9</string>
+    <string name="devotional_reflect_3">El miedo no tiene lugar en tu caminar; Dios está contigo.</string>
+
+    <!-- Día 4 -->
+    <string name="devotional_verse_4">Todo lo puedo en Cristo que me fortalece.</string>
+    <string name="devotional_ref_4">Filipenses 4:13</string>
+    <string name="devotional_reflect_4">Tu fuerza viene de Él, no de tus propios esfuerzos.</string>
+
+    <!-- Día 5 -->
+    <string name="devotional_verse_5">Mas buscad primeramente el reino de Dios y su justicia.</string>
+    <string name="devotional_ref_5">Mateo 6:33</string>
+    <string name="devotional_reflect_5">Alinea hoy tus prioridades con el corazón eterno de Dios.</string>
+
+    <!-- Día 6 -->
+    <string name="devotional_verse_6">Lámpara es a mis pies tu palabra, y lumbrera a mi camino.</string>
+    <string name="devotional_ref_6">Salmo 119:105</string>
+    <string name="devotional_reflect_6">Deja que Su Palabra guíe cada decisión que tomes hoy.</string>
+
+    <!-- Día 7 -->
+    <string name="devotional_verse_7">Estad quietos, y conoced que yo soy Dios.</string>
+    <string name="devotional_ref_7">Salmo 46:10</string>
+    <string name="devotional_reflect_7">En medio del ruido, encuentra un momento de silencio con Él.</string>
+
+    <!-- Día 8 -->
+    <string name="devotional_verse_8">Y todo lo que hagáis, hacedlo de corazón, como para el Señor.</string>
+    <string name="devotional_ref_8">Colosenses 3:23</string>
+    <string name="devotional_reflect_8">Cada tarea hoy es una oportunidad para honrar a Dios con tu excelencia.</string>
+
+    <!-- Día 9 -->
+    <string name="devotional_verse_9">El gozo del Señor es vuestra fuerza.</string>
+    <string name="devotional_ref_9">Nehemías 8:10</string>
+    <string name="devotional_reflect_9">No dejes que las circunstancias te roben la paz; Su gozo es tu motor.</string>
+
+    <!-- Día 10 -->
+    <string name="devotional_verse_10">Todas vuestras cosas sean hechas con amor.</string>
+    <string name="devotional_ref_10">1 Corintios 16:14</string>
+    <string name="devotional_reflect_10">Cada disciplina e interacción de hoy debe estar arraigada en Su amor.</string>
+
+    <!-- Día 11 -->
+    <string name="devotional_verse_11">Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar.</string>
+    <string name="devotional_ref_11">Mateo 11:28</string>
+    <string name="devotional_reflect_11">No tienes que cargar con todo. Pon tus cargas a Sus pies hoy.</string>
+
+    <!-- Día 12 -->
+    <string name="devotional_verse_12">Porque no nos ha dado Dios espíritu de cobardía, sino de poder, de amor y de dominio propio.</string>
+    <string name="devotional_ref_12">2 Timoteo 1:7</string>
+    <string name="devotional_reflect_12">Camina en la autoridad y la mente sana que el Espíritu Santo provee.</string>
+
+    <!-- Día 13 -->
+    <string name="devotional_verse_13">Dad gracias en todo, porque esta es la voluntad de Dios para con vosotros.</string>
+    <string name="devotional_ref_13">1 Tesalonicenses 5:18</string>
+    <string name="devotional_reflect_13">La gratitud cambia tu perspectiva. Busca tres cosas por las que agradecer hoy.</string>
+
+    <!-- Día 14 -->
+    <string name="devotional_verse_14">Pero los que esperan en el Señor tendrán nuevas fuerzas.</string>
+    <string name="devotional_ref_14">Isaías 40:31</string>
+    <string name="devotional_reflect_14">Espera en Él. Él está restaurando tu energía para el camino que tienes por delante.</string>
+
+    <!-- Día 15 -->
+    <string name="devotional_verse_15">Yo soy el camino, y la verdad, y la vida.</string>
+    <string name="devotional_ref_15">Juan 14:6</string>
+    <string name="devotional_reflect_15">Mantén tus ojos en Jesús; Él es la brújula para tu caminar diario.</string>
+</resources>

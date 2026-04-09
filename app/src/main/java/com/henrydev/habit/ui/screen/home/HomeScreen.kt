@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -58,12 +60,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.henrydev.habit.domain.model.DailyDevotional
 import com.henrydev.habit.domain.model.Habit
 import com.henrydev.habit.domain.model.UserStats
 import com.henrydev.habit.domain.use_cases.HabitDayState
@@ -81,6 +85,7 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val actionState by viewModel.actionState.collectAsStateWithLifecycle()
     val userStats by viewModel.userStats.collectAsStateWithLifecycle()
+    val dailyDevotional by viewModel.dailyDevotional.collectAsStateWithLifecycle()
 
     if (actionState.showActionSheet) {
         HabitActionSheet(
@@ -113,6 +118,7 @@ fun HomeScreen(
     HomeBody(
         uiState = uiState,
         userStats = userStats,
+        dailyDevotional = dailyDevotional,
         onToggleHabitState = { habitId, currentStatus ->
             viewModel.toggleHabit(habitId,currentStatus)
         },
@@ -129,6 +135,7 @@ fun HomeScreen(
 fun HomeBody(
     uiState: HomeUiState,
     userStats: UserStats?,
+    dailyDevotional: DailyDevotional?,
     onToggleHabitState: (Long,Boolean) -> Unit,
     onLongClick: (Habit) -> Unit,
     onUpgradeClick: () -> Unit,
@@ -142,6 +149,7 @@ fun HomeBody(
             HabitsList(
                 habits = uiState.habits,
                 userStats = userStats,
+                dailyDevotional = dailyDevotional,
                 showAds = uiState.showAds,
                 onToggleHabit = onToggleHabitState,
                 onLongClick = onLongClick,
@@ -155,6 +163,7 @@ fun HomeBody(
 fun HabitsList(
     habits: List<HabitItemState>,
     userStats: UserStats?,
+    dailyDevotional: DailyDevotional?,
     showAds: Boolean,
     onToggleHabit: (Long,Boolean) -> Unit,
     onLongClick: (Habit) -> Unit,
@@ -165,6 +174,16 @@ fun HabitsList(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.padding(horizontal = 8.dp, vertical = 12.dp)
     ) {
+        item(key = "purpose_header") {
+            PurposeHeader()
+        }
+
+        item(key = "daily_devotional") {
+            dailyDevotional?.let { devotional ->
+                DailyDevotionalCard(devotional = devotional)
+            }
+        }
+
         item(key = "progress_header") {
             userStats?.let { stats -> UserProgressHeader(stats = stats) }
         }
@@ -413,7 +432,9 @@ fun UserProgressHeader(
         colors = CardDefaults.elevatedCardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        modifier = modifier.fillMaxWidth().padding(vertical = 8.dp)
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
     ) {
         Column(
             modifier = Modifier.padding(20.dp),
@@ -698,3 +719,112 @@ fun EditHabitDialog(
         }
     )
 }
+
+
+// 1. New Spiritual Purpose Header Component
+@Composable
+fun PurposeHeader(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "“Drawing closer to God every day through my disciplines”",
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontStyle = FontStyle.Italic,
+                letterSpacing = 0.5.sp
+            ),
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
+        // Subtle divider to separate purpose from the progress card
+        Spacer(modifier = Modifier.height(8.dp))
+        HorizontalDivider(
+            modifier = Modifier.width(40.dp),
+            thickness = 2.dp,
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+        )
+    }
+}
+
+@Composable
+fun DailyDevotionalCard(
+    devotional: DailyDevotional,
+    modifier: Modifier = Modifier
+) {
+    // Usamos una Card con un borde muy fino y un color de fondo casi etéreo
+    Card(
+        shape = MaterialTheme.shapes.extraLarge,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.05f)
+        ),
+        border = BorderStroke(
+            width = 0.5.dp,
+            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+        ),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 24.dp, vertical = 28.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            // Verse - La Palabra de Dios como centro
+            Text(
+                text = "“${devotional.verse}”",
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontStyle = FontStyle.Italic,
+                    lineHeight = 28.sp,
+                    letterSpacing = 0.2.sp
+                ),
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+
+            // Scripture Reference - Sutil pero firme
+            Text(
+                text = devotional.reference.uppercase(),
+                style = MaterialTheme.typography.labelMedium.copy(
+                    letterSpacing = 2.sp,
+                    fontWeight = FontWeight.Bold
+                ),
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+                textAlign = TextAlign.Center
+            )
+
+            // Divisor decorativo minimalista
+            Spacer(modifier = Modifier.height(20.dp))
+            HorizontalDivider(
+                modifier = Modifier.width(40.dp),
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Reflection - La aplicación práctica
+            Text(
+                text = devotional.reflection,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    lineHeight = 24.sp
+                ),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+        }
+    }
+}
+
+
+
+
+
+

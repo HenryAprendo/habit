@@ -1,7 +1,9 @@
 package com.henrydev.habit.ui.screen.home
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.henrydev.habit.domain.model.DailyDevotional
 import com.henrydev.habit.domain.model.Habit
 import com.henrydev.habit.domain.model.UserStats
 import com.henrydev.habit.domain.repository.HabitRepository
@@ -19,13 +21,16 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor (
+    private val application: Application,
     getHomeHabitUseCase: GetHomeHabitUseCase,
     isProUserUseCase: IsProUserUseCase,
     private val habitRepository: HabitRepository,
@@ -34,6 +39,36 @@ class HomeViewModel @Inject constructor (
     private val getUserLevelUseCase: GetUserLevelUseCase,
     private val earnXpUseCase: EarnXpUseCase,
 ) : ViewModel() {
+
+    val dailyDevotional: StateFlow<DailyDevotional?> = flow {
+        val devotional = calculateDailyDevotional()
+        emit(devotional)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = null
+    )
+
+    private fun calculateDailyDevotional(): DailyDevotional {
+        val res = application.resources
+        val packageName = application.packageName
+        val dayOfYear = LocalDate.now().dayOfYear
+
+        // We have 15 days of content, so we use modulo to cycle them
+        // day 1-15 -> 1-15, day 16 -> 1, day 17 -> 2...
+        val dayIndex = ((dayOfYear-1) % 15) + 1
+
+        val verseId = res.getIdentifier("devotional_verse_$dayIndex", "string", packageName)
+        val refId = res.getIdentifier("devotional_ref_$dayIndex", "string", packageName)
+        val reflectedId = res.getIdentifier("devotional_reflect_$dayIndex", "string", packageName)
+
+        return DailyDevotional(
+            verse = res.getString(verseId),
+            reference = res.getString(refId),
+            reflection = res.getString(reflectedId)
+        )
+
+    }
 
     private val _actionState = MutableStateFlow(HabitActionState())
     val actionState = _actionState.asStateFlow()
