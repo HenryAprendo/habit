@@ -84,7 +84,7 @@ fun ProgressContent(
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            text = "Your Progress",
+            text = "Spiritual Growth",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
@@ -93,13 +93,13 @@ fun ProgressContent(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             StatCard(
-                title = "Success Rate",
+                title = "Daily Devotion",
                 value = "${(stats.totalCompletionRate * 100).toInt()}%",
                 icon = Icons.Default.AutoGraph,
                 modifier = Modifier.weight(1f)
             )
             StatCard(
-                title = "Best Record",
+                title = "Endurance Streak",
                 value = "${stats.bestStreakRecord} Days",
                 icon = Icons.Default.Whatshot,
                 modifier = Modifier.weight(1f),
@@ -107,7 +107,7 @@ fun ProgressContent(
             )
         }
         Text(
-            text = "Activity Heatmap",
+            text = "Consistency of Heart",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold
         )
@@ -130,14 +130,14 @@ fun ProgressContent(
 
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Habit Performance",
+            text = "Spiritual Disciplines",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold
         )
         if (!isPro) {
             // Show a "Teaser" for Free users
             Text(
-                text = "Upgrade to Pro to see detailed progress for each of your habits.",
+                text = "Go deeper into your spiritual analysis. Unlock insights to strengthen your walk with God",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -153,7 +153,7 @@ fun ProgressContent(
         }
 
         StatCard(
-            title = "Total Active Days",
+            title = "Days in the Presence",
             value = "${stats.perfectDaysCount} Days Completed",
             icon = Icons.Default.CalendarMonth,
             modifier = Modifier.fillMaxWidth(),
@@ -222,7 +222,7 @@ fun HabitProgressItem(
             ) {
                 // Metric 1: Current vs Best Streak
                 StatMiniItem(
-                    label = "Streak",
+                    label = "Firmness",
                     value = if (isPro) "${progress.currentStreak}d" else "--",
                     subLabel = "Best: ${progress.bestStreak}d",
                     icon = Icons.Default.Whatshot, // Ensure you have Icons.Default.Whatshot
@@ -231,7 +231,7 @@ fun HabitProgressItem(
 
                 // Metric 2: Completion Rate
                 StatMiniItem(
-                    label = "Success",
+                    label = "Faithfulness",
                     value = if (isPro) "${(progress.completionRate * 100).toInt()}%" else "--",
                     subLabel = "Total: ${progress.totalCompletions}",
                     icon = Icons.Default.CheckCircle,
@@ -253,7 +253,7 @@ private fun StatMiniItem(
     Row(verticalAlignment = Alignment.CenterVertically) {
         Icon(
             imageVector = icon,
-            contentDescription = null,
+            contentDescription = "$label metric",
             modifier = Modifier.size(24.dp),
             tint = if (isPro) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
         )
@@ -281,7 +281,7 @@ fun StatCard(
         )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(24.dp))
+            Icon(imageVector = icon, contentDescription = "Icon for $title", modifier = Modifier.size(24.dp))
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = title,
@@ -343,7 +343,7 @@ fun MonthlyHeatmap(
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Past 35 days of consistency",
+                text = "Your walk over the last month",
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.align(Alignment.End)
             )
@@ -354,7 +354,7 @@ fun MonthlyHeatmap(
 @Composable
 fun EmptyStatsComponent() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Start completing habits to see your stats!")
+        Text("Begin your spiritual walk. Complete your first discipline to see your progress")
     }
 }
 

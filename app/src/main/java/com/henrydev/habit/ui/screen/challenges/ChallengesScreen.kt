@@ -77,10 +77,10 @@ fun HabitSelectionDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Select a Habit for this Challenge") },
+        title = { Text("Choose a Discipline for this Mission") },
         text = {
             if (habits.isEmpty()) {
-                Text("You need to create a habit first to join a challenge.")
+                Text("You must establish a spiritual discipline to embark on this journey")
             } else {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
                     items(habits, key = { it.id }) { habit ->
@@ -93,7 +93,7 @@ fun HabitSelectionDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text("NOT NOW") }
         }
     )
 }
@@ -170,7 +170,7 @@ private fun ChallengeItem(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "${progress.completedDays} of ${progress.totalDays} days completed",
+                    text = "${progress.completedDays} of ${progress.totalDays} faithful days",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -183,7 +183,7 @@ private fun ChallengeItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "${challenge.durationDays} days",
+                    text = "Walk ${challenge.durationDays} days",
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold
@@ -196,9 +196,9 @@ private fun ChallengeItem(
                         CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
                     } else {
                         val buttonText = when {
-                            isJoined -> "Active"
-                            challenge.isPro -> "Join PRO"
-                            else -> "Accept challenge"
+                            isJoined -> "On the Walk"
+                            challenge.isPro -> "Advanced Spiritual Journey"
+                            else -> "Start Journey"
                         }
                         Text(buttonText)
                     }

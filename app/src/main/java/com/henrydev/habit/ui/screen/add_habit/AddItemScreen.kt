@@ -79,7 +79,7 @@ fun AddItemBody(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         Text(
-            text = "Create New Habit",
+            text = "New Spiritual Discipline",
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
@@ -111,7 +111,7 @@ fun AddItemBody(
                 )
             } else {
                 Text(
-                    text = "Save Habit",
+                    text = "Commit to Discipline",
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -132,16 +132,16 @@ fun InputForm(
         OutlinedTextField(
             value = habitDetail.name,
             onValueChange = { onValueChange(habitDetail.copy(name = it)) },
-            label = { Text("Habit Name") },
-            placeholder = { Text("E.g. Drink Water") },
+            label = { Text("Discipline Name") },
+            placeholder = { Text("E.g. Intercessory Prayer") },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    contentDescription = ""
+                    contentDescription = null
                 )
             },
             supportingText = {
-                if (habitDetail.name.isEmpty()) "Required*" else "Enter the name of your habit"
+                if (habitDetail.name.isEmpty()) "Required*" else "Name your spiritual commitment"
             },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next
@@ -152,8 +152,8 @@ fun InputForm(
         OutlinedTextField(
             value = habitDetail.description,
             onValueChange = { onValueChange(habitDetail.copy(description = it)) },
-            label = { Text("Description") },
-            placeholder = { Text("Why do you want to do this") },
+            label = { Text("Spiritual Purpose") },
+            placeholder = { Text("Why is this discipline important for your walk?") },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Description,
@@ -170,7 +170,7 @@ fun InputForm(
         OutlinedTextField(
             value = habitDetail.frequency,
             onValueChange = { onValueChange(habitDetail.copy(frequency = it)) },
-            label = { Text("Daily Frequency") },
+            label = { Text("Daily Dedication") },
             placeholder = { Text("1") },
             leadingIcon = {
                 Icon(

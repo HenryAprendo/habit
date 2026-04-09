@@ -7,7 +7,7 @@ object HabitSeeds {
     val DEFAULT_SPIRITUAL_HABITs = listOf(
         HabitEntity(
             id = 0,
-            name = "Daily Scripture Reading",
+            name = "Find direction in the word",
             description = "Spend time reading and meditating on God's Word.",
             frequency = 1, // Daily
             createdAt = System.currentTimeMillis()
@@ -19,19 +19,19 @@ object HabitSeeds {
             frequency = 1,
             createdAt = System.currentTimeMillis()
         ),
-        HabitEntity(
-            id = 0,
-            name = "Evening Gratitude",
-            description = "Reflect on today's blessings and give thanks to the Lord.",
-            frequency = 1,
-            createdAt = System.currentTimeMillis()
-        ),
-        HabitEntity(
-            id = 0,
-            name = "Weekly Fasting",
-            description = "A day of spiritual sacrifice to seek God's presence.",
-            frequency = 7, // Weekly
-            createdAt = System.currentTimeMillis()
-        )
+//        HabitEntity(
+//            id = 0,
+//            name = "Evening Gratitude",
+//            description = "Reflect on today's blessings and give thanks to the Lord.",
+//            frequency = 1,
+//            createdAt = System.currentTimeMillis()
+//        ),
+//        HabitEntity(
+//            id = 0,
+//            name = "Weekly Fasting",
+//            description = "A day of spiritual sacrifice to seek God's presence.",
+//            frequency = 7, // Weekly
+//            createdAt = System.currentTimeMillis()
+//        )
     )
 }
