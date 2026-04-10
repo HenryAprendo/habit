@@ -42,13 +42,16 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -60,6 +63,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -86,6 +90,8 @@ fun HomeScreen(
     val actionState by viewModel.actionState.collectAsStateWithLifecycle()
     val userStats by viewModel.userStats.collectAsStateWithLifecycle()
     val dailyDevotional by viewModel.dailyDevotional.collectAsStateWithLifecycle()
+
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     if (actionState.showActionSheet) {
         HabitActionSheet(
@@ -115,19 +121,38 @@ fun HomeScreen(
         }
     }
 
-    HomeBody(
-        uiState = uiState,
-        userStats = userStats,
-        dailyDevotional = dailyDevotional,
-        onToggleHabitState = { habitId, currentStatus ->
-            viewModel.toggleHabit(habitId,currentStatus)
-        },
-        onLongClick = { habit ->
-            viewModel.onHabitLongClick(habit)
-        },
-        onUpgradeClick = onNavigateToPaywall,
-        modifier = modifier
-    )
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeTopAppBar(
+                title = {
+                    Text(
+                        text = "My Disciplines",
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                },
+                scrollBehavior = scrollBehavior,
+                colors = TopAppBarDefaults.largeTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surface
+                )
+            )
+        }
+    ) { innerPadding ->
+        HomeBody(
+            uiState = uiState,
+            userStats = userStats,
+            dailyDevotional = dailyDevotional,
+            onToggleHabitState = { habitId, currentStatus ->
+                viewModel.toggleHabit(habitId,currentStatus)
+            },
+            onLongClick = { habit ->
+                viewModel.onHabitLongClick(habit)
+            },
+            onUpgradeClick = onNavigateToPaywall,
+            modifier = Modifier.padding(top = innerPadding.calculateTopPadding())
+        )
+    }
 
 }
 
@@ -317,14 +342,14 @@ fun DayIndicator(
     modifier: Modifier = Modifier
 ) {
     val dayInitial = remember(dayState.date) {
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = dayState.date
-        }
-        calendar.getDisplayName(
-            Calendar.DAY_OF_WEEK,
-            Calendar.SHORT,
-            Locale.ENGLISH
-        ).first().toString()
+        val localDate = java.time.Instant.ofEpochMilli(dayState.date)
+            .atZone(java.time.ZoneId.systemDefault())
+            .toLocalDate()
+
+        localDate.dayOfWeek.getDisplayName(
+            java.time.format.TextStyle.SHORT,
+            java.util.Locale.getDefault()
+        ).first().toString().uppercase()
     }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

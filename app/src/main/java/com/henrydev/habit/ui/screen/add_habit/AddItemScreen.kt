@@ -11,15 +11,18 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -53,14 +56,41 @@ fun AddItemScreen(
         }
     }
 
-    AddItemBody(
-        habitDetail = uiState.habitDetail,
-        isEntryValid = uiState.isEntryValid,
-        isSaving = uiState.isSaving,
-        onValueChange = { viewModel.onChangeForm(it) },
-        onSaveClick = { viewModel.insertHabit() },
-        modifier = modifier.fillMaxSize()
-    )
+    // Local Scaffold to manage its own TopBar and content padding
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "New Discipline",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back to disciplines"
+                        )
+                    }
+                }
+            )
+        },
+        modifier = modifier
+    ) { innerPadding ->
+
+        AddItemBody(
+            habitDetail = uiState.habitDetail,
+            isEntryValid = uiState.isEntryValid,
+            isSaving = uiState.isSaving,
+            onValueChange = { viewModel.onChangeForm(it) },
+            onSaveClick = { viewModel.insertHabit() },
+            modifier = modifier.fillMaxSize()
+                .padding(innerPadding)
+        )
+    }
+
 }
 
 @Composable
@@ -127,7 +157,9 @@ fun InputForm(
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier.fillMaxWidth().padding(16.dp)
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     ) {
         OutlinedTextField(
             value = habitDetail.name,

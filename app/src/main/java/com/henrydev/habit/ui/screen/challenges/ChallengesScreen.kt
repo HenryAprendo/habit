@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,6 +23,7 @@ import com.henrydev.habit.domain.model.Challenge
 import com.henrydev.habit.domain.model.ChallengeProgress
 import com.henrydev.habit.domain.model.Habit
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChallengesScreen(
     onNavigateToPaywall: () -> Unit,
@@ -33,6 +35,9 @@ fun ChallengesScreen(
     // Local state for the selection dialog
     var selectedChallenge by remember { mutableStateOf<Challenge?>(null) }
     var showDialog by remember { mutableStateOf(false) }
+
+    // Local Scroll Behavior for collapsing TopBar
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     LaunchedEffect(uiState.joinStatus) {
         if (uiState.joinStatus is JoinChallengeStatus.ProRequired) {
@@ -52,21 +57,39 @@ fun ChallengesScreen(
         )
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        if (uiState.isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-        } else {
-            ChallengesList(
-                challenges = uiState.challenges,
-                progressMap = uiState.progressMap,
-                onJoinClick = { challenge ->
-                    selectedChallenge = challenge
-                    showDialog = true
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeTopAppBar(
+                title = {
+                    Text(
+                        text = "Faith Challenges", // Spiritual identity title
+                        fontWeight = FontWeight.ExtraBold
+                    )
                 },
-                joinStatus = uiState.joinStatus
+                scrollBehavior = scrollBehavior
             )
         }
+    ) { innerPadding ->
+
+        Box(modifier = Modifier.fillMaxSize().padding(top =innerPadding.calculateTopPadding())) {
+            if (uiState.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            } else {
+                ChallengesList(
+                    challenges = uiState.challenges,
+                    progressMap = uiState.progressMap,
+                    onJoinClick = { challenge ->
+                        selectedChallenge = challenge
+                        showDialog = true
+                    },
+                    joinStatus = uiState.joinStatus
+                )
+            }
+        }
     }
+
+
 }
 
 @Composable

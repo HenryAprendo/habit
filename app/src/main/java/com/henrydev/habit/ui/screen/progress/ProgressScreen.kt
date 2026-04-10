@@ -25,10 +25,14 @@ import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -37,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -46,6 +51,7 @@ import com.henrydev.habit.domain.subscription.model.HabitStats
 import com.henrydev.habit.ui.screen.home.AdBannerPlaceholder
 import java.util.Calendar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProgressScreen(
     onNavigateToPaywall: () -> Unit,
@@ -54,17 +60,37 @@ fun ProgressScreen(
 ){
     val uiState: ProgressUiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    when (val state = uiState) {
-        is ProgressUiState.Loading -> LoadingComponent()
-        is ProgressUiState.Empty -> EmptyStatsComponent()
-        is ProgressUiState.Success -> {
-            ProgressContent(
-                stats = state.stats,
-                habitsProgress = state.habitsProgress,
-                isPro = state.isPro,
-                onLockedClick = onNavigateToPaywall,
-                modifier = modifier.fillMaxSize()
+    // Local Scroll Behavior for collapsing TopBar
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeTopAppBar(
+                title = {
+                    Text(
+                        text = "Spiritual Growth", // Aligned with your identity choice
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                },
+                scrollBehavior = scrollBehavior
             )
+        }
+    ) { innerPadding ->
+        Box(modifier = modifier.fillMaxSize().padding(top = innerPadding.calculateTopPadding())) {
+            when (val state = uiState) {
+                is ProgressUiState.Loading -> LoadingComponent()
+                is ProgressUiState.Empty -> EmptyStatsComponent()
+                is ProgressUiState.Success -> {
+                    ProgressContent(
+                        stats = state.stats,
+                        habitsProgress = state.habitsProgress,
+                        isPro = state.isPro,
+                        onLockedClick = onNavigateToPaywall,
+                        modifier = Modifier
+                    )
+                }
+            }
         }
     }
 }
@@ -83,11 +109,7 @@ fun ProgressContent(
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        Text(
-            text = "Spiritual Growth",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
-        )
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)

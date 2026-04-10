@@ -45,8 +45,6 @@ fun HabitApp(
     modifier: Modifier = Modifier
 ) {
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -58,14 +56,6 @@ fun HabitApp(
     val canCreateHabit by canCreateHabitUseCase().collectAsStateWithLifecycle(true)
 
     Scaffold(
-        topBar = {
-            HabitTopAppBar(
-                title = R.string.app_name,
-                canNavigateBack = !isBottomBarVisible,
-                navigateUp = { navController.navigateUp() },
-                scrollBehavior = scrollBehavior
-            )
-        },
         bottomBar = {
             if (isBottomBarVisible) {
                 NavigationBar {
@@ -127,12 +117,13 @@ fun HabitApp(
                 }
             }
         },
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+        modifier = modifier
+        //modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { innerPadding ->
         HabitNavHost(
             controller = navController,
             isProUserUseCase = isProUserUseCase,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
         )
     }
 }
