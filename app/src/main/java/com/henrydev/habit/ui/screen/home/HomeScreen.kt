@@ -1,5 +1,6 @@
 package com.henrydev.habit.ui.screen.home
 
+import android.content.Intent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
@@ -30,6 +31,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -42,6 +44,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ListItem
@@ -49,6 +52,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
@@ -57,6 +63,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,6 +71,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -71,11 +79,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.henrydev.habit.R
 import com.henrydev.habit.domain.model.DailyDevotional
 import com.henrydev.habit.domain.model.Habit
 import com.henrydev.habit.domain.model.UserStats
 import com.henrydev.habit.domain.use_cases.HabitDayState
 import com.henrydev.habit.domain.use_cases.HabitItemState
+import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
 
@@ -92,6 +102,10 @@ fun HomeScreen(
     val dailyDevotional by viewModel.dailyDevotional.collectAsStateWithLifecycle()
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     if (actionState.showActionSheet) {
         HabitActionSheet(
@@ -123,6 +137,7 @@ fun HomeScreen(
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             LargeTopAppBar(
                 title = {
@@ -145,6 +160,16 @@ fun HomeScreen(
             dailyDevotional = dailyDevotional,
             onToggleHabitState = { habitId, currentStatus ->
                 viewModel.toggleHabit(habitId,currentStatus)
+
+                if (!currentStatus) {
+                    scope.launch {
+                        snackbarHostState.currentSnackbarData?.dismiss()
+                        snackbarHostState.showSnackbar(
+                            message = context.getString(R.string.well_done_stay_faithful),
+                            duration = SnackbarDuration.Short
+                        )
+                    }
+                }
             },
             onLongClick = { habit ->
                 viewModel.onHabitLongClick(habit)
@@ -426,9 +451,9 @@ fun StreakCounter(
         )
         Text(
             text = if (count == 1) {
-                "1 day streak"
+                "1 day faithfulness"
             } else {
-                "$count days streak"
+                "$count days faithfulness"
             },
             style = MaterialTheme.typography.labelMedium,
             color = if (count > 0) {
@@ -756,7 +781,7 @@ fun PurposeHeader(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "“Drawing closer to God every day through my disciplines”",
+            text = "“Grow closer to God, every day”",
             style = MaterialTheme.typography.titleMedium.copy(
                 fontStyle = FontStyle.Italic,
                 letterSpacing = 0.5.sp
@@ -780,7 +805,26 @@ fun DailyDevotionalCard(
     devotional: DailyDevotional,
     modifier: Modifier = Modifier
 ) {
-    // Usamos una Card con un borde muy fino y un color de fondo casi etéreo
+    val context = LocalContext.current
+
+    // Function to share the spiritual message
+    val onShareClick = {
+        val shareText = """
+            “${devotional.verse}”
+            — ${devotional.reference}
+            
+            ${devotional.reflection}
+            
+            Shared via Habit - Spiritual Disciplines.
+        """.trimIndent()
+
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, shareText)
+        }
+        context.startActivity(Intent.createChooser(intent, "Share Devotional"))
+    }
+
     Card(
         shape = MaterialTheme.shapes.extraLarge,
         colors = CardDefaults.cardColors(
@@ -794,56 +838,71 @@ fun DailyDevotionalCard(
             .fillMaxWidth()
             .padding(vertical = 12.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 24.dp, vertical = 28.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            // Verse - La Palabra de Dios como centro
-            Text(
-                text = "“${devotional.verse}”",
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontStyle = FontStyle.Italic,
-                    lineHeight = 28.sp,
-                    letterSpacing = 0.2.sp
-                ),
-                color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 12.dp)
-            )
+        Box(modifier = Modifier.fillMaxWidth()) {
+            // Share Icon - Positioned discreetly in the top right
+            IconButton(
+                onClick = onShareClick,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Share,
+                    contentDescription = "Share devotional",
+                    tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
+                    modifier = Modifier.size(20.dp)
+                )
+            }
 
-            // Scripture Reference - Sutil pero firme
-            Text(
-                text = devotional.reference.uppercase(),
-                style = MaterialTheme.typography.labelMedium.copy(
-                    letterSpacing = 2.sp,
-                    fontWeight = FontWeight.Bold
-                ),
-                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
-                textAlign = TextAlign.Center
-            )
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 24.dp, vertical = 28.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                // Verse
+                Text(
+                    text = "“${devotional.verse}”",
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontStyle = FontStyle.Italic,
+                        lineHeight = 28.sp,
+                        letterSpacing = 0.2.sp
+                    ),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(bottom = 12.dp)
+                )
 
-            // Divisor decorativo minimalista
-            Spacer(modifier = Modifier.height(20.dp))
-            HorizontalDivider(
-                modifier = Modifier.width(40.dp),
-                thickness = 1.dp,
-                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
-            )
-            Spacer(modifier = Modifier.height(20.dp))
+                // Reference
+                Text(
+                    text = devotional.reference.uppercase(),
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        letterSpacing = 2.sp,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+                    textAlign = TextAlign.Center
+                )
 
-            // Reflection - La aplicación práctica
-            Text(
-                text = devotional.reflection,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    lineHeight = 24.sp
-                ),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 4.dp)
-            )
+                Spacer(modifier = Modifier.height(20.dp))
+                HorizontalDivider(
+                    modifier = Modifier.width(40.dp),
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+
+                // Reflection
+                Text(
+                    text = devotional.reflection,
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        lineHeight = 24.sp
+                    ),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }
