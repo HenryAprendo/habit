@@ -49,6 +49,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.henrydev.habit.domain.model.HabitProgressDetail
 import com.henrydev.habit.domain.subscription.model.HabitStats
 import com.henrydev.habit.ui.screen.home.AdBannerPlaceholder
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZoneOffset
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -114,15 +117,25 @@ fun ProgressContent(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            val completionPercentage = (stats.totalCompletionRate * 100).toInt()
+            val faithfulnessLabel = when {
+                completionPercentage >= 80 -> "Fruitful Season"
+                completionPercentage >= 50 -> "Steadfast Journey"
+                completionPercentage >= 1 -> "Growing in Faith"
+                else -> "A new Beginning"
+            }
+
             StatCard(
-                title = "Daily Devotion",
-                value = "${(stats.totalCompletionRate * 100).toInt()}%",
+                title = "Faithfulness",
+                value = "$completionPercentage%",
+                subTitle = faithfulnessLabel,
                 icon = Icons.Default.AutoGraph,
                 modifier = Modifier.weight(1f)
             )
             StatCard(
                 title = "Endurance Streak",
                 value = "${stats.bestStreakRecord} Days",
+                subTitle = "Firm in discipline",
                 icon = Icons.Default.Whatshot,
                 modifier = Modifier.weight(1f),
                 containerColor = MaterialTheme.colorScheme.primaryContainer
@@ -292,9 +305,10 @@ private fun StatMiniItem(
 fun StatCard(
     title: String,
     value: String,
+    subTitle: String? = null,
     icon: ImageVector,
     modifier: Modifier = Modifier,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceVariant
+    containerColor: Color = MaterialTheme.colorScheme.primaryContainer
 ) {
     ElevatedCard(
         modifier = modifier,
@@ -303,38 +317,105 @@ fun StatCard(
         )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Icon(imageVector = icon, contentDescription = "Icon for $title", modifier = Modifier.size(24.dp))
+            Icon(
+                imageVector = icon,
+                contentDescription = "Icon for $title",
+                modifier = Modifier.size(24.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = title,
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 text = value,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
+            subTitle?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Medium
+                )
+            }
         }
     }
 }
+
+
+
+//@Composable
+//fun MonthlyHeatmap(
+//    heatmapData: Map<Long, Boolean>,
+//    modifier: Modifier = Modifier
+//) {
+//    val today = remember {
+//        Calendar.getInstance().apply {
+//            set(Calendar.HOUR_OF_DAY,0)
+//            set(Calendar.MINUTE,0)
+//            set(Calendar.SECOND,0)
+//            set(Calendar.MILLISECOND,0)
+//        }.timeInMillis
+//    }
+//
+//    val last35Days = remember(heatmapData) {
+//        (34 downTo 0).map { dayOffset ->
+//            today - (dayOffset * 24 * 60 * 60 * 1000L)
+//        }
+//    }
+//
+//    ElevatedCard(modifier = modifier) {
+//        Column(modifier = Modifier.padding(16.dp)) {
+//            LazyVerticalGrid(
+//                columns = GridCells.Fixed(7),
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .aspectRatio(1.4f),
+//                verticalArrangement = Arrangement.spacedBy(4.dp),
+//                horizontalArrangement = Arrangement.spacedBy(4.dp),
+//                userScrollEnabled = false
+//            ) {
+//                items(last35Days.size) { index ->
+//                    val timestamp = last35Days[index]
+//                    val isActive = heatmapData[timestamp] ?: false
+//                    Box(
+//                        modifier = Modifier
+//                            .aspectRatio(1f)
+//                            .clip(MaterialTheme.shapes.extraSmall)
+//                            .background(
+//                                if (isActive) MaterialTheme.colorScheme.primary
+//                                else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+//                            )
+//                    )
+//                }
+//            }
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Text(
+//                text = "Your walk over the last month",
+//                style = MaterialTheme.typography.labelSmall,
+//                modifier = Modifier.align(Alignment.End)
+//            )
+//        }
+//    }
+//}
 
 @Composable
 fun MonthlyHeatmap(
     heatmapData: Map<Long, Boolean>,
     modifier: Modifier = Modifier
 ) {
-    val today = remember {
-        Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY,0)
-            set(Calendar.MINUTE,0)
-            set(Calendar.SECOND,0)
-            set(Calendar.MILLISECOND,0)
-        }.timeInMillis
-    }
-
+    // Modern LocalDate logic to replace Calendar
     val last35Days = remember(heatmapData) {
+        val today = LocalDate.now()
         (34 downTo 0).map { dayOffset ->
-            today - (dayOffset * 24 * 60 * 60 * 1000L)
+            today.minusDays(dayOffset.toLong())
+                .atStartOfDay(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli()
         }
     }
 
