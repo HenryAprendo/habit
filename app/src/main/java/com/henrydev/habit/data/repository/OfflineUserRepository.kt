@@ -13,7 +13,7 @@ class OfflineUserRepository @Inject constructor(
     private val userDao: UserDao
 ): UserRepository {
 
-    override fun getUserProfile(): Flow<UserProfileEntity> {
+    override fun getUserProfile(): Flow<UserProfileEntity?> {
         return userDao.getUserProfile().map { profile ->
             if (profile == null) {
                 val initialProfile = UserProfileEntity(id = 1, totalXp = 0, level = 1)
@@ -30,6 +30,15 @@ class OfflineUserRepository @Inject constructor(
             val newXp = (currentProfile.totalXp + amount).coerceAtLeast(0)
             userDao.saveProfile(currentProfile.copy(totalXp = newXp))
         }
+    }
+
+    override suspend fun restoreProfile(totalXp: Long, level: Int) {
+        val restoredProfile = UserProfileEntity(
+            id = 1,
+            totalXp = totalXp,
+            level = level
+        )
+        userDao.saveProfile(restoredProfile)
     }
 
 }

@@ -12,7 +12,7 @@ class GetUserLevelUseCase @Inject constructor(
 ) {
     operator fun invoke(): Flow<UserStats> {
         return userRepository.getUserProfile().map { profile ->
-            val xp = profile.totalXp
+            val xp = profile?.totalXp ?: 0L
             val currentLevel = if (xp < 100) 1
                 else (xp.toDouble()/100.0).pow(1.0/1.5).toInt() + 1
 

@@ -1,6 +1,7 @@
 package com.henrydev.habit.domain.use_cases
 
 import com.henrydev.habit.domain.repository.HabitRepository
+import com.henrydev.habit.domain.repository.UserRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
@@ -8,16 +9,24 @@ import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class ExportDataUseCase @Inject constructor(
-    private val habitRepository: HabitRepository
+    private val habitRepository: HabitRepository,
+    private val userRepository: UserRepository
 ) {
     private val jsonConfig = Json { prettyPrint = true }
 
     suspend operator fun invoke(): String {
         val allData = habitRepository.getHabitsWithHistory().first()
+
+        val userProfile = userRepository.getUserProfile().first()
+
         //Mapeamos una estructura serializable
         val backup = BackupModel(
             version = 1,
             exportDate = System.currentTimeMillis(),
+            userProfile = UserProfileBackup(
+                totalXp = userProfile?.totalXp ?: 0L,
+                level = userProfile?.level ?: 1
+            ),
             habits = allData.map { habitWithHistory ->
                 HabitBackup(
                     name = habitWithHistory.habit.name,
@@ -34,11 +43,19 @@ class ExportDataUseCase @Inject constructor(
     }
 }
 
+
 @Serializable
 data class BackupModel(
     val version: Int,
     val exportDate: Long,
+    val userProfile: UserProfileBackup,
     val habits:  List<HabitBackup>
+)
+
+@Serializable
+data class UserProfileBackup(
+    val totalXp: Long,
+    val level: Int
 )
 
 @Serializable
