@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoGraph
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -40,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
@@ -48,7 +50,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.henrydev.habit.domain.model.HabitProgressDetail
 import com.henrydev.habit.domain.subscription.model.HabitStats
-import com.henrydev.habit.ui.screen.home.AdBannerPlaceholder
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -149,18 +150,6 @@ fun ProgressContent(
             modifier = Modifier.fillMaxWidth()
         )
 
-        if (!isPro) {
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Reusing your existing Ad Component
-            AdBannerPlaceholder(
-                onUpgradeClick = onLockedClick,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Spiritual Disciplines",
@@ -177,11 +166,13 @@ fun ProgressContent(
             // Optional: Show a blurred or locked example card
         }
 
-        habitsProgress.forEach { progress ->
+        habitsProgress.forEachIndexed { index, progress ->
+            val isLocked = !isPro && index > 0
             HabitProgressItem(
                 progress = progress,
                 isPro = isPro,
-                onClick = { if(!isPro) onLockedClick() }
+                isLocked = isLocked,
+                onClick = { if (isLocked || !isPro) onLockedClick() }
             )
         }
 
@@ -199,80 +190,92 @@ fun ProgressContent(
 fun HabitProgressItem(
     progress: HabitProgressDetail,
     isPro: Boolean,
+    isLocked: Boolean,
     onClick: () -> Unit
 ) {
+    val contentAlpha = if (isLocked) 0.5f else 1f
     ElevatedCard(
         onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+            .graphicsLayer(alpha = contentAlpha)
     ) {
         Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
+            modifier = Modifier.padding(16.dp).fillMaxWidth()
         ) {
-            // Header: Name and 7-day Sparkline
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = progress.habitName,
+                    // If locked, we hide the real name to pique curiosity
+                    text = if (isLocked) "Advanced Discipline" else progress.habitName,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    color = if (isLocked) MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.onSurface
                 )
 
-                // Weekly Trend: Mini Sparkline
-                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    progress.lastSevenDays.forEach { day ->
-                        Box(
-                            modifier = Modifier
-                                .size(12.dp)
-                                .clip(MaterialTheme.shapes.extraSmall)
-                                .background(
-                                    if (day.isCompleted && isPro) MaterialTheme.colorScheme.primary
-                                    else MaterialTheme.colorScheme.surfaceVariant
-                                )
-                        )
+                if (isLocked) {
+                    // Visual "Gatekeeper": Shows a lock instead of the activity dots
+                    Icon(
+                        imageVector = Icons.Default.Lock,
+                        contentDescription = "Locked discipline",
+                        modifier = Modifier.size(18.dp),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                } else {
+                    // Weekly Trend: Only visible for the free item or if user is Pro
+                    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                        progress.lastSevenDays.forEach { day ->
+                            Box(
+                                modifier = Modifier
+                                    .size(12.dp)
+                                    .clip(MaterialTheme.shapes.extraSmall)
+                                    .background(
+                                        if (day.isCompleted) MaterialTheme.colorScheme.primary
+                                        else MaterialTheme.colorScheme.surfaceVariant
+                                    )
+                            )
+                        }
                     }
                 }
             }
 
             HorizontalDivider(
-                modifier = Modifier
-                    .padding(vertical = 12.dp),
-                thickness = 1.dp,
+                modifier = Modifier.padding(vertical = 12.dp),thickness = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
             )
 
-            // Metrics Grid: Using all HabitProgressDetail parameters
+            // Metrics Grid: Rigorous lock logic for spiritual disciplines
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Metric 1: Current vs Best Streak
+                // Metric 1: Firmness (Streaks)
                 StatMiniItem(
                     label = "Firmness",
-                    value = if (isPro) "${progress.currentStreak}d" else "--",
-                    subLabel = "Best: ${progress.bestStreak}d",
-                    icon = Icons.Default.Whatshot, // Ensure you have Icons.Default.Whatshot
-                    isPro = isPro
+                    // If locked, we hide the streak to encourage the upgrade
+                    value = if (isLocked) "--" else "${progress.currentStreak}d",
+                    subLabel = if (isLocked) "PRO Feature" else "Best: ${progress.bestStreak}d",
+                    icon = Icons.Default.Whatshot,
+                    isPro = !isLocked // We pass false to grey out the icon
                 )
 
-                // Metric 2: Completion Rate
+                // Metric 2: Faithfulness (Rate)
                 StatMiniItem(
                     label = "Faithfulness",
-                    value = if (isPro) "${(progress.completionRate * 100).toInt()}%" else "--",
-                    subLabel = "Total: ${progress.totalCompletions}",
+                    // If locked, we hide the completion percentage
+                    value = if (isLocked) "--" else "${(progress.completionRate * 100).toInt()}%",
+                    subLabel = if (isLocked) "Unlock Analysis" else "Total: ${progress.totalCompletions}",
                     icon = Icons.Default.CheckCircle,
-                    isPro = isPro
+                    isPro = !isLocked
                 )
             }
+
         }
     }
+
 }
 
 @Composable
@@ -399,14 +402,32 @@ fun MonthlyHeatmap(
 
 @Composable
 fun EmptyStatsComponent() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Begin your spiritual walk. Complete your first discipline to see your progress")
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp), // Añadimos margen generoso para el estado vacío
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Begin your spiritual walk. Complete your first discipline to see your progress",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center // Centramos el párrafo
+        )
     }
 }
 
 @Composable
 fun LoadingComponent() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator()
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(
+            color = MaterialTheme.colorScheme.primary,
+            strokeWidth = 3.dp
+        )
     }
 }

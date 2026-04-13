@@ -200,7 +200,6 @@ fun HomeBody(
                 habits = uiState.habits,
                 userStats = userStats,
                 dailyDevotional = dailyDevotional,
-                showAds = uiState.showAds,
                 onToggleHabit = onToggleHabitState,
                 onLongClick = onLongClick,
                 onUpgradeClick = onUpgradeClick,
@@ -214,11 +213,11 @@ fun HabitsList(
     habits: List<HabitItemState>,
     userStats: UserStats?,
     dailyDevotional: DailyDevotional?,
-    showAds: Boolean,
+    showAds: Boolean = false,
     onToggleHabit: (Long,Boolean) -> Unit,
     onLongClick: (Habit) -> Unit,
-    onUpgradeClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onUpgradeClick: () -> Unit = { },
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -245,11 +244,6 @@ fun HabitsList(
                 onLongClick = { onLongClick(item.habit) }
 
             )
-        }
-        if (showAds) {
-            item(key = "ad_banner") {
-                AdBannerPlaceholder(onUpgradeClick = onUpgradeClick)
-            }
         }
     }
 }
@@ -561,50 +555,6 @@ fun UserProgressHeader(
         }
     }
 
-}
-
-@Composable
-fun AdBannerPlaceholder(
-    onUpgradeClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    ElevatedCard(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
-        ),
-        shape = MaterialTheme.shapes.medium
-    ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Info, // O un icono de "AD"
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSecondaryContainer
-            )
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "Sponsored Content",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.6f)
-                )
-                Text(
-                    text = "Remove all ads with Habit Pro",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-            }
-            TextButton(onClick = onUpgradeClick) {
-                Text("UPGRADE")
-            }
-        }
-    }
 }
 
 @Composable

@@ -30,12 +30,12 @@ class ProgressViewModel @Inject constructor(
     ) { stats, habitsProgress, userStatus ->
 
         val isPro = userStatus is UserStatus.Pro
-        if (stats.heatmapData.isEmpty() && stats.totalCompletionRate == 0f) {
+        if (stats.heatmapData.isEmpty() && stats.totalCompletionRate == 0f && habitsProgress.isEmpty()) {
             ProgressUiState.Empty
         } else {
             ProgressUiState.Success(
                 stats = stats,
-                habitsProgress = if (isPro) habitsProgress else emptyList(),
+                habitsProgress = habitsProgress,
                 isPro = isPro
             )
         }
