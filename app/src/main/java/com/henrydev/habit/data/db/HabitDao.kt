@@ -74,4 +74,7 @@ interface HabitDao {
     @Query("SELECT * FROM habits LIMIT 1")
     suspend fun getAnyHabit(): HabitEntity?
 
+    @Query("SELECT COUNT(*) FROM habit_logs WHERE habitId = :habitId AND date >= :startDate And isCompleted = 1")
+    suspend fun getLogsCounterAfter(habitId: Long, startDate: Long): Int
+
 }

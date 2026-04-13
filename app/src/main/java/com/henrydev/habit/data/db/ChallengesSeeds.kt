@@ -11,10 +11,10 @@ object ChallengeSeeds {
         // FREE CHALLENGES
         ChallengeEntity(
             id = 1,
-            title = "First 7 Days of Prayer",
+            title = "First 1 Days of Prayer",
             description = "Establish a solid foundation by talking to God every morning for a week.",
             category = "Spiritual",
-            durationDays = 2,
+            durationDays = 1,
             isPro = false
         ),
         ChallengeEntity(

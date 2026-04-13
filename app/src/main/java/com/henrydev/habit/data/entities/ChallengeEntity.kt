@@ -45,7 +45,8 @@ data class  ChallengeSubscriptionEntity(
     val challengeId: Long,
     val linkedHabitId: Long,
     val startDate: Long,
-    val status: ChallengeStatus
+    val status: ChallengeStatus,
+    val isXpAwarded: Boolean = false
 )
 
 

@@ -3,6 +3,7 @@ package com.henrydev.habit.ui.screen.home
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.henrydev.habit.domain.model.ChallengeStatus
 import com.henrydev.habit.domain.model.DailyDevotional
 import com.henrydev.habit.domain.model.Habit
 import com.henrydev.habit.domain.model.UserStats
@@ -134,16 +135,23 @@ class HomeViewModel @Inject constructor (
 
     fun toggleHabit(habitId: Long, currentStatus: Boolean) {
         viewModelScope.launch {
+            val currentState = uiState.value
+            if (currentState is HomeUiState.Success) {
+                val habitItem = currentState.habits.find { it.habit.id == habitId }
+                val currentStreak = habitItem?.streakCounter ?: 0
 
-            habitRepository.toggleHabitCompletion(
-                habitId = habitId,
-                date = System.currentTimeMillis(),
-                isCompleted = !currentStatus
-            )
-            if (!currentStatus) {
-                earnXpUseCase.onHabitCompleted(currentStreak = 0)
-            } else {
-                earnXpUseCase.onHabitUncheked()
+                val missionStatus = habitRepository.toggleHabitCompletion(
+                    habitId = habitId,
+                    date = System.currentTimeMillis(),
+                    isCompleted = !currentStatus
+                )
+                if (!currentStatus) {
+                    earnXpUseCase.onHabitCompleted(currentStreak = currentStreak)
+                    if (missionStatus == ChallengeStatus.COMPLETED) earnXpUseCase.onChallengeCompleted()
+
+                } else {
+                    earnXpUseCase.onHabitUnchecked()
+                }
             }
         }
     }

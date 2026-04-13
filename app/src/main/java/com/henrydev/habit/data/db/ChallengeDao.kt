@@ -46,4 +46,13 @@ interface ChallengeDao {
     @Query("SELECT * FROM challenge_subscriptions WHERE status = 'ACTIVE' ")
     fun getActiveSubscriptions(): Flow<List<ChallengeSubscriptionEntity>>
 
+    @Query("SELECT * FROM challenge_subscriptions WHERE linkedHabitId = :habitId AND status = 'ACTIVE' lIMIT 1")
+    suspend fun getActiveSubscriptionByHabit(habitId: Long): ChallengeSubscriptionEntity?
+
+    @Query("UPDATE challenge_subscriptions SET isXpAwarded = 1, status = 'COMPLETED' WHERE subscriptionId = :subscriptionId")
+    suspend fun markChallengeAsCompletedAndAwarded(subscriptionId: Long)
+
+    @Query("SELECT * FROM challenges WHERE id = :challengeId")
+    suspend fun getChallengeById(challengeId: Long): ChallengeEntity
+
 }

@@ -51,8 +51,6 @@ import com.henrydev.habit.domain.subscription.model.HabitStats
 import com.henrydev.habit.ui.screen.home.AdBannerPlaceholder
 import java.time.LocalDate
 import java.time.ZoneId
-import java.time.ZoneOffset
-import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -347,61 +345,6 @@ fun StatCard(
 }
 
 
-
-//@Composable
-//fun MonthlyHeatmap(
-//    heatmapData: Map<Long, Boolean>,
-//    modifier: Modifier = Modifier
-//) {
-//    val today = remember {
-//        Calendar.getInstance().apply {
-//            set(Calendar.HOUR_OF_DAY,0)
-//            set(Calendar.MINUTE,0)
-//            set(Calendar.SECOND,0)
-//            set(Calendar.MILLISECOND,0)
-//        }.timeInMillis
-//    }
-//
-//    val last35Days = remember(heatmapData) {
-//        (34 downTo 0).map { dayOffset ->
-//            today - (dayOffset * 24 * 60 * 60 * 1000L)
-//        }
-//    }
-//
-//    ElevatedCard(modifier = modifier) {
-//        Column(modifier = Modifier.padding(16.dp)) {
-//            LazyVerticalGrid(
-//                columns = GridCells.Fixed(7),
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .aspectRatio(1.4f),
-//                verticalArrangement = Arrangement.spacedBy(4.dp),
-//                horizontalArrangement = Arrangement.spacedBy(4.dp),
-//                userScrollEnabled = false
-//            ) {
-//                items(last35Days.size) { index ->
-//                    val timestamp = last35Days[index]
-//                    val isActive = heatmapData[timestamp] ?: false
-//                    Box(
-//                        modifier = Modifier
-//                            .aspectRatio(1f)
-//                            .clip(MaterialTheme.shapes.extraSmall)
-//                            .background(
-//                                if (isActive) MaterialTheme.colorScheme.primary
-//                                else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
-//                            )
-//                    )
-//                }
-//            }
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(
-//                text = "Your walk over the last month",
-//                style = MaterialTheme.typography.labelSmall,
-//                modifier = Modifier.align(Alignment.End)
-//            )
-//        }
-//    }
-//}
 
 @Composable
 fun MonthlyHeatmap(

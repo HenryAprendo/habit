@@ -46,7 +46,7 @@ class EarnXpUseCase @Inject constructor(
     /**
      * Penalty logic (Optional: removing XP if a habit is unchecked)
      */
-    suspend fun onHabitUncheked() {
+    suspend fun onHabitUnchecked() {
         userRepository.addXp(-BASE_HABIT_XP)
     }
 

@@ -1,10 +1,12 @@
 package com.henrydev.habit.data.repository
 
+import com.henrydev.habit.data.db.ChallengeDao
 import com.henrydev.habit.data.db.HabitDao
 import com.henrydev.habit.data.entities.HabitEntity
 import com.henrydev.habit.data.entities.HabitLogEntity
 import com.henrydev.habit.data.mapper.toDomain
 import com.henrydev.habit.data.mapper.toEntity
+import com.henrydev.habit.domain.model.ChallengeStatus
 import com.henrydev.habit.domain.model.Habit
 import com.henrydev.habit.domain.model.HabitLog
 import com.henrydev.habit.domain.model.HabitWithHistory
@@ -15,7 +17,8 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class OfflineHabitRepository @Inject constructor(
-    private val habitDao: HabitDao
+    private val habitDao: HabitDao,
+    private val challengeDao: ChallengeDao
 ): HabitRepository {
 
     override fun getHabitsWithHistory(): Flow<List<HabitWithHistory>> {
@@ -37,7 +40,7 @@ class OfflineHabitRepository @Inject constructor(
         habitId: Long,
         date: Long,
         isCompleted: Boolean
-    ) {
+    ): ChallengeStatus {
         val normalizedDate = date.toStartOfDay()
         val log = HabitLogEntity(
             logId = 0,
@@ -46,6 +49,17 @@ class OfflineHabitRepository @Inject constructor(
             isCompleted = isCompleted
         )
         habitDao.insertLog(log)
+        val subscription = challengeDao.getActiveSubscriptionByHabit(habitId)
+        if (subscription != null && !subscription.isXpAwarded) {
+            val challenge = challengeDao.getChallengeById(subscription.challengeId)
+            val logsCount = habitDao.getLogsCounterAfter(habitId,subscription.startDate)
+
+            if (logsCount >= challenge.durationDays) {
+                challengeDao.markChallengeAsCompletedAndAwarded(subscription.subscriptionId)
+                return ChallengeStatus.COMPLETED
+            }
+        }
+        return ChallengeStatus.ACTIVE
     }
 
     override suspend fun restoreBackup(data: List<Pair<HabitEntity, List<HabitLogEntity>>>) {
