@@ -1,13 +1,16 @@
 package com.henrydev.habit.ui.notifications
 
 import android.content.Context
+import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.henrydev.habit.data.worker.ChallengeNotificationWorker
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.time.Duration
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -22,19 +25,28 @@ class NotificationScheduler @Inject constructor(
         val constraint = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
             .setRequiresBatteryNotLow(true)
+            .setRequiresDeviceIdle(false)
             .build()
 
         val workRequest = PeriodicWorkRequestBuilder<ChallengeNotificationWorker>(
-            24, TimeUnit.HOURS
+            24,
+            TimeUnit.HOURS,
+            15,
+            TimeUnit.MINUTES
         )
             .setConstraints(constraint)
             .setInitialDelay(calculateInitialDelay(),TimeUnit.MILLISECONDS)
             .addTag("challenge_reminder_tag")
+            .setBackoffCriteria(
+                BackoffPolicy.EXPONENTIAL,
+                WorkRequest.MIN_BACKOFF_MILLIS,
+                TimeUnit.MILLISECONDS
+            )
             .build()
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             "challenge_reminder_work",
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingPeriodicWorkPolicy.UPDATE,
             workRequest
         )
     }
@@ -46,7 +58,7 @@ class NotificationScheduler @Inject constructor(
         if (now.isAfter(target)) {
             target = target.plusDays(1)
         }
-        return java.time.Duration.between(now,target).toMillis()
+        return Duration.between(now,target).toMillis()
     }
 
 }
