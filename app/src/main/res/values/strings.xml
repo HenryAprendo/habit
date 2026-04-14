@@ -296,4 +296,47 @@
     <string name="devotional_ref_35">2 Timothy 4:7</string>
     <string name="devotional_reflect_35">Keep running your spiritual race with endurance. The finish line is worth it.</string>
 
+    <!-- Categories -->
+    <string name="cat_spiritual">Spiritual</string>    <string name="cat_prayer">Prayer</string>
+    <string name="cat_praise">Praise</string>
+    <string name="cat_bible">Bible Study</string>
+    <string name="cat_discipline">Discipline</string>
+
+    <!-- Challenges Titles and Descriptions -->
+    <string name="ch_gratitude_3_title">Morning Gratitude</string>
+    <string name="ch_gratitude_3_desc">Start your day with a thankful heart for 3 consecutive days.</string>
+
+    <string name="ch_prayer_7_title">The Secret Place</string>
+    <string name="ch_prayer_7_desc">Dedicate 7 mornings to intimate prayer and seeking His presence.</string>
+
+    <string name="ch_praise_7_title">Praise in the Storm</string>
+    <string name="ch_praise_7_desc">Offer a sacrifice of praise for 7 days, regardless of your circumstances.</string>
+
+    <string name="ch_proverbs_10_title">Proverbs Wisdom</string>
+    <string name="ch_proverbs_10_desc">Read one chapter of Proverbs daily for 10 days to gain divine wisdom.</string>
+
+    <string name="ch_rest_15_title">Sabbath Soul Rest</string>
+    <string name="ch_rest_15_desc">Establish a 15-day routine of slowing down and resting in Christ.</string>
+
+    <string name="ch_armor_7_title">Armor of God</string>
+    <string name="ch_armor_7_desc">Mediate on Ephesians 6 for 7 days to strengthen your spiritual defense.</string>
+
+    <!-- PRO CHALLENGES -->
+    <string name="ch_intercession_15_title">Intercession Warrior</string>
+    <string name="ch_intercession_15_desc">A 15-day mission of intense prayer for others, your family, and the church.</string>
+
+    <string name="ch_daniel_21_title">Daniel\'s Fast</string>
+    <string name="ch_daniel_21_desc">Commit to 21 days of fasting and prayer to seek a spiritual breakthrough.</string>
+
+    <string name="ch_nt_master_30_title">Gospels Journey</string>
+    <string name="ch_nt_master_30_desc">Walk with Jesus for 30 days by reading the four Gospels (Matthew to John).</string>
+
+    <string name="ch_worship_21_title">Heart of a Worshiper</string>
+    <string name="ch_worship_21_desc">Turn your routine into 21 days of praise. Exalt Him in every moment.</string>
+
+    <string name="ch_faith_30_title">Victory Over Fear</string>
+    <string name="ch_faith_30_desc">Stand firm on God\'s promises for 30 days. Conquer anxiety through your faith.</string>
+
+    <string name="ch_steward_15_title">Kingdom Stewardship</string>
+    <string name="ch_steward_15_desc">Master your time and resources for God\'s purposes during 15 focused days.</string>
 </resources>

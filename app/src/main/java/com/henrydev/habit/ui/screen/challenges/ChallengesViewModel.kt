@@ -1,5 +1,6 @@
 package com.henrydev.habit.ui.screen.challenges
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.henrydev.habit.domain.model.Challenge
@@ -35,7 +36,8 @@ class ChallengesViewModel @Inject constructor(
     private val getChallengeProgressUseCase: GetChallengeProgressUseCase,
     private val habitRepository: HabitRepository,
     private val challengeRepository: ChallengeRepository,
-    private val isProUserUseCase: IsProUserUseCase
+    private val isProUserUseCase: IsProUserUseCase,
+    private val application: Application
 ): ViewModel() {
 
     private val _joinStatus = MutableStateFlow<JoinChallengeStatus>(JoinChallengeStatus.Idle)
@@ -100,9 +102,18 @@ class ChallengesViewModel @Inject constructor(
             }
 
             combine(progressFlows) { progressArray ->
+
+                val listChallenges = challenges.map { challenge ->
+                    challenge.copy(
+                        title = findResource(challenge.title),
+                        description = findResource(challenge.description),
+                        category = findResource(challenge.category)
+                    )
+                }
+
                 ChallengesUiState(
                     isLoading = false,
-                    challenges = challenges,
+                    challenges = listChallenges,
                     progressMap = progressArray.associateBy { it.challengeId },
                     joinStatus = joinStatus,
                     errorMessage = error,
@@ -137,6 +148,17 @@ class ChallengesViewModel @Inject constructor(
 
     fun resetJoinStatus() {
         _joinStatus.value = JoinChallengeStatus.Idle
+    }
+
+    private fun findResource(resourceName: String): String {
+        return try {
+            val resId = application.resources.getIdentifier(
+                resourceName,"string", application.packageName
+            )
+            if (resId != 0) application.getString(resId) else resourceName
+        } catch (e: Exception) {
+            resourceName
+        }
     }
 
 }

@@ -35,7 +35,7 @@
     <string name="home_cancel">Cancelar</string>
     <string name="home_delete">Eliminar</string>
     <string name="home_streak_day_singular">1 día de fidelidad</string>
-    <string name="home_streak_days_plural">%1$d días</string>
+    <string name="home_streak_days_plural">%1$d días de fidelidad</string>
 
     <!-- Progress Screen -->
     <string name="progress_spiritual_growth_title">Crecimiento Espiritual</string>
@@ -121,179 +121,189 @@
     <string name="paywall_continue_basic">Continuar con el Camino Básico</string>
 
     <!-- Devocionales Diarios -->
-    <!-- Día 1 -->
     <string name="devotional_verse_1">Confía en el Señor con todo tu corazón.</string>
     <string name="devotional_ref_1">Proverbios 3:5</string>
     <string name="devotional_reflect_1">Hoy, suelta el control y apóyate en Su sabiduría.</string>
 
-    <!-- Día 2 -->
     <string name="devotional_verse_2">El Señor es mi pastor; nada me falta.</string>
     <string name="devotional_ref_2">Salmo 23:1</string>
     <string name="devotional_reflect_2">Descansa hoy en Su perfecta provisión y cuidado.</string>
 
-    <!-- Día 3 -->
     <string name="devotional_verse_3">Mira que te mando que te esfuerces y seas valiente; no temas.</string>
     <string name="devotional_ref_3">Josué 1:9</string>
     <string name="devotional_reflect_3">El miedo no tiene lugar en tu caminar; Dios está contigo.</string>
 
-    <!-- Día 4 -->
     <string name="devotional_verse_4">Todo lo puedo en Cristo que me fortalece.</string>
     <string name="devotional_ref_4">Filipenses 4:13</string>
     <string name="devotional_reflect_4">Tu fuerza viene de Él, no de tus propios esfuerzos.</string>
 
-    <!-- Día 5 -->
     <string name="devotional_verse_5">Mas buscad primeramente el reino de Dios y su justicia.</string>
     <string name="devotional_ref_5">Mateo 6:33</string>
     <string name="devotional_reflect_5">Alinea hoy tus prioridades con el corazón eterno de Dios.</string>
 
-    <!-- Día 6 -->
     <string name="devotional_verse_6">Lámpara es a mis pies tu palabra, y lumbrera a mi camino.</string>
     <string name="devotional_ref_6">Salmo 119:105</string>
     <string name="devotional_reflect_6">Deja que Su Palabra guíe cada decisión que tomes hoy.</string>
 
-    <!-- Día 7 -->
     <string name="devotional_verse_7">Estad quietos, y conoced que yo soy Dios.</string>
     <string name="devotional_ref_7">Salmo 46:10</string>
     <string name="devotional_reflect_7">En medio del ruido, encuentra un momento de silencio con Él.</string>
 
-    <!-- Día 8 -->
     <string name="devotional_verse_8">Y todo lo que hagáis, hacedlo de corazón, como para el Señor.</string>
     <string name="devotional_ref_8">Colosenses 3:23</string>
     <string name="devotional_reflect_8">Cada tarea hoy es una oportunidad para honrar a Dios con tu excelencia.</string>
 
-    <!-- Día 9 -->
     <string name="devotional_verse_9">El gozo del Señor es vuestra fuerza.</string>
     <string name="devotional_ref_9">Nehemías 8:10</string>
     <string name="devotional_reflect_9">No dejes que las circunstancias te roben la paz; Su gozo es tu combustible.</string>
 
-    <!-- Día 10 -->
     <string name="devotional_verse_10">Todas vuestras cosas sean hechas con amor.</string>
     <string name="devotional_ref_10">1 Corintios 16:14</string>
     <string name="devotional_reflect_10">Cada disciplina e interacción de hoy debe estar arraigada en Su amor.</string>
 
-    <!-- Día 11 -->
     <string name="devotional_verse_11">Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar.</string>
     <string name="devotional_ref_11">Mateo 11:28</string>
     <string name="devotional_reflect_11">No tienes que cargarlo todo. Deja hoy tus cargas a Sus pies.</string>
 
-    <!-- Día 12 -->
     <string name="devotional_verse_12">Porque no nos ha dado Dios espíritu de cobardía, sino de poder, de amor y de dominio propio.</string>
     <string name="devotional_ref_12">2 Timoteo 1:7</string>
     <string name="devotional_reflect_12">Camina en la autoridad y cordura que el Espíritu Santo provee.</string>
 
-    <!-- Día 13 -->
     <string name="devotional_verse_13">Dad gracias en todo, porque esta es la voluntad de Dios para con vosotros.</string>
     <string name="devotional_ref_13">1 Tesalonicenses 5:18</string>
     <string name="devotional_reflect_13">La gratitud cambia tu perspectiva. Encuentra hoy tres cosas por las cuales agradecer a Dios.</string>
 
-    <!-- Día 14 -->
     <string name="devotional_verse_14">Pero los que esperan a Jehová tendrán nuevas fuerzas.</string>
     <string name="devotional_ref_14">Isaías 40:31</string>
     <string name="devotional_reflect_14">Espera en Él. Él está restaurando tus energías para el camino que tienes por delante.</string>
 
-    <!-- Día 15 -->
     <string name="devotional_verse_15">Yo soy el camino, y la verdad, y la vida.</string>
     <string name="devotional_ref_15">Juan 14:6</string>
     <string name="devotional_reflect_15">Mantén tus ojos en Jesús; Él es la brújula para tu caminar diario.</string>
 
-    <!-- Día 16 -->
     <string name="devotional_verse_16">Echando toda vuestra ansiedad sobre él, porque él tiene cuidado de vosotros.</string>
     <string name="devotional_ref_16">1 Pedro 5:7</string>
     <string name="devotional_reflect_16">Él está atento a cada detalle de tu vida. Entrega hoy tus preocupaciones.</string>
 
-    <!-- Día 17 -->
     <string name="devotional_verse_17">Cercano está Jehová a todos los que le invocan.</string>
     <string name="devotional_ref_17">Salmo 145:18</string>
     <string name="devotional_reflect_17">Dios está a solo una oración de distancia. Habla con Él desde tu corazón hoy.</string>
 
-    <!-- Día 18 -->
     <string name="devotional_verse_18">Crea en mí, oh Dios, un corazón limpio.</string>
     <string name="devotional_ref_18">Salmo 51:10</string>
     <string name="devotional_reflect_18">Pídele a Dios que refine tus motivos y renueve tu espíritu hoy.</string>
 
-    <!-- Día 19 -->
     <string name="devotional_verse_19">Así alumbre vuestra luz delante de los hombres.</string>
     <string name="devotional_ref_19">Mateo 5:16</string>
     <string name="devotional_reflect_19">Tus acciones dicen mucho. Deja que Su amor se vea a través de ti hoy.</string>
 
-    <!-- Día 20 -->
     <string name="devotional_verse_20">Porque yo sé los pensamientos que tengo acerca de vosotros, dice Jehová.</string>
     <string name="devotional_ref_20">Jeremías 29:11</string>
     <string name="devotional_reflect_20">Sus planes son para tu bien. Camina con confianza en el futuro que Él tiene para ti.</string>
 
-    <!-- Día 21 -->
     <string name="devotional_verse_21">Por la misericordia de Jehová no hemos sido consumidos.</string>
     <string name="devotional_ref_21">Lamentaciones 3:22</string>
     <string name="devotional_reflect_21">Sus misericordias son nuevas cada mañana. Empieza hoy con una perspectiva fresca.</string>
 
-    <!-- Día 22 -->
     <string name="devotional_verse_22">Bástate mi gracia.</string>
     <string name="devotional_ref_22">2 Corintios 12:9</string>
     <string name="devotional_reflect_22">Cuando te sientas débil, recuerda que Su poder se perfecciona en ti.</string>
 
-    <!-- Día 23 -->
     <string name="devotional_verse_23">No os conforméis a este siglo.</string>
     <string name="devotional_ref_23">Romanos 12:2</string>
     <string name="devotional_reflect_23">Deja que Dios transforme tu mente para que puedas discernir Su voluntad perfecta.</string>
 
-    <!-- Día 24 -->
     <string name="devotional_verse_24">Torre fuerte es el nombre de Jehová.</string>
     <string name="devotional_ref_24">Proverbios 18:10</string>
     <string name="devotional_reflect_24">Corre a Él cuando necesites protección. Él es tu lugar seguro.</string>
 
-    <!-- Día 25 -->
     <string name="devotional_verse_25">Estando persuadido de esto, que el que comenzó en vosotros la buena obra, la perfeccionará.</string>
     <string name="devotional_ref_25">Filipenses 1:6</string>
     <string name="devotional_reflect_25">Eres una obra en proceso. Confía en que el Maestro terminará lo que comenzó.</string>
 
-    <!-- Día 26 -->
     <string name="devotional_verse_26">La paz os dejo, mi paz os doy.</string>
     <string name="devotional_ref_26">Juan 14:27</string>
     <string name="devotional_reflect_26">No se turbe vuestro corazón. Acepta hoy Su paz sobrenatural.</string>
 
-    <!-- Día 27 -->
     <string name="devotional_verse_27">Encomienda a Jehová tus obras.</string>
     <string name="devotional_ref_27">Proverbios 16:3</string>
     <string name="devotional_reflect_27">Rinde hoy tus planes a Él, y Él afirmará tus pasos.</string>
 
-    <!-- Día 28 -->
     <string name="devotional_verse_28">Sean conocidas vuestras peticiones delante de Dios en toda oración y ruego.</string>
     <string name="devotional_ref_28">Filipenses 4:6</string>
     <string name="devotional_reflect_28">Cambia tu ansiedad por oración. Él está escuchando cada palabra.</string>
 
-    <!-- Día 29 -->
     <string name="devotional_verse_29">Jehová peleará por vosotros, y vosotros estaréis tranquilos.</string>
     <string name="devotional_ref_29">Éxodo 14:14</string>
     <string name="devotional_reflect_29">No tienes que luchar cada batalla solo. Deja que Dios tome el mando.</string>
 
-    <!-- Día 30 -->
     <string name="devotional_verse_30">Porque por fe andamos, no por vista.</string>
     <string name="devotional_ref_30">2 Corintios 5:7</string>
     <string name="devotional_reflect_30">Confía más en lo que Dios ha dicho que en lo que ves a tu alrededor.</string>
 
-    <!-- Día 31 -->
     <string name="devotional_verse_31">No nos cansemos, pues, de hacer bien.</string>
     <string name="devotional_ref_31">Gálatas 6:9</string>
     <string name="devotional_reflect_31">Tu perseverancia dará fruto. No te rindas en tus disciplinas.</string>
 
-    <!-- Día 32 -->
     <string name="devotional_verse_32">Pero yo y mi casa serviremos a Jehová.</string>
     <string name="devotional_ref_32">Josué 24:15</string>
     <string name="devotional_reflect_32">Toma hoy la firme decisión de poner a Dios en el centro de tu hogar.</string>
 
-    <!-- Día 33 -->
     <string name="devotional_verse_33">En todo tiempo ama el amigo.</string>
     <string name="devotional_ref_33">Proverbios 17:17</string>
     <string name="devotional_reflect_33">Sé hoy un reflejo del amor de Cristo para tus amigos y familia.</string>
 
-    <!-- Día 34 -->
     <string name="devotional_verse_34">Confortará mi alma.</string>
     <string name="devotional_ref_34">Salmo 23:3</string>
     <string name="devotional_reflect_34">Deja que Dios renueve tus fuerzas internas y traiga paz a tu mente.</string>
 
-    <!-- Día 35 -->
     <string name="devotional_verse_35">He peleado la buena batalla, he acabado la carrera.</string>
     <string name="devotional_ref_35">2 Timoteo 4:7</string>
     <string name="devotional_reflect_35">Sigue corriendo tu carrera espiritual con paciencia. La meta vale la pena.</string>
+
+    <!-- Categorías -->
+    <string name="cat_spiritual">Espiritual</string>
+    <string name="cat_prayer">Oración</string>
+    <string name="cat_praise">Alabanza</string>
+    <string name="cat_bible">Estudio Bíblico</string>
+    <string name="cat_discipline">Disciplina</string>
+
+    <!-- Títulos y Descripciones de Desafíos -->
+    <string name="ch_gratitude_3_title">Gratitud Matutina</string>
+    <string name="ch_gratitude_3_desc">Comienza tu día con un corazón agradecido durante 3 días consecutivos.</string>
+
+    <string name="ch_prayer_7_title">El Lugar Secreto</string>
+    <string name="ch_prayer_7_desc">Dedica 7 mañanas a la oración íntima y a buscar Su presencia.</string>
+
+    <string name="ch_praise_7_title">Alabanza en la Tormenta</string>
+    <string name="ch_praise_7_desc">Ofrece un sacrificio de alabanza por 7 días, sin importar tus circunstancias.</string>
+
+    <string name="ch_proverbs_10_title">Sabiduría de Proverbios</string>
+    <string name="ch_proverbs_10_desc">Lee un capítulo de Proverbios diariamente por 10 días para ganar sabiduría divina.</string>
+
+    <string name="ch_rest_15_title">Descanso para el Alma</string>
+    <string name="ch_rest_15_desc">Establece una rutina de 15 días de desaceleración y descanso en Cristo.</string>
+
+    <string name="ch_armor_7_title">Armadura de Dios</string>
+    <string name="ch_armor_7_desc">Medita en Efesios 6 por 7 días para fortalecer tu defensa espiritual.</string>
+
+    <!-- DESAFÍOS PRO -->
+    <string name="ch_intercession_15_title">Guerrero de Intercesión</string>
+    <string name="ch_intercession_15_desc">Una misión de 15 días de oración intensa por los demás, tu familia y la iglesia.</string>
+
+    <string name="ch_daniel_21_title">El Ayuno de Daniel</string>
+    <string name="ch_daniel_21_desc">Conságrate durante 21 días de ayuno y oración para buscar una victoria espiritual.</string>
+
+    <string name="ch_nt_master_30_title">Camino por los Evangelios</string>
+    <string name="ch_nt_master_30_desc">Camina con Jesús durante 30 días leyendo los cuatro Evangelios (Mateo a Juan).</string>
+
+    <string name="ch_worship_21_title">Corazón de Adorador</string>
+    <string name="ch_worship_21_desc">Convierte tu rutina en 21 días de alabanza. Exáltalo en cada momento.</string>
+
+    <string name="ch_faith_30_title">Victoria sobre el Temor</string>
+    <string name="ch_faith_30_desc">Mantente firme en las promesas de Dios por 30 días. Vence la ansiedad con tu fe.</string>
+
+    <string name="ch_steward_15_title">Mayordomía del Reino</string>
+    <string name="ch_steward_15_desc">Domina tu tiempo y recursos para los propósitos de Dios durante 15 días de enfoque</string>
 
 </resources>
