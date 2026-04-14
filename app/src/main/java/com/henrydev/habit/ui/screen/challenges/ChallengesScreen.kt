@@ -84,7 +84,8 @@ fun ChallengesScreen(
                         selectedChallenge = challenge
                         showDialog = true
                     },
-                    joinStatus = uiState.joinStatus
+                    joinStatus = uiState.joinStatus,
+                    isUserPro = uiState.isUserPro
                 )
             }
         }
@@ -127,7 +128,8 @@ private fun ChallengesList(
     challenges: List<Challenge>,
     onJoinClick: (Challenge) -> Unit,
     progressMap: Map<Long,ChallengeProgress>,
-    joinStatus: JoinChallengeStatus
+    joinStatus: JoinChallengeStatus,
+    isUserPro: Boolean
 ) {
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
@@ -139,115 +141,29 @@ private fun ChallengesList(
                 challenge = challenge,
                 onJoinClick = { onJoinClick(challenge) },
                 isLoading = joinStatus is JoinChallengeStatus.Loading,
-                progress = progressMap[challenge.id]
+                progress = progressMap[challenge.id],
+                isUserPro = isUserPro
             )
         }
     }
 }
-
-//@Composable
-//private fun ChallengeItem(
-//    challenge: Challenge,
-//    progress: ChallengeProgress?,
-//    onJoinClick: () -> Unit,
-//    isLoading: Boolean
-//) {
-//    val isJoined = progress != null && progress.linkedHabitId != 0L
-//
-//    ElevatedCard(modifier = Modifier.fillMaxWidth()) {
-//        Column(modifier = Modifier.padding(16.dp).fillMaxWidth()) {
-//            Row(
-//                verticalAlignment = Alignment.CenterVertically,
-//                horizontalArrangement = Arrangement.SpaceBetween,
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Surface(
-//                    color = MaterialTheme.colorScheme.secondaryContainer,
-//                    shape = MaterialTheme.shapes.small
-//                ) {
-//                    Text(
-//                        text = challenge.category,
-//                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-//                        style = MaterialTheme.typography.labelMedium
-//                    )
-//                }
-//                if (challenge.isPro) {
-//                    Icon(
-//                        imageVector = Icons.Default.Star,
-//                        contentDescription = "Premium",
-//                        tint = MaterialTheme.colorScheme.tertiary
-//                    )
-//                }
-//            }
-//
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(text = challenge.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-//            Text(text = challenge.description, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-//
-//            //Progress Section
-//            if (isJoined) {
-//                Spacer(modifier = Modifier.height(16.dp))
-//                LinearProgressIndicator(
-//                    progress = { progress.progressPercentage },
-//                    modifier = Modifier.fillMaxWidth().height(8.dp),
-//                    strokeCap = StrokeCap.Round
-//                )
-//                Spacer(modifier = Modifier.height(4.dp))
-//                Text(
-//                    text = "${progress.completedDays} of ${progress.totalDays} faithful days",
-//                    style = MaterialTheme.typography.labelSmall,
-//                    color = MaterialTheme.colorScheme.primary
-//                )
-//            }
-//
-//            Spacer(modifier = Modifier.height(16.dp))
-//            Row(
-//                verticalAlignment = Alignment.CenterVertically,
-//                horizontalArrangement = Arrangement.SpaceBetween,
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Text(
-//                    text = "Walk ${challenge.durationDays} days",
-//                    style = MaterialTheme.typography.labelLarge,
-//                    color = MaterialTheme.colorScheme.primary,
-//                    fontWeight = FontWeight.Bold
-//                )
-//                Button(
-//                    onClick = onJoinClick,
-//                    enabled = !isLoading && !isJoined
-//                ) {
-//                    if (isLoading) {
-//                        CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
-//                    } else {
-//                        val buttonText = when {
-//                            isJoined -> "On the Walk"
-//                            challenge.isPro -> "Advanced Spiritual Journey"
-//                            else -> "Start Journey"
-//                        }
-//                        Text(buttonText)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
 
 @Composable
 private fun ChallengeItem(
     challenge: Challenge,
     progress: ChallengeProgress?,
     onJoinClick: () -> Unit,
-    isLoading: Boolean
+    isLoading: Boolean,
+    isUserPro: Boolean,
 ) {
     val isJoined = progress != null && progress.linkedHabitId != 0L
     // Lógica de finalización: ¿Llegó a la meta?
     val isCompleted = progress != null && progress.completedDays >= progress.totalDays
 
-    // Color de fondo dinámico: Un tono sutil de éxito si está completado
-    val cardColor = if (isCompleted) {
-        MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.3f)
-    } else {
-        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+    val cardColor = when {
+        isCompleted -> MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.3f)
+        challenge.isPro && isUserPro -> MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.4f)
+        else -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
     }
 
     ElevatedCard(
@@ -283,9 +199,9 @@ private fun ChallengeItem(
                     )
                 } else if (challenge.isPro) {
                     Icon(
-                        imageVector = Icons.Default.Star,
-                        contentDescription = "Premium",
-                        tint = MaterialTheme.colorScheme.tertiary
+                        imageVector = if (isUserPro) Icons.Default.CheckCircle else Icons.Default.Star,
+                        contentDescription = "status",
+                        tint = if (isUserPro) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary
                     )
                 }
             }
@@ -350,7 +266,7 @@ private fun ChallengeItem(
                         val buttonText = when {
                             isCompleted -> "Finished"
                             isJoined -> "On the Walk"
-                            challenge.isPro -> "Advanced Spiritual Journey"
+                            challenge.isPro && !isUserPro -> "Advanced Spiritual Journey"
                             else -> "Start Journey"
                         }
                         Text(buttonText)

@@ -7,6 +7,7 @@ import com.henrydev.habit.domain.model.ChallengeProgress
 import com.henrydev.habit.domain.model.Habit
 import com.henrydev.habit.domain.repository.ChallengeRepository
 import com.henrydev.habit.domain.repository.HabitRepository
+import com.henrydev.habit.domain.subscription.usecase.IsProUserUseCase
 import com.henrydev.habit.domain.use_cases.GetAvailableChallengesUseCase
 import com.henrydev.habit.domain.use_cases.GetChallengeProgressUseCase
 import com.henrydev.habit.domain.use_cases.JoinChallengeUseCase
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import java.io.Serializable
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +34,8 @@ class ChallengesViewModel @Inject constructor(
     private val joinChallengeUseCase: JoinChallengeUseCase,
     private val getChallengeProgressUseCase: GetChallengeProgressUseCase,
     private val habitRepository: HabitRepository,
-    private val challengeRepository: ChallengeRepository
+    private val challengeRepository: ChallengeRepository,
+    private val isProUserUseCase: IsProUserUseCase
 ): ViewModel() {
 
     private val _joinStatus = MutableStateFlow<JoinChallengeStatus>(JoinChallengeStatus.Idle)
@@ -48,18 +51,20 @@ class ChallengesViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<ChallengesUiState> = combine(
         getAvailableChallengesUseCase(),
+        isProUserUseCase(),
         _joinStatus,
         _errorMessage,
-    ) { challenges, joinStatus, error ->
-        Triple(challenges,joinStatus, error)
-    }.flatMapLatest { (challenges, joinStatus, error) ->
+    ) { challenges, isPro, joinStatus, error ->
+        Quadruple(challenges,isPro,joinStatus, error)
+    }.flatMapLatest { (challenges, isPro, joinStatus, error) ->
         if (challenges.isEmpty()) {
             flowOf(
                 ChallengesUiState(
                     isLoading = false,
                     challenges = emptyList(),
                     joinStatus = joinStatus,
-                    errorMessage = error
+                    errorMessage = error,
+                    isUserPro = isPro
                 )
             )
         } else {
@@ -100,7 +105,8 @@ class ChallengesViewModel @Inject constructor(
                     challenges = challenges,
                     progressMap = progressArray.associateBy { it.challengeId },
                     joinStatus = joinStatus,
-                    errorMessage = error
+                    errorMessage = error,
+                    isUserPro = isPro
                 )
             }
         }
@@ -148,5 +154,15 @@ data class ChallengesUiState(
     val challenges: List<Challenge> = emptyList(),
     val progressMap: Map<Long, ChallengeProgress> = emptyMap(),
     val joinStatus: JoinChallengeStatus = JoinChallengeStatus.Idle,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val isUserPro: Boolean = false
 )
+
+data class Quadruple<out A, out B, out C, out D>(
+    val first: A,
+    val second: B,
+    val third: C,
+    val fourth: D
+): Serializable {
+    override fun toString(): String = "($first, $second, $third, $fourth)"
+}
