@@ -31,14 +31,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.henrydev.habit.HabitTopAppBar
-import com.henrydev.habit.ui.navigation.HabitScreen
+import com.henrydev.habit.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,7 +62,7 @@ fun AddItemScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "New Discipline",
+                        text = stringResource(R.string.add_habit_new_discipline),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
@@ -71,7 +71,7 @@ fun AddItemScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back to disciplines"
+                            contentDescription = stringResource(R.string.add_habit_back_desc)
                         )
                     }
                 }
@@ -109,7 +109,7 @@ fun AddItemBody(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         Text(
-            text = "New Spiritual Discipline",
+            text = stringResource(R.string.add_habit_new_spiritual_discipline),
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
@@ -141,7 +141,7 @@ fun AddItemBody(
                 )
             } else {
                 Text(
-                    text = "Commit to Discipline",
+                    text = stringResource(R.string.add_habit_commit_button),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -164,8 +164,8 @@ fun InputForm(
         OutlinedTextField(
             value = habitDetail.name,
             onValueChange = { onValueChange(habitDetail.copy(name = it)) },
-            label = { Text("Discipline Name") },
-            placeholder = { Text("E.g. Intercessory Prayer") },
+            label = { Text(stringResource(R.string.add_habit_name_label)) },
+            placeholder = { Text(stringResource(R.string.add_habit_name_placeholder)) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Edit,
@@ -173,7 +173,7 @@ fun InputForm(
                 )
             },
             supportingText = {
-                if (habitDetail.name.isEmpty()) "Required*" else "Name your spiritual commitment"
+                if (habitDetail.name.isEmpty()) stringResource(R.string.add_habit_name_required) else stringResource(R.string.add_habit_name_supporting)
             },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next
@@ -184,8 +184,8 @@ fun InputForm(
         OutlinedTextField(
             value = habitDetail.description,
             onValueChange = { onValueChange(habitDetail.copy(description = it)) },
-            label = { Text("Spiritual Purpose") },
-            placeholder = { Text("Why is this discipline important for your walk?") },
+            label = { Text(stringResource(R.string.add_habit_purpose_label)) },
+            placeholder = { Text(stringResource(R.string.add_habit_purpose_placeholder)) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Description,
@@ -202,7 +202,7 @@ fun InputForm(
         OutlinedTextField(
             value = habitDetail.frequency,
             onValueChange = { onValueChange(habitDetail.copy(frequency = it)) },
-            label = { Text("Daily Dedication") },
+            label = { Text(stringResource(R.string.add_habit_frequency_label)) },
             placeholder = { Text("1") },
             leadingIcon = {
                 Icon(

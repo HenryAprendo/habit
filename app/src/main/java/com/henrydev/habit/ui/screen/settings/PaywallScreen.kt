@@ -16,8 +16,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoGraph
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Start
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -30,11 +28,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.henrydev.habit.R
 
 @Composable
 fun PaywallScreen(
@@ -70,7 +70,7 @@ fun PaywallScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Commit to Your\nSpiritual Growth",
+            text = stringResource(R.string.paywall_commit_spiritual_growth),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
@@ -80,7 +80,7 @@ fun PaywallScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Invest in your spiritual stewardship. Go beyond the basics and deepen your walk with God.",
+            text = stringResource(R.string.paywall_invest_stewardship),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -94,24 +94,24 @@ fun PaywallScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             PremiumFeatureItem(
-                title = "Unlimited Disciplines",
-                description = "Establish more than 3 daily habits to cover all areas of your spiritual life."
+                title = stringResource(R.string.paywall_feature_unlimited_title),
+                description = stringResource(R.string.paywall_feature_unlimited_desc)
             )
             PremiumFeatureItem(
-                title = "Full Faithfulness Analysis",
-                description = "Unlock detailed metrics for every discipline. Visualize your firmness and consistency."
+                title = stringResource(R.string.paywall_feature_analysis_title),
+                description = stringResource(R.string.paywall_feature_analysis_desc)
             )
             PremiumFeatureItem(
-                title = "Advanced Challenges",
-                description = "Participate in Pro missions and receive up to 1.5x more Faith Points (XP)."
+                title = stringResource(R.string.paywall_feature_challenges_title),
+                description = stringResource(R.string.paywall_feature_challenges_desc)
             )
             PremiumFeatureItem(
-                title = "Consecutive Streak Bonus",
-                description = "Get double rewards for maintaining your streaks. Grow your spiritual rank faster."
+                title = stringResource(R.string.paywall_feature_streak_title),
+                description = stringResource(R.string.paywall_feature_streak_desc)
             )
             PremiumFeatureItem(
-                title = "Silent Experience",
-                description = "No ads or distractions. Just you, your discipline, and His presence."
+                title = stringResource(R.string.paywall_feature_no_ads_title),
+                description = stringResource(R.string.paywall_feature_no_ads_desc)
             )
         }
 
@@ -120,17 +120,17 @@ fun PaywallScreen(
         // SECCIÓN DE PLANES: Selección de Mayordomía
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             PricingCard(
-                title = "Annual Walk",
-                price = "$39.99 / year",
-                description = "Save 33% • Most faithful choice",
+                title = stringResource(R.string.paywall_plan_annual_title),
+                price = stringResource(R.string.paywall_plan_annual_price),
+                description = stringResource(R.string.paywall_plan_annual_desc),
                 isHighlighted = true,
                 onClick = { viewModel.purchasePro() } // Aquí pasarás el ID del plan anual
             )
 
             PricingCard(
-                title = "Monthly Journey",
-                price = "$4.99 / month",
-                description = "Flexible spiritual commitment",
+                title = stringResource(R.string.paywall_plan_monthly_title),
+                price = stringResource(R.string.paywall_plan_monthly_price),
+                description = stringResource(R.string.paywall_plan_monthly_desc),
                 isHighlighted = false,
                 onClick = { viewModel.purchasePro() } // Aquí pasarás el ID del plan mensual
             )
@@ -151,7 +151,7 @@ fun PaywallScreen(
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text(
-                text = "Continue with Basic Walk",
+                text = stringResource(R.string.paywall_continue_basic),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
@@ -235,12 +235,3 @@ fun PremiumFeatureItem(
         }
     }
 }
-
-
-
-
-
-
-
-
-

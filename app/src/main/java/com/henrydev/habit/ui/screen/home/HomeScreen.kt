@@ -72,6 +72,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -142,7 +143,7 @@ fun HomeScreen(
             LargeTopAppBar(
                 title = {
                     Text(
-                        text = "My Disciplines",
+                        text = stringResource(R.string.home_disciplines_title),
                         fontWeight = FontWeight.ExtraBold
                     )
                 },
@@ -396,7 +397,7 @@ fun DayIndicator(
             if (dayState.isCompleted) {
                 Icon(
                     imageVector = Icons.Default.Check,
-                    contentDescription = "Completed",
+                    contentDescription = null,
                     modifier = Modifier.size(16.dp),
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
@@ -445,9 +446,9 @@ fun StreakCounter(
         )
         Text(
             text = if (count == 1) {
-                "1 day faithfulness"
+                stringResource(R.string.home_streak_day_singular)
             } else {
-                "$count days faithfulness"
+                stringResource(R.string.home_streak_days_plural, count)
             },
             style = MaterialTheme.typography.labelMedium,
             color = if (count > 0) {
@@ -498,19 +499,19 @@ fun UserProgressHeader(
                         letterSpacing = 1.sp
                     )
                     Text(
-                        text = "Level ${stats.level}",
+                        text = stringResource(R.string.home_level_label, stats.level),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.ExtraBold
                     )
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = "TOTAL POINTS",
+                        text = stringResource(R.string.home_total_points_label),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        text = "${stats.totalXp} XP",
+                        text = stringResource(R.string.home_total_xp_label, stats.totalXp),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.secondary
@@ -524,7 +525,7 @@ fun UserProgressHeader(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Progress",
+                        text = stringResource(R.string.home_progress_label),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -546,7 +547,7 @@ fun UserProgressHeader(
             }
 
             Text(
-                text = "Only ${stats.xpRequiredForNext} points to next rank",
+                text = stringResource(R.string.home_next_rank_points, stats.xpRequiredForNext),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.End,
@@ -599,12 +600,12 @@ fun EmptyComponent() {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "No habits yet",
+            text = stringResource(R.string.home_no_habits_title),
             style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.onSurface
         )
         Text(
-            text = "Start your journey by adding your first daily goal.",
+            text = stringResource(R.string.home_no_habits_subtitle),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -629,12 +630,12 @@ fun HabitActionSheet(
                 .padding(32.dp)
         ) {
             ListItem(
-                headlineContent = { Text("Edit Habit") },
+                headlineContent = { Text(stringResource(R.string.home_action_edit)) },
                 leadingContent = { Icon(Icons.Default.Edit, contentDescription = null) },
                 modifier = Modifier.clickable { onEdit() }
             )
             ListItem(
-                headlineContent = { Text("Delete Habit", color = MaterialTheme.colorScheme.error) },
+                headlineContent = { Text(stringResource(R.string.home_action_delete), color = MaterialTheme.colorScheme.error) },
                 leadingContent = { Icon(Icons.Default.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
                 modifier = Modifier.clickable { onDelete() }
             )
@@ -650,16 +651,16 @@ fun DeleteHabitConfirmation(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Delete Habit?") },
-        text = { Text("Are you sure you want to delete \"$habitName\"? All historical data will be lost forever.") },
+        title = { Text(stringResource(R.string.home_delete_confirm_title)) },
+        text = { Text(stringResource(R.string.home_delete_confirm_msg, habitName)) },
         confirmButton = {
             TextButton(onClick = onConfirm) {
-                Text("Delete", color = MaterialTheme.colorScheme.error)
+                Text(stringResource(R.string.home_delete), color = MaterialTheme.colorScheme.error)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.home_cancel))
             }
         }
     )
@@ -678,7 +679,7 @@ fun EditHabitDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = "Edit Habit", style = MaterialTheme.typography.titleLarge) },
+        title = { Text(text = stringResource(R.string.home_edit_dialog_title), style = MaterialTheme.typography.titleLarge) },
         text = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -687,8 +688,8 @@ fun EditHabitDialog(
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Habit Name") },
-                    placeholder = { Text("e.g. Drink Water") },
+                    label = { Text(stringResource(R.string.home_edit_dialog_name_label)) },
+                    placeholder = { Text(stringResource(R.string.home_edit_dialog_name_placeholder)) },
                     singleLine = true,
                     isError = !isNameValid,
                     modifier = Modifier.fillMaxWidth()
@@ -697,8 +698,8 @@ fun EditHabitDialog(
                 OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
-                    label = { Text("Description") },
-                    placeholder = { Text("e.g. 2 liters a day") },
+                    label = { Text(stringResource(R.string.home_edit_dialog_desc_label)) },
+                    placeholder = { Text(stringResource(R.string.home_edit_dialog_desc_placeholder)) },
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 2
                 )
@@ -709,12 +710,12 @@ fun EditHabitDialog(
                 onClick = { if (isNameValid) onConfirm(name, description) },
                 enabled = isNameValid
             ) {
-                Text("Save Changes")
+                Text(stringResource(R.string.home_save_changes))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.home_cancel))
             }
         }
     )
@@ -731,7 +732,7 @@ fun PurposeHeader(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "“Grow closer to God, every day”",
+            text = stringResource(R.string.home_quote_spiritual),
             style = MaterialTheme.typography.titleMedium.copy(
                 fontStyle = FontStyle.Italic,
                 letterSpacing = 0.5.sp
@@ -756,6 +757,8 @@ fun DailyDevotionalCard(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val shareFooter = stringResource(R.string.home_share_footer)
+    val shareChooserTitle = stringResource(R.string.home_share_chooser_title)
 
     // Function to share the spiritual message
     val onShareClick = {
@@ -765,14 +768,14 @@ fun DailyDevotionalCard(
             
             ${devotional.reflection}
             
-            Shared via Habit - Spiritual Disciplines.
+            $shareFooter
         """.trimIndent()
 
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, shareText)
         }
-        context.startActivity(Intent.createChooser(intent, "Share Devotional"))
+        context.startActivity(Intent.createChooser(intent, shareChooserTitle))
     }
 
     Card(
@@ -798,7 +801,7 @@ fun DailyDevotionalCard(
             ) {
                 Icon(
                     imageVector = Icons.Default.Share,
-                    contentDescription = "Share devotional",
+                    contentDescription = stringResource(R.string.home_share_devotional_content_desc),
                     tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
                     modifier = Modifier.size(20.dp)
                 )
@@ -856,9 +859,3 @@ fun DailyDevotionalCard(
         }
     }
 }
-
-
-
-
-
-

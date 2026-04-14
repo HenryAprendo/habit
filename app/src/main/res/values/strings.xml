@@ -7,6 +7,120 @@
     <string name="challenges_title">Challenges</string>
     <string name="settings_title">Settings</string>
     <string name="paywall_title">Upgrade to Pro</string>
+    <string name="well_done_stay_faithful">Well done! Stay faithful.</string>
+
+    <!-- Home Screen -->
+    <string name="home_disciplines_title">My Disciplines</string>
+    <string name="home_quote_spiritual">“Grow closer to God, every day”</string>
+    <string name="home_share_devotional_content_desc">Share devotional</string>
+    <string name="home_share_chooser_title">Share Devotional</string>
+    <string name="home_share_footer">Shared via Habit - Spiritual Disciplines.</string>
+    <string name="home_level_label">Level %1$d</string>
+    <string name="home_total_xp_label">%1$d XP</string>
+    <string name="home_total_points_label">TOTAL POINTS</string>
+    <string name="home_progress_label">Progress</string>
+    <string name="home_next_rank_points">Only %1$d points to next rank</string>
+    <string name="home_no_habits_title">No habits yet</string>
+    <string name="home_no_habits_subtitle">Start your journey by adding your first daily goal.</string>
+    <string name="home_action_edit">Edit Habit</string>
+    <string name="home_action_delete">Delete Habit</string>
+    <string name="home_delete_confirm_title">Delete Habit?</string>
+    <string name="home_delete_confirm_msg">Are you sure you want to delete \"%1$s\"? All historical data will be lost forever.</string>
+    <string name="home_edit_dialog_title">Edit Habit</string>
+    <string name="home_edit_dialog_name_label">Habit Name</string>
+    <string name="home_edit_dialog_name_placeholder">e.g. Drink Water</string>
+    <string name="home_edit_dialog_desc_label">Description</string>
+    <string name="home_edit_dialog_desc_placeholder">e.g. 2 liters a day</string>
+    <string name="home_save_changes">Save Changes</string>
+    <string name="home_cancel">Cancel</string>
+    <string name="home_delete">Delete</string>
+    <string name="home_streak_day_singular">1 day faithfulness</string>
+    <string name="home_streak_days_plural">%1$d days</string>
+
+    <!-- Progress Screen -->
+    <string name="progress_spiritual_growth_title">Spiritual Growth</string>
+    <string name="progress_stat_faithfulness">Faithfulness</string>
+    <string name="progress_stat_endurance">Endurance Streak</string>
+    <string name="progress_label_fruitful">Fruitful Season</string>
+    <string name="progress_label_steadfast">Steadfast Journey</string>
+    <string name="progress_label_growing">Growing in Faith</string>
+    <string name="progress_label_new_beginning">A new Beginning</string>
+    <string name="progress_label_firm_discipline">Firm in discipline</string>
+    <string name="progress_consistency_heart">Consistency of Heart</string>
+    <string name="progress_spiritual_disciplines">Spiritual Disciplines</string>
+    <string name="progress_pro_teaser">Go deeper into your spiritual analysis. Unlock insights to strengthen your walk with God</string>
+    <string name="progress_days_in_presence">Days in the Presence</string>
+    <string name="progress_days_completed_count">%1$d Days Completed</string>
+    <string name="progress_locked_discipline">Advanced Discipline</string>
+    <string name="progress_metric_firmness">Firmness</string>
+    <string name="progress_metric_faithfulness">Faithfulness</string>
+    <string name="progress_pro_feature">PRO Feature</string>
+    <string name="progress_unlock_analysis">Unlock Analysis</string>
+    <string name="progress_last_month_walk">Your walk over the last month</string>
+    <string name="progress_empty_state">Begin your spiritual walk. Complete your first discipline to see your progress</string>
+
+    <!-- Add Habit Screen -->
+    <string name="add_habit_new_discipline">New Discipline</string>
+    <string name="add_habit_back_desc">Back to disciplines</string>
+    <string name="add_habit_new_spiritual_discipline">New Spiritual Discipline</string>
+    <string name="add_habit_commit_button">Commit to Discipline</string>
+    <string name="add_habit_name_label">Discipline Name</string>
+    <string name="add_habit_name_placeholder">E.g. Intercessory Prayer</string>
+    <string name="add_habit_name_required">Required*</string>
+    <string name="add_habit_name_supporting">Name your spiritual commitment</string>
+    <string name="add_habit_purpose_label">Spiritual Purpose</string>
+    <string name="add_habit_purpose_placeholder">Why is this discipline important for your walk?</string>
+    <string name="add_habit_frequency_label">Daily Dedication</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_app_stewardship">App Stewardship</string>
+    <string name="settings_subscription_status">Subscription Status</string>
+    <string name="settings_pro_member_msg">You are a Premium Member. Enjoy all unlimited features!</string>
+    <string name="settings_free_plan_msg">You are currently on the Free Plan. Upgrade to unlock all features.</string>
+    <string name="settings_upgrade_button">Upgrade to Pro</string>
+    <string name="settings_pro_label">Pro</string>
+    <string name="settings_data_management">Data Management</string>
+    <string name="settings_backup_restore">Backup &amp; Restore</string>
+    <string name="settings_backup_desc">Export your habits and history to a JSON file to keep them safe or move them to another device.</string>
+    <string name="settings_export_button">Export to JSON</string>
+    <string name="settings_import_button">Import from JSON</string>
+
+    <!-- Challenges Screen -->
+    <string name="challenges_faith_challenges_title">Faith Challenges</string>
+    <string name="challenges_choose_discipline_dialog">Choose a Discipline for this Mission</string>
+    <string name="challenges_no_habits_msg">You must establish a spiritual discipline to embark on this journey</string>
+    <string name="challenges_not_now">NOT NOW</string>
+    <string name="challenges_mission_accomplished">MISSION ACCOMPLISHED</string>
+    <string name="challenges_faithful_to_end">Faithful to the end. Foundation strengthened.</string>
+    <string name="challenges_faithful_days_count">%1$d of %2$d faithful days</string>
+    <string name="challenges_walk_duration">Walk: %1$d days</string>
+    <string name="challenges_status_finished">Finished</string>
+    <string name="challenges_status_on_walk">On the Walk</string>
+    <string name="challenges_status_advanced">Advanced Spiritual Journey</string>
+    <string name="challenges_status_start">Start Journey</string>
+
+    <!-- Paywall Screen -->
+    <string name="paywall_commit_spiritual_growth">Commit to Your\nSpiritual Growth</string>
+    <string name="paywall_invest_stewardship">Invest in your spiritual stewardship. Go beyond the basics and deepen your walk with God.</string>
+    <string name="paywall_feature_unlimited_title">Unlimited Disciplines</string>
+    <string name="paywall_feature_unlimited_desc">Establish more than 3 daily habits to cover all areas of your spiritual life.</string>
+    <string name="paywall_feature_analysis_title">Full Faithfulness Analysis</string>
+    <string name="paywall_feature_analysis_desc">Unlock detailed metrics for every discipline. Visualize your firmness and consistency.</string>
+    <string name="paywall_feature_challenges_title">Advanced Challenges</string>
+    <string name="paywall_feature_challenges_desc">Participate in Pro missions and receive up to 1.5x more Faith Points (XP).</string>
+    <string name="paywall_feature_streak_title">Consecutive Streak Bonus</string>
+    <string name="paywall_feature_streak_desc">Get double rewards for maintaining your streaks. Grow your spiritual rank faster.</string>
+    <string name="paywall_feature_no_ads_title">Silent Experience</string>
+    <string name="paywall_feature_no_ads_desc">No ads or distractions. Just you, your discipline, and His presence.</string>
+    <string name="paywall_plan_annual_title">Annual Walk</string>
+    <string name="paywall_plan_annual_price">$39.99 / year</string>
+    <string name="paywall_plan_annual_desc">Save 33% • Most faithful choice</string>
+    <string name="paywall_plan_monthly_title">Monthly Journey</string>
+    <string name="paywall_plan_monthly_price">$4.99 / month</string>
+    <string name="paywall_plan_monthly_desc">Flexible spiritual commitment</string>
+    <string name="paywall_continue_basic">Continue with Basic Walk</string>
+
+    <!-- Daily Devotionals -->
     <!-- Day 1 -->
     <string name="devotional_verse_1">Trust in the Lord with all your heart.</string>
     <string name="devotional_ref_1">Proverbs 3:5</string>
@@ -23,94 +137,163 @@
     <string name="devotional_reflect_3">Fear has no place in your walk; God is with you.</string>
 
     <!-- Day 4 -->
-    <string name="devotional_verse_4">I can do all things through Christ who strengthens me.
-    </string>
+    <string name="devotional_verse_4">I can do all things through Christ who strengthens me.</string>
     <string name="devotional_ref_4">Philippians 4:13</string>
-    <string name="devotional_reflect_4">Your strength comes from Him, not from your own efforts.
-    </string>
+    <string name="devotional_reflect_4">Your strength comes from Him, not from your own efforts.</string>
 
     <!-- Day 5 -->
-    <string name="devotional_verse_5">But seek first the kingdom of God and His righteousness.
-    </string>
+    <string name="devotional_verse_5">But seek first the kingdom of God and His righteousness.</string>
     <string name="devotional_ref_5">Matthew 6:33</string>
-    <string name="devotional_reflect_5">Align your priorities today with God\'s eternal heart.
-    </string>
+    <string name="devotional_reflect_5">Align your priorities today with God\'s eternal heart.</string>
 
-    <!-- Day 6 a 15 (Sigue este patrón hasta completar los 15) -->
-    <string name="devotional_verse_6">Your word is a lamp to my feet and a light to my path.
-    </string>
+    <!-- Day 6 -->
+    <string name="devotional_verse_6">Your word is a lamp to my feet and a light to my path.</string>
     <string name="devotional_ref_6">Psalm 119:105</string>
     <string name="devotional_reflect_6">Let His Word guide every decision you make today.</string>
+
     <!-- Day 7 -->
     <string name="devotional_verse_7">Be still, and know that I am God.</string>
     <string name="devotional_ref_7">Psalm 46:10</string>
-    <string name="devotional_reflect_7">In the middle of the noise, find a moment of silence with
-        Him.
-    </string>
+    <string name="devotional_reflect_7">In the middle of the noise, find a moment of silence with Him.</string>
 
     <!-- Day 8 -->
-    <string name="devotional_verse_8">Whatever you do, work at it with all your heart, as working
-        for the Lord.
-    </string>
+    <string name="devotional_verse_8">Whatever you do, work at it with all your heart, as working for the Lord.</string>
     <string name="devotional_ref_8">Colossians 3:23</string>
-    <string name="devotional_reflect_8">Every task today is an opportunity to honor God with your
-        excellence.
-    </string>
+    <string name="devotional_reflect_8">Every task today is an opportunity to honor God with your excellence.</string>
 
     <!-- Day 9 -->
     <string name="devotional_verse_9">The joy of the Lord is your strength.</string>
     <string name="devotional_ref_9">Nehemiah 8:10</string>
-    <string name="devotional_reflect_9">Do not let circumstances steal your peace; His joy is your
-        fuel.
-    </string>
+    <string name="devotional_reflect_9">Do not let circumstances steal your peace; His joy is your fuel.</string>
 
     <!-- Day 10 -->
     <string name="devotional_verse_10">Let all that you do be done in love.</string>
     <string name="devotional_ref_10">1 Corinthians 16:14</string>
-    <string name="devotional_reflect_10">Every discipline and interaction today must be rooted in
-        His love.
-    </string>
+    <string name="devotional_reflect_10">Every discipline and interaction today must be rooted in His love.</string>
 
     <!-- Day 11 -->
-    <string name="devotional_verse_11">Come to me, all you who are weary and burdened, and I will
-        give you rest.
-    </string>
+    <string name="devotional_verse_11">Come to me, all you who are weary and burdened, and I will give you rest.</string>
     <string name="devotional_ref_11">Matthew 11:28</string>
-    <string name="devotional_reflect_11">You don\'t have to carry it all. Lay your burdens at His
-        feet today.
-    </string>
+    <string name="devotional_reflect_11">You don\'t have to carry it all. Lay your burdens at His feet today.</string>
 
     <!-- Day 12 -->
-    <string name="devotional_verse_12">For God has not given us a spirit of fear, but of power and
-        of love.
-    </string>
+    <string name="devotional_verse_12">For God has not given us a spirit of fear, but of power and of love.</string>
     <string name="devotional_ref_12">2 Timothy 1:7</string>
-    <string name="devotional_reflect_12">Walk in the authority and sound mind that the Holy Spirit
-        provides.
-    </string>
+    <string name="devotional_reflect_12">Walk in the authority and sound mind that the Holy Spirit provides.</string>
 
     <!-- Day 13 -->
-    <string name="devotional_verse_13">Give thanks in all circumstances; for this is God’s will for
-        you.
-    </string>
+    <string name="devotional_verse_13">Give thanks in all circumstances; for this is God’s will for you.</string>
     <string name="devotional_ref_13">1 Thessalonians 5:18</string>
-    <string name="devotional_reflect_13">Gratitude changes your perspective. Find three things to
-        thank God for today.
-    </string>
+    <string name="devotional_reflect_13">Gratitude changes your perspective. Find three things to thank God for today.</string>
 
     <!-- Day 14 -->
-    <string name="devotional_verse_14">But those who hope in the Lord will renew their strength.
-    </string>
+    <string name="devotional_verse_14">But those who hope in the Lord will renew their strength.</string>
     <string name="devotional_ref_14">Isaiah 40:31</string>
-    <string name="devotional_reflect_14">Wait on Him. He is restoring your energy for the path
-        ahead.
-    </string>
+    <string name="devotional_reflect_14">Wait on Him. He is restoring your energy for the path ahead.</string>
 
     <!-- Day 15 -->
     <string name="devotional_verse_15">I am the way and the truth and the life.</string>
     <string name="devotional_ref_15">John 14:6</string>
-    <string name="devotional_reflect_15">Keep your eyes on Jesus; He is the compass for your daily
-        walk.
-    </string>
-    <string name="well_done_stay_faithful">Well done! Stay faithful.</string>
+    <string name="devotional_reflect_15">Keep your eyes on Jesus; He is the compass for your daily walk.</string>
+
+    <!-- Day 16 -->
+    <string name="devotional_verse_16">Cast all your anxiety on him because he cares for you.</string>
+    <string name="devotional_ref_16">1 Peter 5:7</string>
+    <string name="devotional_reflect_16">He is mindful of every detail of your life. Release your worries today.</string>
+
+    <!-- Day 17 -->
+    <string name="devotional_verse_17">The Lord is near to all who call on him.</string>
+    <string name="devotional_ref_17">Psalm 145:18</string>
+    <string name="devotional_reflect_17">God is just a prayer away. Speak to Him from your heart today.</string>
+
+    <!-- Day 18 -->
+    <string name="devotional_verse_18">Create in me a pure heart, O God.</string>
+    <string name="devotional_ref_18">Psalm 51:10</string>
+    <string name="devotional_reflect_18">Ask God to refine your motives and renew your spirit today.</string>
+
+    <!-- Day 19 -->
+    <string name="devotional_verse_19">Let your light shine before others.</string>
+    <string name="devotional_ref_19">Matthew 5:16</string>
+    <string name="devotional_reflect_19">Your actions speak volumes. Let His love be seen through you today.</string>
+
+    <!-- Day 20 -->
+    <string name="devotional_verse_20">For I know the plans I have for you, declares the Lord.</string>
+    <string name="devotional_ref_20">Jeremiah 29:11</string>
+    <string name="devotional_reflect_20">His plans are for your good. Walk with confidence in His future for you.</string>
+
+    <!-- Day 21 -->
+    <string name="devotional_verse_21">The steadfast love of the Lord never ceases.</string>
+    <string name="devotional_ref_21">Lamentations 3:22</string>
+    <string name="devotional_reflect_21">His mercies are new every morning. Start today with a fresh perspective.</string>
+
+    <!-- Day 22 -->
+    <string name="devotional_verse_22">My grace is sufficient for you.</string>
+    <string name="devotional_ref_22">2 Corinthians 12:9</string>
+    <string name="devotional_reflect_22">When you feel weak, remember that His power is made perfect in you.</string>
+
+    <!-- Day 23 -->
+    <string name="devotional_verse_23">Do not be conformed to this world.</string>
+    <string name="devotional_ref_23">Romans 12:2</string>
+    <string name="devotional_reflect_23">Let God transform your mind so you can discern His perfect will.</string>
+
+    <!-- Day 24 -->
+    <string name="devotional_verse_24">The name of the Lord is a fortified tower.</string>
+    <string name="devotional_ref_24">Proverbs 18:10</string>
+    <string name="devotional_reflect_24">Run to Him when you need protection. He is your safe place.</string>
+
+    <!-- Day 25 -->
+    <string name="devotional_verse_25">He who began a good work in you will carry it on to completion.</string>
+    <string name="devotional_ref_25">Philippians 1:6</string>
+    <string name="devotional_reflect_25">You are a work in progress. Trust the Master to finish what He started.</string>
+
+    <!-- Day 26 -->
+    <string name="devotional_verse_26">Peace I leave with you; my peace I give you.</string>
+    <string name="devotional_ref_26">John 14:27</string>
+    <string name="devotional_reflect_26">Do not let your heart be troubled. Accept His supernatural peace today.</string>
+
+    <!-- Day 27 -->
+    <string name="devotional_verse_27">Commit to the Lord whatever you do.</string>
+    <string name="devotional_ref_27">Proverbs 16:3</string>
+    <string name="devotional_reflect_27">Surrender your plans to Him, and He will establish your steps.</string>
+
+    <!-- Day 28 -->
+    <string name="devotional_verse_28">In everything, by prayer and petition, present your requests to God.</string>
+    <string name="devotional_ref_28">Philippians 4:6</string>
+    <string name="devotional_reflect_28">Trade your anxiety for prayer. He is listening to every word.</string>
+
+    <!-- Day 29 -->
+    <string name="devotional_verse_29">The Lord will fight for you; you need only to be still.</string>
+    <string name="devotional_ref_29">Exodus 14:14</string>
+    <string name="devotional_reflect_29">You don\'t have to fight every battle alone. Let God take the lead.</string>
+
+    <!-- Day 30 -->
+    <string name="devotional_verse_30">Walk by faith, not by sight.</string>
+    <string name="devotional_ref_30">2 Corinthians 5:7</string>
+    <string name="devotional_reflect_30">Trust what God has said more than what you see around you.</string>
+
+    <!-- Day 31 -->
+    <string name="devotional_verse_31">Let us not become weary in doing good.</string>
+    <string name="devotional_ref_31">Galatians 6:9</string>
+    <string name="devotional_reflect_31">Your perseverance will bear fruit. Don\'t give up on your disciplines.</string>
+
+    <!-- Day 32 -->
+    <string name="devotional_verse_32">As for me and my household, we will serve the Lord.</string>
+    <string name="devotional_ref_32">Joshua 24:15</string>
+    <string name="devotional_reflect_32">Make a firm decision today to put God at the center of your home.</string>
+
+    <!-- Day 33 -->
+    <string name="devotional_verse_33">A friend loves at all times.</string>
+    <string name="devotional_ref_33">Proverbs 17:17</string>
+    <string name="devotional_reflect_33">Be a reflection of Christ\'s love to your friends and family today.</string>
+
+    <!-- Day 34 -->
+    <string name="devotional_verse_34">He restores my soul.</string>
+    <string name="devotional_ref_34">Psalm 23:3</string>
+    <string name="devotional_reflect_34">Let God renew your inner strength and bring peace to your mind.</string>
+
+    <!-- Day 35 -->
+    <string name="devotional_verse_35">I have fought the good fight, I have finished the race.</string>
+    <string name="devotional_ref_35">2 Timothy 4:7</string>
+    <string name="devotional_reflect_35">Keep running your spiritual race with endurance. The finish line is worth it.</string>
+
 </resources>

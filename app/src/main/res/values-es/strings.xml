@@ -1,26 +1,138 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Hábito</string>
-    <string name="home_title">Mis Disciplinas</string>
-    <string name="add_habit_title">Nueva Disciplina</string>
-    <string name="edit_habit_title">Editar Disciplina</string>
+    <string name="app_name">hábito</string>
+    <string name="home_title">Mis hábitos</string>
+    <string name="add_habit_title">Nuevo Hábito</string>
+    <string name="edit_habit_title">Editar Hábito</string>
     <string name="progress_title">Progreso</string>
     <string name="challenges_title">Desafíos</string>
     <string name="settings_title">Ajustes</string>
-    <string name="paywall_title">Mejorar a Pro</string>
+    <string name="paywall_title">Actualizar a Pro</string>
+    <string name="well_done_stay_faithful">¡Bien hecho! Mantente fiel.</string>
 
+    <!-- Home Screen -->
+    <string name="home_disciplines_title">Mis Disciplinas</string>
+    <string name="home_quote_spiritual">“Acércate más a Dios cada día”</string>
+    <string name="home_share_devotional_content_desc">Compartir devocional</string>
+    <string name="home_share_chooser_title">Compartir Devocional</string>
+    <string name="home_share_footer">Compartido vía Habit - Disciplinas Espirituales.</string>
+    <string name="home_level_label">Nivel %1$d</string>
+    <string name="home_total_xp_label">%1$d XP</string>
+    <string name="home_total_points_label">PUNTOS TOTALES</string>
+    <string name="home_progress_label">Progreso</string>
+    <string name="home_next_rank_points">Solo %1$d puntos para el siguiente rango</string>
+    <string name="home_no_habits_title">Aún no hay hábitos</string>
+    <string name="home_no_habits_subtitle">Comienza tu viaje añadiendo tu primera meta diaria.</string>
+    <string name="home_action_edit">Editar Hábito</string>
+    <string name="home_action_delete">Eliminar Hábito</string>
+    <string name="home_delete_confirm_title">¿Eliminar Hábito?</string>
+    <string name="home_delete_confirm_msg">¿Estás seguro de que quieres eliminar \"%1$s\"? Todos los datos históricos se perderán para siempre.</string>
+    <string name="home_edit_dialog_title">Editar Hábito</string>
+    <string name="home_edit_dialog_name_label">Nombre del Hábito</string>
+    <string name="home_edit_dialog_name_placeholder">ej. Beber Agua</string>
+    <string name="home_edit_dialog_desc_label">Descripción</string>
+    <string name="home_edit_dialog_desc_placeholder">ej. 2 litros al día</string>
+    <string name="home_save_changes">Guardar Cambios</string>
+    <string name="home_cancel">Cancelar</string>
+    <string name="home_delete">Eliminar</string>
+    <string name="home_streak_day_singular">1 día de fidelidad</string>
+    <string name="home_streak_days_plural">%1$d días</string>
+
+    <!-- Progress Screen -->
+    <string name="progress_spiritual_growth_title">Crecimiento Espiritual</string>
+    <string name="progress_stat_faithfulness">Fidelidad</string>
+    <string name="progress_stat_endurance">Racha de Resistencia</string>
+    <string name="progress_label_fruitful">Temporada Fructífera</string>
+    <string name="progress_label_steadfast">Viaje Firme</string>
+    <string name="progress_label_growing">Creciendo en Fe</string>
+    <string name="progress_label_new_beginning">Un nuevo Comienzo</string>
+    <string name="progress_label_firm_discipline">Firme en la disciplina</string>
+    <string name="progress_consistency_heart">Consistencia de Corazón</string>
+    <string name="progress_spiritual_disciplines">Disciplinas Espirituales</string>
+    <string name="progress_pro_teaser">Profundiza en tu análisis espiritual. Desbloquea información para fortalecer tu caminar con Dios</string>
+    <string name="progress_days_in_presence">Días en la Presencia</string>
+    <string name="progress_days_completed_count">%1$d Días Completados</string>
+    <string name="progress_locked_discipline">Disciplina Avanzada</string>
+    <string name="progress_metric_firmness">Firmeza</string>
+    <string name="progress_metric_faithfulness">Fidelidad</string>
+    <string name="progress_pro_feature">Función PRO</string>
+    <string name="progress_unlock_analysis">Desbloquear Análisis</string>
+    <string name="progress_last_month_walk">Tu caminar durante el último mes</string>
+    <string name="progress_empty_state">Comienza tu caminar espiritual. Completa tu primera disciplina para ver tu progreso</string>
+
+    <!-- Add Habit Screen -->
+    <string name="add_habit_new_discipline">Nueva Disciplina</string>
+    <string name="add_habit_back_desc">Volver a disciplinas</string>
+    <string name="add_habit_new_spiritual_discipline">Nueva Disciplina Espiritual</string>
+    <string name="add_habit_commit_button">Comprometerse con la Disciplina</string>
+    <string name="add_habit_name_label">Nombre de la Disciplina</string>
+    <string name="add_habit_name_placeholder">Ej. Oración de Intercesión</string>
+    <string name="add_habit_name_required">Requerido*</string>
+    <string name="add_habit_name_supporting">Nombra tu compromiso espiritual</string>
+    <string name="add_habit_purpose_label">Propósito Espiritual</string>
+    <string name="add_habit_purpose_placeholder">¿Por qué es importante esta disciplina para tu caminar?</string>
+    <string name="add_habit_frequency_label">Dedicación Diaria</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_app_stewardship">Administración de la App</string>
+    <string name="settings_subscription_status">Estado de la Suscripción</string>
+    <string name="settings_pro_member_msg">Eres un Miembro Premium. ¡Disfruta de todas las funciones ilimitadas!</string>
+    <string name="settings_free_plan_msg">Actualmente estás en el Plan Gratuito. Actualiza para desbloquear todas las funciones.</string>
+    <string name="settings_upgrade_button">Actualizar a Pro</string>
+    <string name="settings_pro_label">Pro</string>
+    <string name="settings_data_management">Gestión de Datos</string>
+    <string name="settings_backup_restore">Copia de Seguridad y Restauración</string>
+    <string name="settings_backup_desc">Exporta tus hábitos e historial a un archivo JSON para mantenerlos seguros o moverlos a otro dispositivo.</string>
+    <string name="settings_export_button">Exportar a JSON</string>
+    <string name="settings_import_button">Importar desde JSON</string>
+
+    <!-- Challenges Screen -->
+    <string name="challenges_faith_challenges_title">Desafíos de Fe</string>
+    <string name="challenges_choose_discipline_dialog">Elige una Disciplina para esta Misión</string>
+    <string name="challenges_no_habits_msg">Debes establecer una disciplina espiritual para embarcarte en este viaje</string>
+    <string name="challenges_not_now">AHORA NO</string>
+    <string name="challenges_mission_accomplished">MISIÓN CUMPLIDA</string>
+    <string name="challenges_faithful_to_end">Fiel hasta el final. Cimiento fortalecido.</string>
+    <string name="challenges_faithful_days_count">%1$d de %2$d días fieles</string>
+    <string name="challenges_walk_duration">Caminar: %1$d días</string>
+    <string name="challenges_status_finished">Finalizado</string>
+    <string name="challenges_status_on_walk">En el Camino</string>
+    <string name="challenges_status_advanced">Viaje Espiritual Avanzado</string>
+    <string name="challenges_status_start">Empezar Viaje</string>
+
+    <!-- Paywall Screen -->
+    <string name="paywall_commit_spiritual_growth">Comprométete con tu\nCrecimiento Espiritual</string>
+    <string name="paywall_invest_stewardship">Invierte en tu administración espiritual. Ve más allá de lo básico y profundiza tu caminar con Dios.</string>
+    <string name="paywall_feature_unlimited_title">Disciplinas Ilimitadas</string>
+    <string name="paywall_feature_unlimited_desc">Establece más de 3 hábitos diarios para cubrir todas las áreas de tu vida espiritual.</string>
+    <string name="paywall_feature_analysis_title">Análisis Completo de Fidelidad</string>
+    <string name="paywall_feature_analysis_desc">Desbloquea métricas detalladas para cada disciplina. Visualiza tu firmeza y consistencia.</string>
+    <string name="paywall_feature_challenges_title">Desafíos Avanzados</string>
+    <string name="paywall_feature_challenges_desc">Participa en misiones Pro y recibe hasta 1.5 veces más Puntos de Fe (XP).</string>
+    <string name="paywall_feature_streak_title">Bono de Racha Consecutiva</string>
+    <string name="paywall_feature_streak_desc">Obtén recompensas dobles por mantener tus rachas. Sube tu rango espiritual más rápido.</string>
+    <string name="paywall_feature_no_ads_title">Experiencia Silenciosa</string>
+    <string name="paywall_feature_no_ads_desc">Sin anuncios ni distracciones. Solo tú, tu disciplina y Su presencia.</string>
+    <string name="paywall_plan_annual_title">Caminar Anual</string>
+    <string name="paywall_plan_annual_price">$39.99 / año</string>
+    <string name="paywall_plan_annual_desc">Ahorra 33% • La opción más fiel</string>
+    <string name="paywall_plan_monthly_title">Jornada Mensual</string>
+    <string name="paywall_plan_monthly_price">$4.99 / mes</string>
+    <string name="paywall_plan_monthly_desc">Compromiso espiritual flexible</string>
+    <string name="paywall_continue_basic">Continuar con el Camino Básico</string>
+
+    <!-- Devocionales Diarios -->
     <!-- Día 1 -->
     <string name="devotional_verse_1">Confía en el Señor con todo tu corazón.</string>
     <string name="devotional_ref_1">Proverbios 3:5</string>
     <string name="devotional_reflect_1">Hoy, suelta el control y apóyate en Su sabiduría.</string>
 
     <!-- Día 2 -->
-    <string name="devotional_verse_2">El Señor es mi pastor; nada me faltará.</string>
+    <string name="devotional_verse_2">El Señor es mi pastor; nada me falta.</string>
     <string name="devotional_ref_2">Salmo 23:1</string>
     <string name="devotional_reflect_2">Descansa hoy en Su perfecta provisión y cuidado.</string>
 
     <!-- Día 3 -->
-    <string name="devotional_verse_3">Sé fuerte y valiente. No tengas miedo.</string>
+    <string name="devotional_verse_3">Mira que te mando que te esfuerces y seas valiente; no temas.</string>
     <string name="devotional_ref_3">Josué 1:9</string>
     <string name="devotional_reflect_3">El miedo no tiene lugar en tu caminar; Dios está contigo.</string>
 
@@ -52,7 +164,7 @@
     <!-- Día 9 -->
     <string name="devotional_verse_9">El gozo del Señor es vuestra fuerza.</string>
     <string name="devotional_ref_9">Nehemías 8:10</string>
-    <string name="devotional_reflect_9">No dejes que las circunstancias te roben la paz; Su gozo es tu motor.</string>
+    <string name="devotional_reflect_9">No dejes que las circunstancias te roben la paz; Su gozo es tu combustible.</string>
 
     <!-- Día 10 -->
     <string name="devotional_verse_10">Todas vuestras cosas sean hechas con amor.</string>
@@ -62,25 +174,126 @@
     <!-- Día 11 -->
     <string name="devotional_verse_11">Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar.</string>
     <string name="devotional_ref_11">Mateo 11:28</string>
-    <string name="devotional_reflect_11">No tienes que cargar con todo. Pon tus cargas a Sus pies hoy.</string>
+    <string name="devotional_reflect_11">No tienes que cargarlo todo. Deja hoy tus cargas a Sus pies.</string>
 
     <!-- Día 12 -->
     <string name="devotional_verse_12">Porque no nos ha dado Dios espíritu de cobardía, sino de poder, de amor y de dominio propio.</string>
     <string name="devotional_ref_12">2 Timoteo 1:7</string>
-    <string name="devotional_reflect_12">Camina en la autoridad y la mente sana que el Espíritu Santo provee.</string>
+    <string name="devotional_reflect_12">Camina en la autoridad y cordura que el Espíritu Santo provee.</string>
 
     <!-- Día 13 -->
     <string name="devotional_verse_13">Dad gracias en todo, porque esta es la voluntad de Dios para con vosotros.</string>
     <string name="devotional_ref_13">1 Tesalonicenses 5:18</string>
-    <string name="devotional_reflect_13">La gratitud cambia tu perspectiva. Busca tres cosas por las que agradecer hoy.</string>
+    <string name="devotional_reflect_13">La gratitud cambia tu perspectiva. Encuentra hoy tres cosas por las cuales agradecer a Dios.</string>
 
     <!-- Día 14 -->
-    <string name="devotional_verse_14">Pero los que esperan en el Señor tendrán nuevas fuerzas.</string>
+    <string name="devotional_verse_14">Pero los que esperan a Jehová tendrán nuevas fuerzas.</string>
     <string name="devotional_ref_14">Isaías 40:31</string>
-    <string name="devotional_reflect_14">Espera en Él. Él está restaurando tu energía para el camino que tienes por delante.</string>
+    <string name="devotional_reflect_14">Espera en Él. Él está restaurando tus energías para el camino que tienes por delante.</string>
 
     <!-- Día 15 -->
     <string name="devotional_verse_15">Yo soy el camino, y la verdad, y la vida.</string>
     <string name="devotional_ref_15">Juan 14:6</string>
     <string name="devotional_reflect_15">Mantén tus ojos en Jesús; Él es la brújula para tu caminar diario.</string>
+
+    <!-- Día 16 -->
+    <string name="devotional_verse_16">Echando toda vuestra ansiedad sobre él, porque él tiene cuidado de vosotros.</string>
+    <string name="devotional_ref_16">1 Pedro 5:7</string>
+    <string name="devotional_reflect_16">Él está atento a cada detalle de tu vida. Entrega hoy tus preocupaciones.</string>
+
+    <!-- Día 17 -->
+    <string name="devotional_verse_17">Cercano está Jehová a todos los que le invocan.</string>
+    <string name="devotional_ref_17">Salmo 145:18</string>
+    <string name="devotional_reflect_17">Dios está a solo una oración de distancia. Habla con Él desde tu corazón hoy.</string>
+
+    <!-- Día 18 -->
+    <string name="devotional_verse_18">Crea en mí, oh Dios, un corazón limpio.</string>
+    <string name="devotional_ref_18">Salmo 51:10</string>
+    <string name="devotional_reflect_18">Pídele a Dios que refine tus motivos y renueve tu espíritu hoy.</string>
+
+    <!-- Día 19 -->
+    <string name="devotional_verse_19">Así alumbre vuestra luz delante de los hombres.</string>
+    <string name="devotional_ref_19">Mateo 5:16</string>
+    <string name="devotional_reflect_19">Tus acciones dicen mucho. Deja que Su amor se vea a través de ti hoy.</string>
+
+    <!-- Día 20 -->
+    <string name="devotional_verse_20">Porque yo sé los pensamientos que tengo acerca de vosotros, dice Jehová.</string>
+    <string name="devotional_ref_20">Jeremías 29:11</string>
+    <string name="devotional_reflect_20">Sus planes son para tu bien. Camina con confianza en el futuro que Él tiene para ti.</string>
+
+    <!-- Día 21 -->
+    <string name="devotional_verse_21">Por la misericordia de Jehová no hemos sido consumidos.</string>
+    <string name="devotional_ref_21">Lamentaciones 3:22</string>
+    <string name="devotional_reflect_21">Sus misericordias son nuevas cada mañana. Empieza hoy con una perspectiva fresca.</string>
+
+    <!-- Día 22 -->
+    <string name="devotional_verse_22">Bástate mi gracia.</string>
+    <string name="devotional_ref_22">2 Corintios 12:9</string>
+    <string name="devotional_reflect_22">Cuando te sientas débil, recuerda que Su poder se perfecciona en ti.</string>
+
+    <!-- Día 23 -->
+    <string name="devotional_verse_23">No os conforméis a este siglo.</string>
+    <string name="devotional_ref_23">Romanos 12:2</string>
+    <string name="devotional_reflect_23">Deja que Dios transforme tu mente para que puedas discernir Su voluntad perfecta.</string>
+
+    <!-- Día 24 -->
+    <string name="devotional_verse_24">Torre fuerte es el nombre de Jehová.</string>
+    <string name="devotional_ref_24">Proverbios 18:10</string>
+    <string name="devotional_reflect_24">Corre a Él cuando necesites protección. Él es tu lugar seguro.</string>
+
+    <!-- Día 25 -->
+    <string name="devotional_verse_25">Estando persuadido de esto, que el que comenzó en vosotros la buena obra, la perfeccionará.</string>
+    <string name="devotional_ref_25">Filipenses 1:6</string>
+    <string name="devotional_reflect_25">Eres una obra en proceso. Confía en que el Maestro terminará lo que comenzó.</string>
+
+    <!-- Día 26 -->
+    <string name="devotional_verse_26">La paz os dejo, mi paz os doy.</string>
+    <string name="devotional_ref_26">Juan 14:27</string>
+    <string name="devotional_reflect_26">No se turbe vuestro corazón. Acepta hoy Su paz sobrenatural.</string>
+
+    <!-- Día 27 -->
+    <string name="devotional_verse_27">Encomienda a Jehová tus obras.</string>
+    <string name="devotional_ref_27">Proverbios 16:3</string>
+    <string name="devotional_reflect_27">Rinde hoy tus planes a Él, y Él afirmará tus pasos.</string>
+
+    <!-- Día 28 -->
+    <string name="devotional_verse_28">Sean conocidas vuestras peticiones delante de Dios en toda oración y ruego.</string>
+    <string name="devotional_ref_28">Filipenses 4:6</string>
+    <string name="devotional_reflect_28">Cambia tu ansiedad por oración. Él está escuchando cada palabra.</string>
+
+    <!-- Día 29 -->
+    <string name="devotional_verse_29">Jehová peleará por vosotros, y vosotros estaréis tranquilos.</string>
+    <string name="devotional_ref_29">Éxodo 14:14</string>
+    <string name="devotional_reflect_29">No tienes que luchar cada batalla solo. Deja que Dios tome el mando.</string>
+
+    <!-- Día 30 -->
+    <string name="devotional_verse_30">Porque por fe andamos, no por vista.</string>
+    <string name="devotional_ref_30">2 Corintios 5:7</string>
+    <string name="devotional_reflect_30">Confía más en lo que Dios ha dicho que en lo que ves a tu alrededor.</string>
+
+    <!-- Día 31 -->
+    <string name="devotional_verse_31">No nos cansemos, pues, de hacer bien.</string>
+    <string name="devotional_ref_31">Gálatas 6:9</string>
+    <string name="devotional_reflect_31">Tu perseverancia dará fruto. No te rindas en tus disciplinas.</string>
+
+    <!-- Día 32 -->
+    <string name="devotional_verse_32">Pero yo y mi casa serviremos a Jehová.</string>
+    <string name="devotional_ref_32">Josué 24:15</string>
+    <string name="devotional_reflect_32">Toma hoy la firme decisión de poner a Dios en el centro de tu hogar.</string>
+
+    <!-- Día 33 -->
+    <string name="devotional_verse_33">En todo tiempo ama el amigo.</string>
+    <string name="devotional_ref_33">Proverbios 17:17</string>
+    <string name="devotional_reflect_33">Sé hoy un reflejo del amor de Cristo para tus amigos y familia.</string>
+
+    <!-- Día 34 -->
+    <string name="devotional_verse_34">Confortará mi alma.</string>
+    <string name="devotional_ref_34">Salmo 23:3</string>
+    <string name="devotional_reflect_34">Deja que Dios renueve tus fuerzas internas y traiga paz a tu mente.</string>
+
+    <!-- Día 35 -->
+    <string name="devotional_verse_35">He peleado la buena batalla, he acabado la carrera.</string>
+    <string name="devotional_ref_35">2 Timoteo 4:7</string>
+    <string name="devotional_reflect_35">Sigue corriendo tu carrera espiritual con paciencia. La meta vale la pena.</string>
+
 </resources>

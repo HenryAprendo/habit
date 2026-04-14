@@ -39,10 +39,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.henrydev.habit.R
 import com.henrydev.habit.domain.subscription.model.UserStatus
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -96,7 +98,7 @@ fun SettingsScreen(
             LargeTopAppBar(
                 title = {
                     Text(
-                        text = "App Stewardship", // Instead of Settings
+                        text = stringResource(R.string.settings_app_stewardship),
                         fontWeight = FontWeight.ExtraBold
                     )
                 },
@@ -187,7 +189,7 @@ fun SubscriptionStatusCard(
                         MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = "Subscription Status",
+                    text = stringResource(R.string.settings_subscription_status),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -195,9 +197,9 @@ fun SubscriptionStatusCard(
 
             Text(
                 text = if (isPro)
-                    "You are a Premium Member. Enjoy all unlimited features!"
+                    stringResource(R.string.settings_pro_member_msg)
                 else
-                    "You are currently on the Free Plan. Upgrade to unlock all features.",
+                    stringResource(R.string.settings_free_plan_msg),
                 style = MaterialTheme.typography.bodyMedium
             )
 
@@ -207,7 +209,7 @@ fun SubscriptionStatusCard(
                     modifier = Modifier.fillMaxWidth(),
                     shape = MaterialTheme.shapes.medium
                 ) {
-                    Text("Upgrade to Pro")
+                    Text(stringResource(R.string.settings_upgrade_button))
                 }
             } else {
                 Surface(
@@ -215,7 +217,7 @@ fun SubscriptionStatusCard(
                     shape = MaterialTheme.shapes.small
                 ) {
                     Text(
-                        text = "Pro",
+                        text = stringResource(R.string.settings_pro_label),
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onTertiary,
@@ -239,7 +241,7 @@ fun ExportSection(
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
-            text = "Data Management",
+            text = stringResource(R.string.settings_data_management),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(horizontal = 8.dp)
@@ -253,12 +255,12 @@ fun ExportSection(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "Backup & Restore",
+                    text = stringResource(R.string.settings_backup_restore),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Export your habits and history to a JSON file to keep them safe or move them to another device.",
+                    text = stringResource(R.string.settings_backup_desc),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -276,7 +278,7 @@ fun ExportSection(
                             color = MaterialTheme.colorScheme.onPrimary
                         )
                     } else {
-                        Text("Export to JSON")
+                        Text(stringResource(R.string.settings_export_button))
                     }
                 }
 
@@ -287,7 +289,7 @@ fun ExportSection(
                     enabled = !isLoading,
                     shape = MaterialTheme.shapes.medium
                 ) {
-                    Text("Import from JSON")
+                    Text(stringResource(R.string.settings_import_button))
                 }
             }
         }

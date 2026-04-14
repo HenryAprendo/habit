@@ -1,6 +1,5 @@
 package com.henrydev.habit.ui.screen.challenges
 
-import android.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,10 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.henrydev.habit.R
 import com.henrydev.habit.domain.model.Challenge
 import com.henrydev.habit.domain.model.ChallengeProgress
 import com.henrydev.habit.domain.model.Habit
@@ -64,7 +65,7 @@ fun ChallengesScreen(
             LargeTopAppBar(
                 title = {
                     Text(
-                        text = "Faith Challenges", // Spiritual identity title
+                        text = stringResource(R.string.challenges_faith_challenges_title),
                         fontWeight = FontWeight.ExtraBold
                     )
                 },
@@ -102,10 +103,10 @@ fun HabitSelectionDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Choose a Discipline for this Mission") },
+        title = { Text(stringResource(R.string.challenges_choose_discipline_dialog)) },
         text = {
             if (habits.isEmpty()) {
-                Text("You must establish a spiritual discipline to embark on this journey")
+                Text(stringResource(R.string.challenges_no_habits_msg))
             } else {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
                     items(habits, key = { it.id }) { habit ->
@@ -118,7 +119,7 @@ fun HabitSelectionDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("NOT NOW") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.challenges_not_now)) }
         }
     )
 }
@@ -182,7 +183,7 @@ private fun ChallengeItem(
                     shape = MaterialTheme.shapes.small
                 ) {
                     Text(
-                        text = if (isCompleted) "MISSION ACCOMPLISHED" else challenge.category.uppercase(),
+                        text = if (isCompleted) stringResource(R.string.challenges_mission_accomplished) else challenge.category.uppercase(),
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
@@ -194,13 +195,13 @@ private fun ChallengeItem(
                 if (isCompleted) {
                     Icon(
                         imageVector = Icons.Default.CheckCircle,
-                        contentDescription = "Completed",
+                        contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary
                     )
                 } else if (challenge.isPro) {
                     Icon(
                         imageVector = if (isUserPro) Icons.Default.CheckCircle else Icons.Default.Star,
-                        contentDescription = "status",
+                        contentDescription = null,
                         tint = if (isUserPro) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary
                     )
                 }
@@ -231,9 +232,9 @@ private fun ChallengeItem(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = if (isCompleted)
-                        "Faithful to the end. Foundation strengthened."
+                        stringResource(R.string.challenges_faithful_to_end)
                     else
-                        "${progress.completedDays} of ${progress.totalDays} faithful days",
+                        stringResource(R.string.challenges_faithful_days_count, progress.completedDays, progress.totalDays),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
@@ -247,7 +248,7 @@ private fun ChallengeItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Walk: ${challenge.durationDays} days",
+                    text = stringResource(R.string.challenges_walk_duration, challenge.durationDays),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.ExtraBold
@@ -264,10 +265,10 @@ private fun ChallengeItem(
                         CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
                     } else {
                         val buttonText = when {
-                            isCompleted -> "Finished"
-                            isJoined -> "On the Walk"
-                            challenge.isPro && !isUserPro -> "Advanced Spiritual Journey"
-                            else -> "Start Journey"
+                            isCompleted -> stringResource(R.string.challenges_status_finished)
+                            isJoined -> stringResource(R.string.challenges_status_on_walk)
+                            challenge.isPro && !isUserPro -> stringResource(R.string.challenges_status_advanced)
+                            else -> stringResource(R.string.challenges_status_start)
                         }
                         Text(buttonText)
                     }

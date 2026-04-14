@@ -44,10 +44,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.henrydev.habit.R
 import com.henrydev.habit.domain.model.HabitProgressDetail
 import com.henrydev.habit.domain.subscription.model.HabitStats
 import java.time.LocalDate
@@ -71,7 +73,7 @@ fun ProgressScreen(
             LargeTopAppBar(
                 title = {
                     Text(
-                        text = "Spiritual Growth", // Aligned with your identity choice
+                        text = stringResource(R.string.progress_spiritual_growth_title),
                         fontWeight = FontWeight.ExtraBold
                     )
                 },
@@ -118,30 +120,30 @@ fun ProgressContent(
         ) {
             val completionPercentage = (stats.totalCompletionRate * 100).toInt()
             val faithfulnessLabel = when {
-                completionPercentage >= 80 -> "Fruitful Season"
-                completionPercentage >= 50 -> "Steadfast Journey"
-                completionPercentage >= 1 -> "Growing in Faith"
-                else -> "A new Beginning"
+                completionPercentage >= 80 -> stringResource(R.string.progress_label_fruitful)
+                completionPercentage >= 50 -> stringResource(R.string.progress_label_steadfast)
+                completionPercentage >= 1 -> stringResource(R.string.progress_label_growing)
+                else -> stringResource(R.string.progress_label_new_beginning)
             }
 
             StatCard(
-                title = "Faithfulness",
+                title = stringResource(R.string.progress_stat_faithfulness),
                 value = "$completionPercentage%",
                 subTitle = faithfulnessLabel,
                 icon = Icons.Default.AutoGraph,
                 modifier = Modifier.weight(1f)
             )
             StatCard(
-                title = "Endurance Streak",
-                value = "${stats.bestStreakRecord} Days",
-                subTitle = "Firm in discipline",
+                title = stringResource(R.string.progress_stat_endurance),
+                value = stringResource(R.string.home_streak_days_plural, stats.bestStreakRecord),
+                subTitle = stringResource(R.string.progress_label_firm_discipline),
                 icon = Icons.Default.Whatshot,
                 modifier = Modifier.weight(1f),
                 containerColor = MaterialTheme.colorScheme.primaryContainer
             )
         }
         Text(
-            text = "Consistency of Heart",
+            text = stringResource(R.string.progress_consistency_heart),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold
         )
@@ -152,14 +154,14 @@ fun ProgressContent(
 
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Spiritual Disciplines",
+            text = stringResource(R.string.progress_spiritual_disciplines),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold
         )
         if (!isPro) {
             // Show a "Teaser" for Free users
             Text(
-                text = "Go deeper into your spiritual analysis. Unlock insights to strengthen your walk with God",
+                text = stringResource(R.string.progress_pro_teaser),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -177,8 +179,8 @@ fun ProgressContent(
         }
 
         StatCard(
-            title = "Days in the Presence",
-            value = "${stats.perfectDaysCount} Days Completed",
+            title = stringResource(R.string.progress_days_in_presence),
+            value = stringResource(R.string.progress_days_completed_count, stats.perfectDaysCount),
             icon = Icons.Default.CalendarMonth,
             modifier = Modifier.fillMaxWidth(),
             containerColor = MaterialTheme.colorScheme.secondaryContainer
@@ -209,7 +211,7 @@ fun HabitProgressItem(
             ) {
                 Text(
                     // If locked, we hide the real name to pique curiosity
-                    text = if (isLocked) "Advanced Discipline" else progress.habitName,
+                    text = if (isLocked) stringResource(R.string.progress_locked_discipline) else progress.habitName,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f),
@@ -220,7 +222,7 @@ fun HabitProgressItem(
                     // Visual "Gatekeeper": Shows a lock instead of the activity dots
                     Icon(
                         imageVector = Icons.Default.Lock,
-                        contentDescription = "Locked discipline",
+                        contentDescription = null,
                         modifier = Modifier.size(18.dp),
                         tint = MaterialTheme.colorScheme.primary
                     )
@@ -254,20 +256,20 @@ fun HabitProgressItem(
             ) {
                 // Metric 1: Firmness (Streaks)
                 StatMiniItem(
-                    label = "Firmness",
+                    label = stringResource(R.string.progress_metric_firmness),
                     // If locked, we hide the streak to encourage the upgrade
                     value = if (isLocked) "--" else "${progress.currentStreak}d",
-                    subLabel = if (isLocked) "PRO Feature" else "Best: ${progress.bestStreak}d",
+                    subLabel = if (isLocked) stringResource(R.string.progress_pro_feature) else "Best: ${progress.bestStreak}d",
                     icon = Icons.Default.Whatshot,
                     isPro = !isLocked // We pass false to grey out the icon
                 )
 
                 // Metric 2: Faithfulness (Rate)
                 StatMiniItem(
-                    label = "Faithfulness",
+                    label = stringResource(R.string.progress_metric_faithfulness),
                     // If locked, we hide the completion percentage
                     value = if (isLocked) "--" else "${(progress.completionRate * 100).toInt()}%",
-                    subLabel = if (isLocked) "Unlock Analysis" else "Total: ${progress.totalCompletions}",
+                    subLabel = if (isLocked) stringResource(R.string.progress_unlock_analysis) else "Total: ${progress.totalCompletions}",
                     icon = Icons.Default.CheckCircle,
                     isPro = !isLocked
                 )
@@ -289,7 +291,7 @@ private fun StatMiniItem(
     Row(verticalAlignment = Alignment.CenterVertically) {
         Icon(
             imageVector = icon,
-            contentDescription = "$label metric",
+            contentDescription = null,
             modifier = Modifier.size(24.dp),
             tint = if (isPro) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
         )
@@ -320,7 +322,7 @@ fun StatCard(
         Column(modifier = Modifier.padding(16.dp)) {
             Icon(
                 imageVector = icon,
-                contentDescription = "Icon for $title",
+                contentDescription = null,
                 modifier = Modifier.size(24.dp),
                 tint = MaterialTheme.colorScheme.primary
             )
@@ -392,7 +394,7 @@ fun MonthlyHeatmap(
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Your walk over the last month",
+                text = stringResource(R.string.progress_last_month_walk),
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.align(Alignment.End)
             )
@@ -409,7 +411,7 @@ fun EmptyStatsComponent() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Begin your spiritual walk. Complete your first discipline to see your progress",
+            text = stringResource(R.string.progress_empty_state),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = androidx.compose.ui.text.style.TextAlign.Center // Centramos el párrafo
