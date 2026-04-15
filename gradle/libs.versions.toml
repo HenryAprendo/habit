@@ -1,5 +1,8 @@
 [versions]
 agp = "8.13.2"
+datastorePreferences = "1.1.2"
+desugar_jdk_libs = "2.1.4"
+hiltNavigationCompose = "1.2.0"
 kotlin = "2.0.21"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -10,12 +13,21 @@ activityCompose = "1.12.2"
 composeBom = "2024.09.00"
 ksp = "2.0.21-1.0.28"
 hilt = "2.51.1"
+navigationCompose = "2.8.5"
 room = "2.6.1"
 serialization = "1.7.3"
 hiltWork = "1.2.0"
+workRuntimeKtx = "2.11.2"
+billingKtx = "7.1.1"
 
 [libraries]
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -37,6 +49,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
+billing-ktx = { group = "com.android.billingclient", name = "billing-ktx", version.ref = "billingKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

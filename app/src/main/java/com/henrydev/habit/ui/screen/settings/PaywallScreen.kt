@@ -1,5 +1,6 @@
 package com.henrydev.habit.ui.screen.settings
 
+import android.app.Activity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,8 +29,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,6 +46,8 @@ fun PaywallScreen(
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val activity = context as Activity
 
     LaunchedEffect(uiState.isSuccess) {
         if (uiState.isSuccess) {
@@ -124,7 +129,8 @@ fun PaywallScreen(
                 price = stringResource(R.string.paywall_plan_annual_price),
                 description = stringResource(R.string.paywall_plan_annual_desc),
                 isHighlighted = true,
-                onClick = { viewModel.purchasePro() } // Aquí pasarás el ID del plan anual
+                enabled = !uiState.isLoading,
+                onClick = { viewModel.purchasePro(activity,PaywallViewModel.PRODUCT_ID_ANNUAL) } // Aquí pasarás el ID del plan anual
             )
 
             PricingCard(
@@ -132,7 +138,8 @@ fun PaywallScreen(
                 price = stringResource(R.string.paywall_plan_monthly_price),
                 description = stringResource(R.string.paywall_plan_monthly_desc),
                 isHighlighted = false,
-                onClick = { viewModel.purchasePro() } // Aquí pasarás el ID del plan mensual
+                enabled = !uiState.isLoading,
+                onClick = { viewModel.purchasePro(activity,PaywallViewModel.PRODUCT_ID_MONTHLY) } // Aquí pasarás el ID del plan mensual
             )
         }
 
@@ -146,14 +153,45 @@ fun PaywallScreen(
             )
         }
 
-        TextButton(
-            onClick = onDismiss,
-            modifier = Modifier.padding(top = 8.dp)
+        uiState.errorMessage?.let { error ->
+            Surface(
+                color = MaterialTheme.colorScheme.errorContainer,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = error,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 12.dp)
+                )
+            }
+        }
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(top = 16.dp)
         ) {
-            Text(
-                text = stringResource(R.string.paywall_continue_basic),
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            TextButton(
+                onClick = {  }
+            ) {
+                Text(
+                    text = stringResource(R.string.paywall_restore_purchases),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+            TextButton(
+                onClick = onDismiss,
+            ) {
+                Text(
+                    text = stringResource(R.string.paywall_continue_basic),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -166,10 +204,11 @@ fun PricingCard(
     price: String,
     description: String,
     isHighlighted: Boolean,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     Surface(
-        onClick = onClick,
+        onClick = if (enabled) onClick else ({}),
         shape = MaterialTheme.shapes.large,
         color = if (isHighlighted) MaterialTheme.colorScheme.primaryContainer
         else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),

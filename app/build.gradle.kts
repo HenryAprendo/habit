@@ -68,31 +68,35 @@ dependencies {
     //DB
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(libs.billing.ktx)
     ksp(libs.room.compiler)
 
     //DI
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.androidx.hilt.navigation.compose)
 
     //Navigation compose
-    implementation("androidx.navigation:navigation-compose:2.8.5")
+    implementation(libs.androidx.navigation.compose)
 
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.androidx.compose.material.icons.extended)
     // Removed implementation("androidx.compose.animation:animation:1.10.5") - let BOM handle it or use standard version
 
     //DataStore
-    implementation("androidx.datastore:datastore-preferences:1.1.2")
+    implementation(libs.androidx.datastore.preferences)
 
     // WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.11.2")
+    implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.hilt.work)
     ksp(libs.androidx.hilt.compiler)
 
     implementation(libs.kotlinx.serialization.json)
 
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    //Google play billing
+    implementation("com.android.billingclient:billing-ktx:7.1.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

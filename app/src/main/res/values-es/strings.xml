@@ -50,7 +50,7 @@
     <string name="progress_spiritual_disciplines">Disciplinas Espirituales</string>
     <string name="progress_pro_teaser">Profundiza en tu análisis espiritual. Desbloquea información para fortalecer tu caminar con Dios</string>
     <string name="progress_days_in_presence">Días en la Presencia</string>
-    <string name="progress_days_completed_count">%1$d Días Completados</string>
+    <string name="progress_days_completed_count">%1$d Días</string>
     <string name="progress_locked_discipline">Disciplina Avanzada</string>
     <string name="progress_metric_firmness">Firmeza</string>
     <string name="progress_metric_faithfulness">Fidelidad</string>
@@ -113,12 +113,13 @@
     <string name="paywall_feature_no_ads_title">Experiencia Silenciosa</string>
     <string name="paywall_feature_no_ads_desc">Sin anuncios ni distracciones. Solo tú, tu disciplina y Su presencia.</string>
     <string name="paywall_plan_annual_title">Caminar Anual</string>
-    <string name="paywall_plan_annual_price">$39.99 / año</string>
-    <string name="paywall_plan_annual_desc">Ahorra 33% • La opción más fiel</string>
+    <string name="paywall_plan_annual_price">$29.99 / año</string>
+    <string name="paywall_plan_annual_desc">Ahorra 50% • La opción más fiel. Incluye una prueba gratuita de 7 días.</string>
     <string name="paywall_plan_monthly_title">Jornada Mensual</string>
     <string name="paywall_plan_monthly_price">$4.99 / mes</string>
     <string name="paywall_plan_monthly_desc">Compromiso espiritual flexible</string>
     <string name="paywall_continue_basic">Continuar con el Camino Básico</string>
+    <string name="paywall_restore_purchases">Compras de restauración de muro de pago</string>
 
     <!-- Devocionales Diarios -->
     <string name="devotional_verse_1">Confía en el Señor con todo tu corazón.</string>

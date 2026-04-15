@@ -113,12 +113,13 @@
     <string name="paywall_feature_no_ads_title">Silent Experience</string>
     <string name="paywall_feature_no_ads_desc">No ads or distractions. Just you, your discipline, and His presence.</string>
     <string name="paywall_plan_annual_title">Annual Walk</string>
-    <string name="paywall_plan_annual_price">$39.99 / year</string>
-    <string name="paywall_plan_annual_desc">Save 33% • Most faithful choice</string>
+    <string name="paywall_plan_annual_price">$29.99 / year</string>
+    <string name="paywall_plan_annual_desc">Save 50% • Most faithful choice. Includes 7-day Free Trial</string>
     <string name="paywall_plan_monthly_title">Monthly Journey</string>
     <string name="paywall_plan_monthly_price">$4.99 / month</string>
     <string name="paywall_plan_monthly_desc">Flexible spiritual commitment</string>
     <string name="paywall_continue_basic">Continue with Basic Walk</string>
+    <string name="paywall_restore_purchases">Paywall restore purchases</string>
 
     <!-- Daily Devotionals -->
     <!-- Day 1 -->
