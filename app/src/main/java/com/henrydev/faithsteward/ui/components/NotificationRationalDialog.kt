@@ -34,26 +34,26 @@ fun NotificationRationaleDialog(
         },
         title = {
             Text(
-                text = "notification_rationale_title",
+                text = stringResource(R.string.notification_rationale_title),
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center
             )
         },
         text = {
             Text(
-                text = "notification_rationale_desc",
+                text = stringResource(R.string.notification_rationale_desc),
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center
             )
         },
         confirmButton = {
             Button(onClick = onConfirm) {
-                Text(text = "notification_action_allow")
+                Text(text = stringResource(R.string.notification_action_allow))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = "notification_action_not_now")
+                Text(text = stringResource(R.string.notification_action_not_now))
             }
         }
     )

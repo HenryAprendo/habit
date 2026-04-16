@@ -343,4 +343,12 @@
 
     <string name="ch_steward_15_title">Kingdom Stewardship</string>
     <string name="ch_steward_15_desc">Master your time and resources for God\'s purposes during 15 focused days.</string>
+
+    <string name="notification_rationale_title">Daily Stewardship</string>
+    <string name="notification_rationale_desc">Enable reminders to maintain your spiritual
+        consistency throughout the day.
+    </string>
+    <string name="notification_action_allow">Enable</string>
+    <string name="notification_action_not_now">Not now</string>
+
 </resources>

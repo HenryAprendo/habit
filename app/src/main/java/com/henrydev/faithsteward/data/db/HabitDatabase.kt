@@ -21,7 +21,7 @@ import javax.inject.Provider
         ChallengeSubscriptionEntity::class,
         UserProfileEntity::class ],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 @TypeConverters(ChallengeConverters::class)
 abstract class HabitDatabase : RoomDatabase() {

@@ -310,4 +310,14 @@
     <string name="ch_steward_15_title">Mayordomía del Reino</string>
     <string name="ch_steward_15_desc">Domina tu tiempo y recursos para los propósitos de Dios durante 15 días de enfoque</string>
 
+    <string name="notification_rationale_title">Mayordomía Diaria</string>
+
+    <string name="notification_rationale_desc">Activa los recordatorios para mantener tu constancia
+        espiritual durante el día.
+    </string>
+
+    <string name="notification_action_allow">Activar</string>
+
+    <string name="notification_action_not_now">Ahora no</string>
+
 </resources>

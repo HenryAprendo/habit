@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
 
-    <style name="Theme.Habit" parent="android:Theme.Material.Light.NoActionBar" />
+<resources>
+    <!-- Estilo profesional para Faith Steward Splash -->
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Color de fondo (cámbialo al azul/oscuro de tu marca) -->
+        <item name="windowSplashScreenBackground">@color/brand_primary</item>
+
+        <!-- Tu icono de escudo y espiga -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+
+        <!-- El tema al que cambiará la app después de cargar -->
+        <item name="postSplashScreenTheme">@style/Theme.FaithSteward</item>
+    </style>
+    <!-- 2. El tema principal de la App (El que definas aquí DEBE coincidir con el de <application>) -->
+    <style name="Theme.FaithSteward" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Configuraciones de color de tu marca -->
+    </style>
 </resources>
