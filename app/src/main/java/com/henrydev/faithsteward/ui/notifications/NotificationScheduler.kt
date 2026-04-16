@@ -53,12 +53,17 @@ class NotificationScheduler @Inject constructor(
 
     private fun calculateInitialDelay(): Long {
         val now = LocalDateTime.now()
-        var target = now.withHour(10).withMinute(0).withSecond(0).withNano(0)
+        var target = now.withHour(15).withMinute(0).withSecond(0).withNano(0)
 
         if (now.isAfter(target)) {
             target = target.plusDays(1)
         }
-        return Duration.between(now,target).toMillis()
+
+        val delay = Duration.between(now,target).toMillis()
+
+        // Log de Auditoría Técnica para ver el delay real en Logcat
+        android.util.Log.d("NotificationScheduler", "Scheduled for 15:00. Delay: ${delay / 1000 / 60} min")
+        return delay
     }
 
 }

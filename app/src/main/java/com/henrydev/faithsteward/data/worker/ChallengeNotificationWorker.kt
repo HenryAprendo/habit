@@ -20,6 +20,11 @@ class ChallengeNotificationWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         try {
             val pendingChallenges = checkPendingChallengesUseCase()
+
+
+// Technical Audit: Logging the amount of pending challenges found
+            android.util.Log.d("ChallengeWorker", "Pending challenges found: ${pendingChallenges.size}")
+
             if (pendingChallenges.isNotEmpty()) {
                 val notificationTitle = "Don't break your streak!"
                 val notificationMessage = if (pendingChallenges.size == 1) {
@@ -31,9 +36,12 @@ class ChallengeNotificationWorker @AssistedInject constructor(
                     title = notificationTitle,
                     message = notificationMessage
                 )
+            } else {
+                android.util.Log.d("ChallengeWorker", "Notification skipped: All disciplines are up to date.")
             }
             return Result.success()
         } catch (e: Exception) {
+            android.util.Log.e("ChallengeWorker", "Error executing worker: ${e.message}")
             return Result.retry()
         }
 
