@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">habit</string>
+    <string name="app_name">Faith Steward</string>
     <string name="home_title">My habits</string>
     <string name="add_habit_title">New Habit</string>
     <string name="edit_habit_title">Edit Habit</string>
@@ -20,17 +20,17 @@
     <string name="home_total_points_label">TOTAL POINTS</string>
     <string name="home_progress_label">Progress</string>
     <string name="home_next_rank_points">Only %1$d points to next rank</string>
-    <string name="home_no_habits_title">No habits yet</string>
+    <string name="home_no_habits_title">The altar is Ready</string>
     <string name="home_no_habits_subtitle">Start your journey by adding your first daily goal.</string>
-    <string name="home_action_edit">Edit Habit</string>
-    <string name="home_action_delete">Delete Habit</string>
-    <string name="home_delete_confirm_title">Delete Habit?</string>
+    <string name="home_action_edit">Refine</string>
+    <string name="home_action_delete">Release</string>
+    <string name="home_delete_confirm_title">Delete discipline?</string>
     <string name="home_delete_confirm_msg">Are you sure you want to delete \"%1$s\"? All historical data will be lost forever.</string>
-    <string name="home_edit_dialog_title">Edit Habit</string>
-    <string name="home_edit_dialog_name_label">Habit Name</string>
-    <string name="home_edit_dialog_name_placeholder">e.g. Drink Water</string>
+    <string name="home_edit_dialog_title">Refine discipline</string>
+    <string name="home_edit_dialog_name_label">Discipline Name</string>
+    <string name="home_edit_dialog_name_placeholder">e.g. Find direction in the word</string>
     <string name="home_edit_dialog_desc_label">Description</string>
-    <string name="home_edit_dialog_desc_placeholder">e.g. 2 liters a day</string>
+    <string name="home_edit_dialog_desc_placeholder">e.g. To guide my life through meditation on the word</string>
     <string name="home_save_changes">Save Changes</string>
     <string name="home_cancel">Cancel</string>
     <string name="home_delete">Delete</string>
@@ -71,6 +71,9 @@
     <string name="add_habit_purpose_label">Spiritual Purpose</string>
     <string name="add_habit_purpose_placeholder">Why is this discipline important for your walk?</string>
     <string name="add_habit_frequency_label">Daily Dedication</string>
+    <string name="add_habit_error_name">Add discipline name required</string>
+    <string name="add_habit_error_purpose">Add discipline purpose required</string>
+    <string name="add_habit_error_frequency">Field required. Minimum 1 and Maximum 5</string>
 
     <!-- Settings Screen -->
     <string name="settings_app_stewardship">App Stewardship</string>

@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.henrydev.habit"
+    namespace = "com.henrydev.faithsteward"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.henrydev.habit"
+        applicationId = "com.henrydev.faithsteward"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -97,6 +97,8 @@ dependencies {
 
     //Google play billing
     implementation("com.android.billingclient:billing-ktx:7.1.1")
+
+    implementation("androidx.core:core-splashscreen:1.2.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -1,0 +1,76 @@
+package com.henrydev.faithsteward.domain.use_cases
+
+import com.henrydev.faithsteward.domain.repository.HabitRepository
+import com.henrydev.faithsteward.domain.repository.UserRepository
+import kotlinx.coroutines.flow.first
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import javax.inject.Inject
+
+class ExportDataUseCase @Inject constructor(
+    private val habitRepository: HabitRepository,
+    private val userRepository: UserRepository
+) {
+    private val jsonConfig = Json { prettyPrint = true }
+
+    suspend operator fun invoke(): String {
+        val allData = habitRepository.getHabitsWithHistory().first()
+
+        val userProfile = userRepository.getUserProfile().first()
+
+        //Mapeamos una estructura serializable
+        val backup = BackupModel(
+            version = 1,
+            exportDate = System.currentTimeMillis(),
+            userProfile = UserProfileBackup(
+                totalXp = userProfile?.totalXp ?: 0L,
+                level = userProfile?.level ?: 1
+            ),
+            habits = allData.map { habitWithHistory ->
+                HabitBackup(
+                    name = habitWithHistory.habit.name,
+                    description = habitWithHistory.habit.description,
+                    frequency = habitWithHistory.habit.frequency,
+                    history = habitWithHistory.history.map { log ->
+                        LogBackup(date = log.date, isCompleted = log.isCompleted)
+                    }
+                )
+            }
+        )
+
+        return jsonConfig.encodeToString(backup)
+    }
+}
+
+
+@Serializable
+data class BackupModel(
+    val version: Int,
+    val exportDate: Long,
+    val userProfile: UserProfileBackup,
+    val habits:  List<HabitBackup>
+)
+
+@Serializable
+data class UserProfileBackup(
+    val totalXp: Long,
+    val level: Int
+)
+
+@Serializable
+data class  HabitBackup(
+    val name: String,
+    val description: String,
+    val frequency: Int,
+    val history: List<LogBackup>
+)
+
+@Serializable
+data class LogBackup(
+    val date: Long,
+    val isCompleted: Boolean
+)
+
+
+

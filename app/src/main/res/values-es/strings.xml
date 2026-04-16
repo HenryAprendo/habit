@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">hábito</string>
+    <string name="app_name">Mayordomo de Fe</string>
     <string name="home_title">Mis hábitos</string>
     <string name="add_habit_title">Nuevo Hábito</string>
     <string name="edit_habit_title">Editar Hábito</string>
@@ -20,22 +20,22 @@
     <string name="home_total_points_label">PUNTOS TOTALES</string>
     <string name="home_progress_label">Progreso</string>
     <string name="home_next_rank_points">Solo %1$d puntos para el siguiente rango</string>
-    <string name="home_no_habits_title">Aún no hay hábitos</string>
+    <string name="home_no_habits_title">El altar está preparado</string>
     <string name="home_no_habits_subtitle">Comienza tu viaje añadiendo tu primera meta diaria.</string>
-    <string name="home_action_edit">Editar Hábito</string>
-    <string name="home_action_delete">Eliminar Hábito</string>
-    <string name="home_delete_confirm_title">¿Eliminar Hábito?</string>
+    <string name="home_action_edit">Perfecciona</string>
+    <string name="home_action_delete">Soltar</string>
+    <string name="home_delete_confirm_title">¿Eliminar disciplina?</string>
     <string name="home_delete_confirm_msg">¿Estás seguro de que quieres eliminar \"%1$s\"? Todos los datos históricos se perderán para siempre.</string>
     <string name="home_edit_dialog_title">Editar Hábito</string>
-    <string name="home_edit_dialog_name_label">Nombre del Hábito</string>
-    <string name="home_edit_dialog_name_placeholder">ej. Beber Agua</string>
+    <string name="home_edit_dialog_name_label">Nombre de disclina</string>
+    <string name="home_edit_dialog_name_placeholder">ej. Encuentra dirección en la palabra</string>
     <string name="home_edit_dialog_desc_label">Descripción</string>
-    <string name="home_edit_dialog_desc_placeholder">ej. 2 litros al día</string>
+    <string name="home_edit_dialog_desc_placeholder">ej. Guiar mi vida por la meditacion de la palabra.</string>
     <string name="home_save_changes">Guardar Cambios</string>
     <string name="home_cancel">Cancelar</string>
     <string name="home_delete">Eliminar</string>
     <string name="home_streak_day_singular">1 día de fidelidad</string>
-    <string name="home_streak_days_plural">%1$d días de fidelidad</string>
+    <string name="home_streak_days_plural">%1$d días</string>
 
     <!-- Progress Screen -->
     <string name="progress_spiritual_growth_title">Crecimiento Espiritual</string>
@@ -71,6 +71,9 @@
     <string name="add_habit_purpose_label">Propósito Espiritual</string>
     <string name="add_habit_purpose_placeholder">¿Por qué es importante esta disciplina para tu caminar?</string>
     <string name="add_habit_frequency_label">Dedicación Diaria</string>
+    <string name="add_habit_error_name">Nombre de disciplina requerido</string>
+    <string name="add_habit_error_purpose">Propósito de disciplina requerido</string>
+    <string name="add_habit_error_frequency">Campo requerido. Mínimo 1 y Máximo 5</string>
 
     <!-- Settings Screen -->
     <string name="settings_app_stewardship">Administración de la App</string>

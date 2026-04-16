@@ -1,0 +1,238 @@
+package com.henrydev.faithsteward.ui.screen.add_habit
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Numbers
+import androidx.compose.material3.Button
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.henrydev.faithsteward.R
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddItemScreen(
+    onNavigateBack: () -> Unit,
+    viewModel: AddItemViewModel = hiltViewModel(),
+    modifier: Modifier = Modifier
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    //Lógica de cierre automático tras guardado exitoso
+    LaunchedEffect(uiState.isSaveSuccess) {
+        if (uiState.isSaveSuccess) {
+            onNavigateBack()
+        }
+    }
+
+    // Local Scaffold to manage its own TopBar and content padding
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.add_habit_new_spiritual_discipline),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.add_habit_back_desc)
+                        )
+                    }
+                }
+            )
+        },
+        modifier = modifier
+    ) { innerPadding ->
+
+        AddItemBody(
+            uiState = uiState,
+            onValueChange = { detail, field -> viewModel.onChangeForm(detail, field) },
+            onSaveClick = { viewModel.insertHabit() },
+            modifier = modifier.fillMaxSize()
+                .padding(innerPadding)
+        )
+    }
+
+}
+
+////
+@Composable
+fun AddItemBody(
+    uiState: AddHabitUiState,
+    onValueChange: (HabitDetail, HabitField) -> Unit,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        ElevatedCard(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = MaterialTheme.colorScheme.surface
+            )
+        ) {
+            InputForm(
+                uiState = uiState,
+                onValueChange = onValueChange
+            )
+        }
+        Button(
+            onClick = onSaveClick,
+            enabled = uiState.isEntryValid && !uiState.isSaving,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+            shape = MaterialTheme.shapes.medium
+        ) {
+            if(uiState.isSaving) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    strokeWidth = 2.dp
+                )
+            } else {
+                Text(
+                    text = stringResource(R.string.add_habit_commit_button),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun InputForm(
+    uiState: AddHabitUiState,
+    onValueChange: (HabitDetail, HabitField) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+
+        val habitDetail = uiState.habitDetail
+
+        OutlinedTextField(
+            value = habitDetail.name,
+            onValueChange = { onValueChange(habitDetail.copy(name = it), HabitField.NAME) },
+            label = { Text(stringResource(R.string.add_habit_name_label)) },
+            placeholder = { Text(stringResource(R.string.add_habit_name_placeholder)) },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = null,
+                    tint = if (uiState.shouldShowError(HabitField.NAME)) MaterialTheme.colorScheme.error
+                        else MaterialTheme.colorScheme.primary
+
+                )
+            },
+            isError = uiState.shouldShowError(HabitField.NAME),
+            supportingText = {
+                if (uiState.shouldShowError(HabitField.NAME)) {
+                    Text(text = stringResource(R.string.add_habit_error_name))
+                }
+            },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next
+            ),
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+        OutlinedTextField(
+            value = habitDetail.description,
+            onValueChange = { onValueChange(habitDetail.copy(description = it), HabitField.DESCRIPTION) },
+            label = { Text(stringResource(R.string.add_habit_purpose_label)) },
+            placeholder = { Text(stringResource(R.string.add_habit_purpose_placeholder)) },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Description,
+                    contentDescription = null,
+                    tint = if (uiState.shouldShowError(HabitField.DESCRIPTION)) MaterialTheme.colorScheme.error
+                    else MaterialTheme.colorScheme.primary
+                )
+            },
+            isError = uiState.shouldShowError(HabitField.DESCRIPTION),
+            supportingText = {
+                if (uiState.shouldShowError(HabitField.DESCRIPTION)) {
+                    Text(text = stringResource(R.string.add_habit_error_purpose))
+                }
+            },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next
+            ),
+            minLines = 3,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = habitDetail.frequency,
+            onValueChange = { onValueChange(habitDetail.copy(frequency = it), HabitField.FREQUENCY) },
+            label = { Text(stringResource(R.string.add_habit_frequency_label)) },
+            placeholder = { Text("1") },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Numbers,
+                    contentDescription = null,
+                    tint = if (uiState.shouldShowError(HabitField.FREQUENCY)) MaterialTheme.colorScheme.error
+                    else MaterialTheme.colorScheme.primary
+                )
+            },
+            isError = uiState.shouldShowError(HabitField.FREQUENCY),
+            supportingText = {
+                if (uiState.shouldShowError(HabitField.FREQUENCY)) {
+                    Text(text = stringResource(R.string.add_habit_error_frequency))
+                }
+            },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Number
+            ),
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}

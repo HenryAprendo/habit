@@ -1,30 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <path android:pathData="M31,63.928c0,0 6.4,-11 12.1,-13.1c7.2,-2.6 26,-1.4 26,-1.4l38.1,38.1L107,108.928l-32,-1L31,63.928z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:endX="85.84757"
-                android:endY="92.4963"
-                android:startX="42.9492"
-                android:startY="49.59793"
-                android:type="linear">
-                <item
-                    android:color="#44000000"
-                    android:offset="0.0" />
-                <item
-                    android:color="#00000000"
-                    android:offset="1.0" />
-            </gradient>
-        </aapt:attr>
-    </path>
-    <path
-        android:fillColor="#FFFFFF"
-        android:fillType="nonZero"
-        android:pathData="M65.3,45.828l3.8,-6.6c0.2,-0.4 0.1,-0.9 -0.3,-1.1c-0.4,-0.2 -0.9,-0.1 -1.1,0.3l-3.9,6.7c-6.3,-2.8 -13.4,-2.8 -19.7,0l-3.9,-6.7c-0.2,-0.4 -0.7,-0.5 -1.1,-0.3C38.8,38.328 38.7,38.828 38.9,39.228l3.8,6.6C36.2,49.428 31.7,56.028 31,63.928h46C76.3,56.028 71.8,49.428 65.3,45.828zM43.4,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2c-0.3,-0.7 -0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C45.3,56.528 44.5,57.328 43.4,57.328L43.4,57.328zM64.6,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2s-0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C66.5,56.528 65.6,57.328 64.6,57.328L64.6,57.328z"
-        android:strokeWidth="1"
-        android:strokeColor="#00000000" />
+
+    <group
+        android:pivotX="54"
+        android:pivotY="54"
+        android:scaleX="0.75"
+        android:scaleY="0.75">
+
+        <!-- Outer Golden Shield Border (Noble & Protective) -->
+        <path
+            android:fillColor="@color/brand_accent"
+            android:pathData="M54,18 C65,18 85,22 85,22 L85,55 C85,75 54,90 54,90 C54,90 23,75 23,55 L23,22 C23,22 43,18 54,18 Z" />
+
+        <!-- Inner Dark Shield Face -->
+        <path
+            android:fillColor="@color/brand_primary"
+            android:pathData="M54,23 C63,23 80,26 80,26 L80,54 C80,71 54,84 54,84 C54,84 28,71 28,54 L28,26 C28,26 45,23 54,23 Z" />
+
+        <!-- Stylized Wheat Stalk (Symbol of Fruitful Discipline) -->
+        <!-- Stem -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="@color/white"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"
+            android:pathData="M54,75 C54,75 54,45 54,30" />
+
+        <!-- Grains -->
+        <path
+            android:fillColor="@color/white"
+            android:pathData="M54,30 C54,30 58,32 58,35 C58,38 54,40 54,40 C54,40 50,38 50,35 C50,32 54,30 54,30 Z" />
+        <path
+            android:fillColor="@color/white"
+            android:pathData="M54,42 C54,42 59,44 59,48 C59,52 54,54 54,54 C54,54 49,52 49,48 C49,44 54,42 54,42 Z" />
+        <path
+            android:fillColor="@color/white"
+            android:pathData="M54,56 C54,54 58,58 58,62 C58,66 54,68 54,68 C54,68 50,66 50,62 C50,58 54,54 54,56 Z" />
+
+        <!-- Side Grains -->
+        <path
+            android:fillColor="@color/white"
+            android:pathData="M56,36 C56,36 62,36 64,40 C66,44 62,48 62,48 C62,48 56,46 56,42 Z" />
+        <path
+            android:fillColor="@color/white"
+            android:pathData="M52,36 C52,36 46,36 44,40 C42,44 46,48 46,48 C46,48 52,46 52,42 Z" />
+        <path
+            android:fillColor="@color/white"
+            android:pathData="M56,48 C56,48 62,48 64,52 C66,56 62,60 62,60 C62,60 56,58 56,54 Z" />
+        <path
+            android:fillColor="@color/white"
+            android:pathData="M52,48 C52,48 46,48 44,52 C42,56 46,60 46,60 C46,60 52,58 52,54 Z" />
+
+    </group>
+
 </vector>
