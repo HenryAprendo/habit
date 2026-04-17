@@ -4,57 +4,62 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+  <group android:scaleX="0.9"
+      android:scaleY="0.9"
+      android:translateX="5.4"
+      android:translateY="5.4">
 
-    <group
-        android:pivotX="54"
-        android:pivotY="54"
-        android:scaleX="0.75"
-        android:scaleY="0.75">
+      <group
+          android:pivotX="54"
+          android:pivotY="54"
+          android:scaleX="0.75"
+          android:scaleY="0.75">
 
-        <!-- Outer Golden Shield Border (Noble & Protective) -->
-        <path
-            android:fillColor="@color/brand_accent"
-            android:pathData="M54,18 C65,18 85,22 85,22 L85,55 C85,75 54,90 54,90 C54,90 23,75 23,55 L23,22 C23,22 43,18 54,18 Z" />
+          <!-- Outer Golden Shield Border (Noble & Protective) -->
+          <path
+              android:fillColor="@color/brand_accent"
+              android:pathData="M54,18 C65,18 85,22 85,22 L85,55 C85,75 54,90 54,90 C54,90 23,75 23,55 L23,22 C23,22 43,18 54,18 Z" />
 
-        <!-- Inner Dark Shield Face -->
-        <path
-            android:fillColor="@color/brand_primary"
-            android:pathData="M54,23 C63,23 80,26 80,26 L80,54 C80,71 54,84 54,84 C54,84 28,71 28,54 L28,26 C28,26 45,23 54,23 Z" />
+          <!-- Inner Dark Shield Face -->
+          <path
+              android:fillColor="@color/brand_primary"
+              android:pathData="M54,23 C63,23 80,26 80,26 L80,54 C80,71 54,84 54,84 C54,84 28,71 28,54 L28,26 C28,26 45,23 54,23 Z" />
 
-        <!-- Stylized Wheat Stalk (Symbol of Fruitful Discipline) -->
-        <!-- Stem -->
-        <path
-            android:fillColor="#00000000"
-            android:strokeColor="@color/white"
-            android:strokeWidth="2"
-            android:strokeLineCap="round"
-            android:pathData="M54,75 C54,75 54,45 54,30" />
+          <!-- Stylized Wheat Stalk (Symbol of Fruitful Discipline) -->
+          <!-- Stem -->
+          <path
+              android:fillColor="#00000000"
+              android:strokeColor="@color/white"
+              android:strokeWidth="2"
+              android:strokeLineCap="round"
+              android:pathData="M54,75 C54,75 54,45 54,30" />
 
-        <!-- Grains -->
-        <path
-            android:fillColor="@color/white"
-            android:pathData="M54,30 C54,30 58,32 58,35 C58,38 54,40 54,40 C54,40 50,38 50,35 C50,32 54,30 54,30 Z" />
-        <path
-            android:fillColor="@color/white"
-            android:pathData="M54,42 C54,42 59,44 59,48 C59,52 54,54 54,54 C54,54 49,52 49,48 C49,44 54,42 54,42 Z" />
-        <path
-            android:fillColor="@color/white"
-            android:pathData="M54,56 C54,54 58,58 58,62 C58,66 54,68 54,68 C54,68 50,66 50,62 C50,58 54,54 54,56 Z" />
+          <!-- Grains -->
+          <path
+              android:fillColor="@color/white"
+              android:pathData="M54,30 C54,30 58,32 58,35 C58,38 54,40 54,40 C54,40 50,38 50,35 C50,32 54,30 54,30 Z" />
+          <path
+              android:fillColor="@color/white"
+              android:pathData="M54,42 C54,42 59,44 59,48 C59,52 54,54 54,54 C54,54 49,52 49,48 C49,44 54,42 54,42 Z" />
+          <path
+              android:fillColor="@color/white"
+              android:pathData="M54,56 C54,54 58,58 58,62 C58,66 54,68 54,68 C54,68 50,66 50,62 C50,58 54,54 54,56 Z" />
 
-        <!-- Side Grains -->
-        <path
-            android:fillColor="@color/white"
-            android:pathData="M56,36 C56,36 62,36 64,40 C66,44 62,48 62,48 C62,48 56,46 56,42 Z" />
-        <path
-            android:fillColor="@color/white"
-            android:pathData="M52,36 C52,36 46,36 44,40 C42,44 46,48 46,48 C46,48 52,46 52,42 Z" />
-        <path
-            android:fillColor="@color/white"
-            android:pathData="M56,48 C56,48 62,48 64,52 C66,56 62,60 62,60 C62,60 56,58 56,54 Z" />
-        <path
-            android:fillColor="@color/white"
-            android:pathData="M52,48 C52,48 46,48 44,52 C42,56 46,60 46,60 C46,60 52,58 52,54 Z" />
+          <!-- Side Grains -->
+          <path
+              android:fillColor="@color/white"
+              android:pathData="M56,36 C56,36 62,36 64,40 C66,44 62,48 62,48 C62,48 56,46 56,42 Z" />
+          <path
+              android:fillColor="@color/white"
+              android:pathData="M52,36 C52,36 46,36 44,40 C42,44 46,48 46,48 C46,48 52,46 52,42 Z" />
+          <path
+              android:fillColor="@color/white"
+              android:pathData="M56,48 C56,48 62,48 64,52 C66,56 62,60 62,60 C62,60 56,58 56,54 Z" />
+          <path
+              android:fillColor="@color/white"
+              android:pathData="M52,48 C52,48 46,48 44,52 C42,56 46,60 46,60 C46,60 52,58 52,54 Z" />
 
-    </group>
+      </group>
 
+  </group>
 </vector>

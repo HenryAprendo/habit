@@ -21,10 +21,10 @@ class NotificationScheduler @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     fun scheduleDailyReminder() {
-        // Contrainst: Optimize for battery life
+        // Constraints: simplified for MVP reliability
         val constraint = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
-            .setRequiresBatteryNotLow(true)
+            .setRequiresBatteryNotLow(false) // Changed to false for higher reliability in MVP
             .setRequiresDeviceIdle(false)
             .build()
 
@@ -35,7 +35,7 @@ class NotificationScheduler @Inject constructor(
             TimeUnit.MINUTES
         )
             .setConstraints(constraint)
-            .setInitialDelay(calculateInitialDelay(),TimeUnit.MILLISECONDS)
+            .setInitialDelay(calculateInitialDelay(), TimeUnit.MILLISECONDS)
             .addTag("challenge_reminder_tag")
             .setBackoffCriteria(
                 BackoffPolicy.EXPONENTIAL,
@@ -44,24 +44,25 @@ class NotificationScheduler @Inject constructor(
             )
             .build()
 
+        // CRITICAL CHANGE: Use KEEP instead of UPDATE to prevent rescheduling on every app open
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             "challenge_reminder_work",
-            ExistingPeriodicWorkPolicy.UPDATE,
+            ExistingPeriodicWorkPolicy.KEEP,
             workRequest
         )
     }
 
     private fun calculateInitialDelay(): Long {
         val now = LocalDateTime.now()
-        var target = now.withHour(18).withMinute(0).withSecond(0).withNano(0)
+        // Ensure this hour is in the future for testing, or set to 20:00 (8 PM) for production
+        var target = now.withHour(12).withMinute(0).withSecond(0).withNano(0)
 
         if (now.isAfter(target)) {
             target = target.plusDays(1)
         }
 
-        val delay = Duration.between(now,target).toMillis()
+        val delay = Duration.between(now, target).toMillis()
 
-        // Log de Auditoría Técnica para ver el delay real en Logcat
         android.util.Log.d("NotificationScheduler", "Scheduled for 18:00. Delay: ${delay / 1000 / 60} min")
         return delay
     }
