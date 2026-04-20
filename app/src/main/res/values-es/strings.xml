@@ -317,7 +317,9 @@
     </string>
 
     <string name="notification_action_allow">Activar</string>
-
     <string name="notification_action_not_now">Ahora no</string>
+
+    <string name="paywall_plan_annual_trial">Prueba de 7 días gratis</string>
+    <string name="paywall_trial_disclaimer">No se te cobrará hoy. Cancela en cualquier momento en Google Play antes de que termine la prueba.</string>
 
 </resources>

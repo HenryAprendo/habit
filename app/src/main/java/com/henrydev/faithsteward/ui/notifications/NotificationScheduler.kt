@@ -47,7 +47,7 @@ class NotificationScheduler @Inject constructor(
         // CRITICAL CHANGE: Use KEEP instead of UPDATE to prevent rescheduling on every app open
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             "challenge_reminder_work",
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingPeriodicWorkPolicy.REPLACE,
             workRequest
         )
     }
@@ -55,7 +55,7 @@ class NotificationScheduler @Inject constructor(
     private fun calculateInitialDelay(): Long {
         val now = LocalDateTime.now()
         // Ensure this hour is in the future for testing, or set to 20:00 (8 PM) for production
-        var target = now.withHour(12).withMinute(0).withSecond(0).withNano(0)
+        var target = now.withHour(17).withMinute(0).withSecond(0).withNano(0)
 
         if (now.isAfter(target)) {
             target = target.plusDays(1)

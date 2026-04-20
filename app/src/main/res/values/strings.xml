@@ -351,4 +351,9 @@
     <string name="notification_action_allow">Enable</string>
     <string name="notification_action_not_now">Not now</string>
 
+    <string name="paywall_plan_annual_trial">7 Days Free Trial</string>
+    <string name="paywall_trial_disclaimer">You won\'t be charged today. Cancel anytime in Google
+        Play before the trial ends.
+    </string>
+
 </resources>

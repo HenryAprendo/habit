@@ -126,6 +126,7 @@ fun PaywallScreen(
                 title = stringResource(R.string.paywall_plan_annual_title),
                 price = stringResource(R.string.paywall_plan_annual_price),
                 description = stringResource(R.string.paywall_plan_annual_desc),
+                trialPeriod = stringResource(R.string.paywall_plan_annual_trial),
                 isHighlighted = true,
                 enabled = !uiState.isLoading,
                 onClick = { viewModel.purchasePro(activity,PaywallViewModel.PRODUCT_ID_ANNUAL) } // Aquí pasarás el ID del plan anual
@@ -135,6 +136,7 @@ fun PaywallScreen(
                 title = stringResource(R.string.paywall_plan_monthly_title),
                 price = stringResource(R.string.paywall_plan_monthly_price),
                 description = stringResource(R.string.paywall_plan_monthly_desc),
+                trialPeriod = null,
                 isHighlighted = false,
                 enabled = !uiState.isLoading,
                 onClick = { viewModel.purchasePro(activity,PaywallViewModel.PRODUCT_ID_MONTHLY) } // Aquí pasarás el ID del plan mensual
@@ -174,7 +176,7 @@ fun PaywallScreen(
             modifier = Modifier.padding(top = 16.dp)
         ) {
             TextButton(
-                onClick = {  }
+                onClick = { viewModel.restorePurchases() }
             ) {
                 Text(
                     text = stringResource(R.string.paywall_restore_purchases),
@@ -191,7 +193,13 @@ fun PaywallScreen(
                 )
             }
         }
-
+        Text(
+            text = stringResource(R.string.paywall_trial_disclaimer),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 8.dp)
+        )
         Spacer(modifier = Modifier.height(24.dp))
     }
 }
@@ -199,8 +207,8 @@ fun PaywallScreen(
 @Composable
 fun PricingCard(
     title: String,
-    price: String,
-    description: String,
+    price: String,    description: String,
+    trialPeriod: String? = null, // "7 Days Free"
     isHighlighted: Boolean,
     enabled: Boolean = true,
     onClick: () -> Unit
@@ -213,30 +221,44 @@ fun PricingCard(
         border = if (isHighlighted) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Row(
-            modifier = Modifier.padding(20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = if (isHighlighted) MaterialTheme.colorScheme.onPrimaryContainer
-                    else MaterialTheme.colorScheme.onSurfaceVariant
-                )
+        Column(modifier = Modifier.padding(20.dp)) {
+            if (trialPeriod != null) {
+                Surface(
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = MaterialTheme.shapes.extraSmall,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                ) {
+                    Text(
+                        text = trialPeriod.uppercase(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
-            Text(
-                text = price,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colorScheme.primary
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = if (isHighlighted) MaterialTheme.colorScheme.onPrimaryContainer
+                        else MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = description,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = if (isHighlighted) MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
+                        else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Text(text = price, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.ExtraBold)
+            }
         }
     }
 }
