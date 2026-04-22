@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
@@ -21,21 +23,20 @@ class NotificationScheduler @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     fun scheduleDailyReminder() {
-        // Constraints: simplified for MVP reliability
+        android.util.Log.d("NotificationScheduler", "scheduleDailyReminder() called")
+
         val constraint = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
-            .setRequiresBatteryNotLow(false) // Changed to false for higher reliability in MVP
+            .setRequiresBatteryNotLow(false)
             .setRequiresDeviceIdle(false)
             .build()
 
-        val workRequest = PeriodicWorkRequestBuilder<ChallengeNotificationWorker>(
-            24,
-            TimeUnit.HOURS,
-            15,
-            TimeUnit.MINUTES
-        )
+        val delay = calculateInitialDelay()
+
+        // One-time request for the first notification (fires at the target hour today/tomorrow)
+        val oneTimeRequest = OneTimeWorkRequestBuilder<ChallengeNotificationWorker>()
             .setConstraints(constraint)
-            .setInitialDelay(calculateInitialDelay(), TimeUnit.MILLISECONDS)
+            .setInitialDelay(delay, TimeUnit.MILLISECONDS)
             .addTag("challenge_reminder_tag")
             .setBackoffCriteria(
                 BackoffPolicy.EXPONENTIAL,
@@ -44,27 +45,58 @@ class NotificationScheduler @Inject constructor(
             )
             .build()
 
-        // CRITICAL CHANGE: Use KEEP instead of UPDATE to prevent rescheduling on every app open
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            "challenge_reminder_work",
-            ExistingPeriodicWorkPolicy.REPLACE,
-            workRequest
+        // Periodic request for daily recurrence (subsequent days)
+        val periodicRequest = PeriodicWorkRequestBuilder<ChallengeNotificationWorker>(
+            24, TimeUnit.HOURS,
+            15, TimeUnit.MINUTES
         )
+            .setConstraints(constraint)
+            .setInitialDelay(delay + TimeUnit.HOURS.toMillis(24), TimeUnit.MILLISECONDS)
+            .addTag("challenge_reminder_tag")
+            .setBackoffCriteria(
+                BackoffPolicy.EXPONENTIAL,
+                WorkRequest.MIN_BACKOFF_MILLIS,
+                TimeUnit.MILLISECONDS
+            )
+            .build()
+
+        try {
+            val workManager = WorkManager.getInstance(context)
+
+            // Schedule one-time: KEEP avoids rescheduling if already pending
+            workManager.enqueueUniqueWork(
+                "challenge_reminder_once",
+                ExistingWorkPolicy.KEEP,
+                oneTimeRequest
+            )
+            android.util.Log.d("NotificationScheduler", "One-time work enqueued, delay=${delay / 1000 / 60} min")
+
+            // Schedule periodic: KEEP so it doesn't reset on each app open
+            workManager.enqueueUniquePeriodicWork(
+                "challenge_reminder_periodic",
+                ExistingPeriodicWorkPolicy.KEEP,
+                periodicRequest
+            )
+            android.util.Log.d("NotificationScheduler", "Periodic work enqueued, first run in ~${(delay + TimeUnit.HOURS.toMillis(24)) / 1000 / 60 / 60} hours")
+
+        } catch (e: Exception) {
+            android.util.Log.e("NotificationScheduler", "Failed to enqueue work: ${e.message}", e)
+        }
     }
 
     private fun calculateInitialDelay(): Long {
         val now = LocalDateTime.now()
-        // Ensure this hour is in the future for testing, or set to 20:00 (8 PM) for production
-        var target = now.withHour(17).withMinute(0).withSecond(0).withNano(0)
+        var target = now.withHour(9).withMinute(0).withSecond(0).withNano(0)
 
         if (now.isAfter(target)) {
             target = target.plusDays(1)
         }
 
         val delay = Duration.between(now, target).toMillis()
+        val safeDelay = if (delay <= 0) 60000L else delay
 
-        android.util.Log.d("NotificationScheduler", "Scheduled for 18:00. Delay: ${delay / 1000 / 60} min")
-        return delay
+        android.util.Log.d("NotificationScheduler", "Calculated delay: ${safeDelay / 1000 / 60} min")
+        return safeDelay
     }
 
 }

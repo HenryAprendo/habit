@@ -39,8 +39,9 @@ class MainActivity : ComponentActivity() {
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
+        android.util.Log.d("MainActivity", "Permission result: isGranted=$isGranted")
         if (isGranted) {
-            // Stewardship confirmed: Schedule the reminder at 13:00
+            android.util.Log.d("MainActivity", "Calling scheduleDailyReminder() from permission callback")
             notificationScheduler.scheduleDailyReminder()
         }
     }
@@ -74,10 +75,12 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-            == PackageManager.PERMISSION_GRANTED
-        ) {
+        val hasPermission = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+            PackageManager.PERMISSION_GRANTED
+        android.util.Log.d("MainActivity", "onCreate: hasPermission=$hasPermission, SDK=${Build.VERSION.SDK_INT}")
+        if (hasPermission) {
+            android.util.Log.d("MainActivity", "Calling scheduleDailyReminder() from onCreate")
             notificationScheduler.scheduleDailyReminder()
         }
 

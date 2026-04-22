@@ -40,7 +40,7 @@ class PaywallViewModel @Inject constructor(
                         _uiState.update { it.copy(isLoading = false, errorMessage = "Purchase cancelled") }
                     }
                     is PurchaseResult.Error -> {
-                        _uiState.update { it.copy(isLoading = false,  errorMessage = "result.message") }
+                        _uiState.update { it.copy(isLoading = false,  errorMessage = result.message) }
                     }
                     is PurchaseResult.Pending -> {
                         //Keep loading for pending payments

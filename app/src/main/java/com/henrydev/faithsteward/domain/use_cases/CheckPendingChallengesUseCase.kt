@@ -24,7 +24,7 @@ class CheckPendingChallengesUseCase @Inject constructor(
                     .atZone(ZoneId.systemDefault())
                     .toLocalDate()
 
-                today == logDate && log.isCompleted
+                today.isEqual(logDate) && log.isCompleted
             } ?: false
             !isCompletedToday
         }.map { subscription ->

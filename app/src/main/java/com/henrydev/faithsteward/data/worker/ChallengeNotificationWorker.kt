@@ -1,6 +1,10 @@
 package com.henrydev.faithsteward.data.worker
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.content.ContextCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -17,13 +21,24 @@ class ChallengeNotificationWorker @AssistedInject constructor(
     private val checkPendingChallengesUseCase: CheckPendingChallengesUseCase
 ): CoroutineWorker(context,workerParams) {
 
+    init {
+        android.util.Log.d("ChallengeWorker", "INTERNAL LOG: Class instantiated by System")
+    }
+
+
     override suspend fun doWork(): Result {
+        android.util.Log.d("ChallengeWorker", "doWork() triggered by System")
         try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                android.util.Log.w("ChallengeWorker", "POST_NOTIFICATIONS permission not granted, skipping")
+                return Result.success()
+            }
+
+            android.util.Log.d("ChallengeWorker", "Firing notification")
             val pendingChallenges = checkPendingChallengesUseCase()
-
-
-// Technical Audit: Logging the amount of pending challenges found
-            android.util.Log.d("ChallengeWorker", "Pending challenges found: ${pendingChallenges.size}")
 
             if (pendingChallenges.isNotEmpty()) {
                 val notificationTitle = "Don't break your streak!"
