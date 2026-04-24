@@ -357,4 +357,5 @@
     </string>
     <string name="paywall_payment_pending">Your payment is being processed. We will unlock your Pro stewardship as soon as Google Play confirms it.</string>
 
+    <string name="progress_best_streak">Best: %1$d d</string>
 </resources>

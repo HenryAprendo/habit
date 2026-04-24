@@ -323,4 +323,5 @@
     <string name="paywall_trial_disclaimer">No se te cobrará hoy. Cancela en cualquier momento en Google Play antes de que termine la prueba.</string>
     <string name="paywall_payment_pending">Tu pago está en proceso. Desbloquearemos tu mayordomía Pro en cuanto Google Play lo confirme.</string>
 
+    <string name="progress_best_streak">Mejor: %1$d d</string>
 </resources>

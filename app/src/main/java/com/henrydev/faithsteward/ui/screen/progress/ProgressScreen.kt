@@ -259,7 +259,7 @@ fun HabitProgressItem(
                     label = stringResource(R.string.progress_metric_firmness),
                     // If locked, we hide the streak to encourage the upgrade
                     value = if (isLocked) "--" else "${progress.currentStreak}d",
-                    subLabel = if (isLocked) stringResource(R.string.progress_pro_feature) else "Best: ${progress.bestStreak}d",
+                    subLabel = if (isLocked) stringResource(R.string.progress_pro_feature) else stringResource(R.string.progress_best_streak,progress.bestStreak),
                     icon = Icons.Default.Whatshot,
                     isPro = !isLocked // We pass false to grey out the icon
                 )
