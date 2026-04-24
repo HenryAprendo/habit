@@ -126,6 +126,15 @@ class GooglePlayBillingManager @Inject constructor(
      * Critical for Stewardship: Verifies if the user is already PRO
      * by checking the Google Play cache. Suspends until the async query
      * callback returns, so the return value reflects the real state.
+     *
+     * Safety: we ONLY update the local DataStore when Google responds OK.
+     * On any error (network, Play Services unavailable, transient failure),
+     * we leave the existing subscription flag untouched so legitimate Pro
+     * users are never falsely downgraded.
+     *
+     * Self-healing: any PURCHASED entry that was never acknowledged (e.g. the
+     * acknowledge callback never fired during a sandbox/test purchase) gets
+     * retried silently here, so Google does not refund the subscription.
      */
     override suspend fun checkSubscriptionStatus(): Boolean {
         if (!billingClient.isReady) return false
@@ -136,15 +145,25 @@ class GooglePlayBillingManager @Inject constructor(
 
         return suspendCancellableCoroutine { continuation ->
             billingClient.queryPurchasesAsync(params) { billingResult, purchases ->
-                val isPro = if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    purchases.any { it.purchaseState == Purchase.PurchaseState.PURCHASED }
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    val activePurchases = purchases.filter {
+                        it.purchaseState == Purchase.PurchaseState.PURCHASED
+                    }
+                    val isPro = activePurchases.isNotEmpty()
+
+                    // Retry acknowledgement for any purchases still not acked.
+                    activePurchases
+                        .filter { !it.isAcknowledged }
+                        .forEach { acknowledgeSilently(it) }
+
+                    scope.launch {
+                        subscriptionRepository.updateSubscriptionStatus(isPro)
+                    }
+                    if (continuation.isActive) continuation.resume(isPro)
                 } else {
-                    false
+                    // Query failed — don't touch DataStore, keep the cached state.
+                    if (continuation.isActive) continuation.resume(false)
                 }
-                scope.launch {
-                    subscriptionRepository.updateSubscriptionStatus(isPro)
-                }
-                if (continuation.isActive) continuation.resume(isPro)
             }
         }
     }
@@ -208,9 +227,7 @@ class GooglePlayBillingManager @Inject constructor(
                 purchases?.forEach { purchase ->
                     if (purchase != null) {
                         when (purchase.purchaseState) {
-                            Purchase.PurchaseState.PURCHASED -> {
-                                scope.launch { acknowledgePurchase(purchase) }
-                            }
+                            Purchase.PurchaseState.PURCHASED -> handlePurchaseSuccess(purchase)
                             Purchase.PurchaseState.PENDING -> {
                                 // Google Play requires us to surface pending state
                                 // (e.g. awaiting parental approval, slow payment methods).
@@ -239,40 +256,34 @@ class GooglePlayBillingManager @Inject constructor(
 
 
     /**
-     * Confirms the purchase to Google Play and emits Success so the paywall can close.
-     * If not acknowledged within 3 days, Google will refund the user.
+     * Handles a confirmed PURCHASED state by granting Pro immediately and then
+     * firing the acknowledgement in background. Decoupling the UI feedback from
+     * the ack callback avoids a paywall stuck in loading when Google Play's
+     * acknowledge callback does not fire (sandbox/test purchases frequently
+     * exhibit this, but it can also happen transiently in production).
+     *
+     * If acknowledgement silently fails, checkSubscriptionStatus() retries it
+     * on the next connect() so Google does not refund the subscription.
      */
-    private suspend fun acknowledgePurchase(purchase: Purchase) {
-        if (purchase.purchaseState != Purchase.PurchaseState.PURCHASED) return
-
-        if (purchase.isAcknowledged) {
-            // Already acked in a previous session — just reflect state and notify UI.
+    private fun handlePurchaseSuccess(purchase: Purchase) {
+        scope.launch {
             subscriptionRepository.updateSubscriptionStatus(true)
             _purchaseResult.emit(PurchaseResult.Success)
-            return
         }
+        if (!purchase.isAcknowledged) {
+            acknowledgeSilently(purchase)
+        }
+    }
 
-        val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+    /**
+     * Fire-and-forget acknowledgement. Errors are swallowed because the retry
+     * loop in checkSubscriptionStatus() will catch them on the next app start.
+     */
+    private fun acknowledgeSilently(purchase: Purchase) {
+        val params = AcknowledgePurchaseParams.newBuilder()
             .setPurchaseToken(purchase.purchaseToken)
             .build()
-
-        billingClient.acknowledgePurchase(acknowledgePurchaseParams) { billingResult ->
-            scope.launch {
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    // Stewardship confirmed: the user is now officially a PRO Steward.
-                    subscriptionRepository.updateSubscriptionStatus(true)
-                    _purchaseResult.emit(PurchaseResult.Success)
-                } else {
-                    _purchaseResult.emit(
-                        PurchaseResult.Error(
-                            billingResult.debugMessage.ifEmpty {
-                                "Could not acknowledge purchase"
-                            }
-                        )
-                    )
-                }
-            }
-        }
+        billingClient.acknowledgePurchase(params) { /* no-op; retried on next connect */ }
     }
 
 
