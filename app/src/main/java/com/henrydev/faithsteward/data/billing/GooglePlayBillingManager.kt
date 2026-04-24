@@ -24,12 +24,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import com.android.billingclient.api.AcknowledgePurchaseParams
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlin.coroutines.resume
 
 /**
  * Technical Implementation of Google Play Billing Library.
@@ -42,8 +46,14 @@ class GooglePlayBillingManager @Inject constructor(
     private val subscriptionRepository: SubscriptionRepository
 ): BillingService, PurchasesUpdatedListener {
 
-    private val _purchaseResult = MutableSharedFlow<PurchaseResult>()
-    val purchaseResult = _purchaseResult.asSharedFlow()
+    // replay=1 so the last purchase result survives Activity recreation during
+    // Google Play's biometric/password auth flow (when onPause destroys the Activity).
+    private val _purchaseResult = MutableSharedFlow<PurchaseResult>(
+        replay = 1,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    override val purchaseResult: SharedFlow<PurchaseResult> = _purchaseResult.asSharedFlow()
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private val _isReady = MutableStateFlow(false)
@@ -104,6 +114,7 @@ class GooglePlayBillingManager @Inject constructor(
         return withContext(Dispatchers.Main) {
             val billingResult = billingClient.launchBillingFlow(activity, billingFlowParams)
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                // Flow launched; the real result comes via onPurchasesUpdated.
                 PurchaseResult.Pending
             } else {
                 PurchaseResult.Error(billingResult.debugMessage)
@@ -113,7 +124,8 @@ class GooglePlayBillingManager @Inject constructor(
 
     /**
      * Critical for Stewardship: Verifies if the user is already PRO
-     * by checking the Google Play cache.
+     * by checking the Google Play cache. Suspends until the async query
+     * callback returns, so the return value reflects the real state.
      */
     override suspend fun checkSubscriptionStatus(): Boolean {
         if (!billingClient.isReady) return false
@@ -122,22 +134,34 @@ class GooglePlayBillingManager @Inject constructor(
             .setProductType(BillingClient.ProductType.SUBS)
             .build()
 
-        return withContext(Dispatchers.IO) {
+        return suspendCancellableCoroutine { continuation ->
             billingClient.queryPurchasesAsync(params) { billingResult, purchases ->
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    val isPro = purchases.any { it.purchaseState == Purchase.PurchaseState.PURCHASED }
-                    scope.launch {
-                        subscriptionRepository.updateSubscriptionStatus(isPro)
-                    }
+                val isPro = if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    purchases.any { it.purchaseState == Purchase.PurchaseState.PURCHASED }
+                } else {
+                    false
                 }
+                scope.launch {
+                    subscriptionRepository.updateSubscriptionStatus(isPro)
+                }
+                if (continuation.isActive) continuation.resume(isPro)
             }
-            true
         }
     }
 
     override suspend fun getProductPrice(productId: String): String? {
         val productDetails = queryProductDetails(productId)
         return productDetails?.subscriptionOfferDetails?.firstOrNull()?.pricingPhases?.pricingPhaseList?.lastOrNull()?.formattedPrice
+    }
+
+    /**
+     * Clears the replay cache after the UI has handled a terminal purchase result
+     * (Success / Cancelled / Error). This prevents stale events from firing when
+     * the user reopens the paywall later.
+     */
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    override fun consumePurchaseResult() {
+        _purchaseResult.resetReplayCache()
     }
 
     /**
@@ -183,7 +207,18 @@ class GooglePlayBillingManager @Inject constructor(
             BillingClient.BillingResponseCode.OK -> {
                 purchases?.forEach { purchase ->
                     if (purchase != null) {
-                        scope.launch { acknowledgePurchase(purchase) }
+                        when (purchase.purchaseState) {
+                            Purchase.PurchaseState.PURCHASED -> {
+                                scope.launch { acknowledgePurchase(purchase) }
+                            }
+                            Purchase.PurchaseState.PENDING -> {
+                                // Google Play requires us to surface pending state
+                                // (e.g. awaiting parental approval, slow payment methods).
+                                scope.launch {
+                                    _purchaseResult.emit(PurchaseResult.Pending)
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -204,23 +239,37 @@ class GooglePlayBillingManager @Inject constructor(
 
 
     /**
-     * Confirms the purchase to Google Play.
-     * If not acknowledged within 3 minutes, Google will refund the user.
+     * Confirms the purchase to Google Play and emits Success so the paywall can close.
+     * If not acknowledged within 3 days, Google will refund the user.
      */
     private suspend fun acknowledgePurchase(purchase: Purchase) {
-        if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged) {
-            val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
-                .setPurchaseToken(purchase.purchaseToken)
-                .build()
+        if (purchase.purchaseState != Purchase.PurchaseState.PURCHASED) return
 
-            withContext(Dispatchers.IO) {
-                billingClient.acknowledgePurchase(acknowledgePurchaseParams) { billingResult ->
-                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                        // Stewardship confirmed: The user is now officially a PRO Steward
-                        scope.launch {
-                            subscriptionRepository.updateSubscriptionStatus(true)
-                        }
-                    }
+        if (purchase.isAcknowledged) {
+            // Already acked in a previous session — just reflect state and notify UI.
+            subscriptionRepository.updateSubscriptionStatus(true)
+            _purchaseResult.emit(PurchaseResult.Success)
+            return
+        }
+
+        val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+            .setPurchaseToken(purchase.purchaseToken)
+            .build()
+
+        billingClient.acknowledgePurchase(acknowledgePurchaseParams) { billingResult ->
+            scope.launch {
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    // Stewardship confirmed: the user is now officially a PRO Steward.
+                    subscriptionRepository.updateSubscriptionStatus(true)
+                    _purchaseResult.emit(PurchaseResult.Success)
+                } else {
+                    _purchaseResult.emit(
+                        PurchaseResult.Error(
+                            billingResult.debugMessage.ifEmpty {
+                                "Could not acknowledge purchase"
+                            }
+                        )
+                    )
                 }
             }
         }

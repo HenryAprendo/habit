@@ -153,6 +153,24 @@ fun PaywallScreen(
             )
         }
 
+        if (uiState.isPendingPayment) {
+            Surface(
+                color = MaterialTheme.colorScheme.tertiaryContainer,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(R.string.paywall_payment_pending),
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                    style = MaterialTheme.typography.bodySmall,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(12.dp)
+                )
+            }
+        }
+
         uiState.errorMessage?.let { error ->
             Surface(
                 color = MaterialTheme.colorScheme.errorContainer,

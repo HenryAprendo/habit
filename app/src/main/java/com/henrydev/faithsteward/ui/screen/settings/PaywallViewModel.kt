@@ -3,7 +3,6 @@ package com.henrydev.faithsteward.ui.screen.settings
 import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.henrydev.faithsteward.data.billing.GooglePlayBillingManager
 import com.henrydev.faithsteward.domain.billing.BillingService
 import com.henrydev.faithsteward.domain.billing.PurchaseResult
 import com.henrydev.faithsteward.domain.subscription.repository.SubscriptionRepository
@@ -31,19 +30,50 @@ class PaywallViewModel @Inject constructor(
 
     private fun observePurchaseResults() {
         viewModelScope.launch {
-            (billingService as? GooglePlayBillingManager)?.purchaseResult?.collect { result ->
+            billingService.purchaseResult.collect { result ->
                 when(result) {
                     is PurchaseResult.Success -> {
-                        _uiState.update { it.copy(isLoading = false, isSuccess = true) }
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                isSuccess = true,
+                                isPendingPayment = false,
+                                errorMessage = null
+                            )
+                        }
+                        billingService.consumePurchaseResult()
                     }
                     is PurchaseResult.Cancelled -> {
-                        _uiState.update { it.copy(isLoading = false, errorMessage = "Purchase cancelled") }
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                isPendingPayment = false,
+                                errorMessage = "Purchase cancelled"
+                            )
+                        }
+                        billingService.consumePurchaseResult()
                     }
                     is PurchaseResult.Error -> {
-                        _uiState.update { it.copy(isLoading = false,  errorMessage = result.message) }
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                isPendingPayment = false,
+                                errorMessage = result.message
+                            )
+                        }
+                        billingService.consumePurchaseResult()
                     }
                     is PurchaseResult.Pending -> {
-                        //Keep loading for pending payments
+                        // Payment awaiting confirmation (parental approval, slow
+                        // payment methods, etc). Keep the paywall open and inform
+                        // the user — the final Success/Error will arrive later.
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                isPendingPayment = true,
+                                errorMessage = null
+                            )
+                        }
                     }
                 }
             }
@@ -51,10 +81,9 @@ class PaywallViewModel @Inject constructor(
     }
 
     fun purchasePro(activity: Activity, productId: String) {
-        _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+        _uiState.update { it.copy(isLoading = true, errorMessage = null, isPendingPayment = false) }
         viewModelScope.launch {
-            // Updated manager logic to receive the Activity context safely
-            val result = (billingService as? GooglePlayBillingManager)?.purchaseProduct( activity, productId )
+            val result = billingService.purchaseProduct(activity, productId)
 
             if (result is PurchaseResult.Error) {
                 _uiState.update { it.copy(isLoading = false, errorMessage = result.message) }
@@ -96,5 +125,6 @@ class PaywallViewModel @Inject constructor(
 data class PaywallUiState(
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
+    val isPendingPayment: Boolean = false,
     val errorMessage: String? = null
 )

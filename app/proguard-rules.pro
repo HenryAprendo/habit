@@ -1,21 +1,24 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# 🛡️ Faith Steward - Production ProGuard Rules
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# [Hilt / Dagger]
+# Evita que R8 elimine las clases generadas por Hilt para la inyección de dependencias.
+-keep class * extends android.app.Application
+-keep class * extends android.app.Activity
+-keep class * extends androidx.work.ListenableWorker
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# [Room]
+# Mantiene las clases de persistencia para que Room pueda instanciar los DAO.
+-keepclassmembers class * extends androidx.room.RoomDatabase {
+    <init>(...);
+}
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# [Google Play Billing]
+# REGLA CRÍTICA: Evita que se rompa la comunicación con la tienda de Google.
+-keep class com.android.vending.billing.** { *; }
+-keep class com.android.billingclient.** { *; }
+
+# [Kotlin Serialization / JSON]
+# Si usas clases de datos para JSON, evita que se renombren sus atributos.
+-keepattributes *Annotation*, EnclosingMethod, InnerClasses
+-keepattributes Signature
+-keepattributes SourceFile,LineNumberTable
