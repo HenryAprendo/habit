@@ -1,12 +1,15 @@
 package com.henrydev.faithsteward.ui.screen.settings
 
 import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.henrydev.faithsteward.R
 import com.henrydev.faithsteward.domain.billing.BillingService
 import com.henrydev.faithsteward.domain.billing.PurchaseResult
 import com.henrydev.faithsteward.domain.subscription.repository.SubscriptionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PaywallViewModel @Inject constructor(
     private val subscriptionRepository : SubscriptionRepository,
-    private val billingService: BillingService
+    private val billingService: BillingService,
+    @ApplicationContext private val context: Context
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(PaywallUiState())
@@ -48,7 +52,7 @@ class PaywallViewModel @Inject constructor(
                             it.copy(
                                 isLoading = false,
                                 isPendingPayment = false,
-                                errorMessage = "Purchase cancelled"
+                                errorMessage = context.getString(R.string.paywall_error_cancelled)
                             )
                         }
                         billingService.consumePurchaseResult()
@@ -103,13 +107,16 @@ class PaywallViewModel @Inject constructor(
                 } else {
                     _uiState.update { it.copy(
                         isLoading = false,
-                        errorMessage = "No active subscription found to restore"
+                        errorMessage = context.getString(R.string.paywall_error_no_active_subscription)
                     )}
                 }
             } catch (e: Exception) {
                 _uiState.update { it.copy(
                     isLoading = false,
-                    errorMessage = "Error connecting to Store: ${e.message}"
+                    errorMessage = context.getString(
+                        R.string.paywall_error_store_connection,
+                        e.message.orEmpty()
+                    )
                 )}
             }
         }

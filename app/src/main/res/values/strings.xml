@@ -14,7 +14,7 @@
     <string name="home_quote_spiritual">“Grow closer to God, every day”</string>
     <string name="home_share_devotional_content_desc">Share devotional</string>
     <string name="home_share_chooser_title">Share Devotional</string>
-    <string name="home_share_footer">Shared via Habit - Spiritual Disciplines.</string>
+    <string name="home_share_footer">Shared via Faith Steward - Spiritual Disciplines.</string>
     <string name="home_level_label">Level %1$d</string>
     <string name="home_total_xp_label">%1$d XP</string>
     <string name="home_total_points_label">TOTAL POINTS</string>
@@ -124,184 +124,360 @@
     <string name="paywall_continue_basic">Continue with Basic Walk</string>
     <string name="paywall_restore_purchases">Paywall restore purchases</string>
 
-    <!-- Daily Devotionals -->
+    <!-- Daily Devotionals (KJV) -->
     <!-- Day 1 -->
-    <string name="devotional_verse_1">Trust in the Lord with all your heart.</string>
+    <string name="devotional_verse_1">Trust in the LORD with all thine heart; and lean not unto thine own understanding.</string>
     <string name="devotional_ref_1">Proverbs 3:5</string>
-    <string name="devotional_reflect_1">Today, let go of control and lean on His wisdom.</string>
+    <string name="devotional_reflect_1">Today, surrender thy will unto Him. Trust not in thy logic, but in His eternal wisdom.</string>
 
     <!-- Day 2 -->
-    <string name="devotional_verse_2">The Lord is my shepherd; I have all that I need.</string>
+    <string name="devotional_verse_2">The LORD is my shepherd; I shall not want.</string>
     <string name="devotional_ref_2">Psalm 23:1</string>
-    <string name="devotional_reflect_2">Rest in His perfect provision and care today.</string>
+    <string name="devotional_reflect_2">He is thy Provider. Rest in the assurance that thy needs are known to the Father.</string>
 
     <!-- Day 3 -->
-    <string name="devotional_verse_3">Be strong and courageous. Do not be afraid.</string>
+    <string name="devotional_verse_3">Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.</string>
     <string name="devotional_ref_3">Joshua 1:9</string>
-    <string name="devotional_reflect_3">Fear has no place in your walk; God is with you.</string>
+    <string name="devotional_reflect_3">Fear is but a shadow. Walk boldly this day, for the Almighty attendeth thy steps.</string>
 
     <!-- Day 4 -->
-    <string name="devotional_verse_4">I can do all things through Christ who strengthens me.</string>
+    <string name="devotional_verse_4">I can do all things through Christ which strengtheneth me.</string>
     <string name="devotional_ref_4">Philippians 4:13</string>
-    <string name="devotional_reflect_4">Your strength comes from Him, not from your own efforts.</string>
+    <string name="devotional_reflect_4">Thine own strength shall fail, but His power in thee is limitless. Labour with joy.</string>
 
     <!-- Day 5 -->
-    <string name="devotional_verse_5">But seek first the kingdom of God and His righteousness.</string>
+    <string name="devotional_verse_5">But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.</string>
     <string name="devotional_ref_5">Matthew 6:33</string>
-    <string name="devotional_reflect_5">Align your priorities today with God\'s eternal heart.</string>
+    <string name="devotional_reflect_5">Put first the things of eternity. Let thy priorities reflect thy devotion to the King.</string>
 
     <!-- Day 6 -->
-    <string name="devotional_verse_6">Your word is a lamp to my feet and a light to my path.</string>
+    <string name="devotional_verse_6">Thy word is a lamp unto my feet, and a light unto my path.</string>
     <string name="devotional_ref_6">Psalm 119:105</string>
-    <string name="devotional_reflect_6">Let His Word guide every decision you make today.</string>
+    <string name="devotional_reflect_6">In a world of darkness, His Word is thy sure guide. Meditate upon it this hour.</string>
 
     <!-- Day 7 -->
     <string name="devotional_verse_7">Be still, and know that I am God.</string>
     <string name="devotional_ref_7">Psalm 46:10</string>
-    <string name="devotional_reflect_7">In the middle of the noise, find a moment of silence with Him.</string>
+    <string name="devotional_reflect_7">Cease thy strivings. In the quietness of thy spirit, behold the glory of thy Maker.</string>
 
     <!-- Day 8 -->
-    <string name="devotional_verse_8">Whatever you do, work at it with all your heart, as working for the Lord.</string>
+    <string name="devotional_verse_8">And whatsoever ye do, do it heartily, as to the Lord, and not unto men.</string>
     <string name="devotional_ref_8">Colossians 3:23</string>
-    <string name="devotional_reflect_8">Every task today is an opportunity to honor God with your excellence.</string>
+    <string name="devotional_reflect_8">Let thy daily tasks be an altar of worship. Excellence is a fruit of faithfulness.</string>
 
     <!-- Day 9 -->
-    <string name="devotional_verse_9">The joy of the Lord is your strength.</string>
+    <string name="devotional_verse_9">For the joy of the LORD is your strength.</string>
     <string name="devotional_ref_9">Nehemiah 8:10</string>
-    <string name="devotional_reflect_9">Do not let circumstances steal your peace; His joy is your fuel.</string>
+    <string name="devotional_reflect_9">Though trials come, let His joy be thy fortress. It is the fuel for thy journey.</string>
 
     <!-- Day 10 -->
-    <string name="devotional_verse_10">Let all that you do be done in love.</string>
+    <string name="devotional_verse_10">Let all your things be done with charity.</string>
     <string name="devotional_ref_10">1 Corinthians 16:14</string>
-    <string name="devotional_reflect_10">Every discipline and interaction today must be rooted in His love.</string>
+    <string name="devotional_reflect_10">Let love be the foundation of thy disciplines and thy dealings with others today.</string>
 
     <!-- Day 11 -->
-    <string name="devotional_verse_11">Come to me, all you who are weary and burdened, and I will give you rest.</string>
+    <string name="devotional_verse_11">Come unto me, all ye that labour and are heavy laden, and I will give you rest.</string>
     <string name="devotional_ref_11">Matthew 11:28</string>
-    <string name="devotional_reflect_11">You don\'t have to carry it all. Lay your burdens at His feet today.</string>
+    <string name="devotional_reflect_11">Art thou weary? Cast thy burdens upon Him. His yoke is easy and His rest is deep.</string>
 
     <!-- Day 12 -->
-    <string name="devotional_verse_12">For God has not given us a spirit of fear, but of power and of love.</string>
+    <string name="devotional_verse_12">For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.</string>
     <string name="devotional_ref_12">2 Timothy 1:7</string>
-    <string name="devotional_reflect_12">Walk in the authority and sound mind that the Holy Spirit provides.</string>
+    <string name="devotional_reflect_12">Walk not in timidity, but in the authority of the Spirit. Thy mind is stayed on Him.</string>
 
     <!-- Day 13 -->
-    <string name="devotional_verse_13">Give thanks in all circumstances; for this is God’s will for you.</string>
+    <string name="devotional_verse_13">In every thing give thanks: for this is the will of God in Christ Jesus concerning you.</string>
     <string name="devotional_ref_13">1 Thessalonians 5:18</string>
-    <string name="devotional_reflect_13">Gratitude changes your perspective. Find three things to thank God for today.</string>
+    <string name="devotional_reflect_13">A thankful heart is a magnet for miracles. Find grace in all thy circumstances.</string>
 
     <!-- Day 14 -->
-    <string name="devotional_verse_14">But those who hope in the Lord will renew their strength.</string>
+    <string name="devotional_verse_14">But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles.</string>
     <string name="devotional_ref_14">Isaiah 40:31</string>
-    <string name="devotional_reflect_14">Wait on Him. He is restoring your energy for the path ahead.</string>
+    <string name="devotional_reflect_14">Wait with patience. He is preparing thee for higher flights and greater endurance.</string>
 
     <!-- Day 15 -->
-    <string name="devotional_verse_15">I am the way and the truth and the life.</string>
+    <string name="devotional_verse_15">Jesus saith unto him, I am the way, the truth, and the life.</string>
     <string name="devotional_ref_15">John 14:6</string>
-    <string name="devotional_reflect_15">Keep your eyes on Jesus; He is the compass for your daily walk.</string>
+    <string name="devotional_reflect_15">Follow the Master. He is the only Path that leadeth to the Father\'s heart.</string>
 
     <!-- Day 16 -->
-    <string name="devotional_verse_16">Cast all your anxiety on him because he cares for you.</string>
+    <string name="devotional_verse_16">Casting all your care upon him; for he careth for you.</string>
     <string name="devotional_ref_16">1 Peter 5:7</string>
-    <string name="devotional_reflect_16">He is mindful of every detail of your life. Release your worries today.</string>
+    <string name="devotional_reflect_16">Thou art not alone in thy worries. He who numbereth the hairs of thy head careth for thee.</string>
 
     <!-- Day 17 -->
-    <string name="devotional_verse_17">The Lord is near to all who call on him.</string>
+    <string name="devotional_verse_17">The LORD is nigh unto all them that call upon him, to all that call upon him in truth.</string>
     <string name="devotional_ref_17">Psalm 145:18</string>
-    <string name="devotional_reflect_17">God is just a prayer away. Speak to Him from your heart today.</string>
+    <string name="devotional_reflect_17">Speak to thy King. He is closer than thy very breath when thou seekest Him in sincerity.</string>
 
     <!-- Day 18 -->
-    <string name="devotional_verse_18">Create in me a pure heart, O God.</string>
+    <string name="devotional_verse_18">Create in me a clean heart, O God; and renew a right spirit within me.</string>
     <string name="devotional_ref_18">Psalm 51:10</string>
-    <string name="devotional_reflect_18">Ask God to refine your motives and renew your spirit today.</string>
+    <string name="devotional_reflect_18">Ask for a fresh cleansing. Let His holiness permeate thy thoughts and desires this day.</string>
 
     <!-- Day 19 -->
-    <string name="devotional_verse_19">Let your light shine before others.</string>
+    <string name="devotional_verse_19">Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven.</string>
     <string name="devotional_ref_19">Matthew 5:16</string>
-    <string name="devotional_reflect_19">Your actions speak volumes. Let His love be seen through you today.</string>
+    <string name="devotional_reflect_19">Thy life is a testimony. Let thy deeds be a reflection of the Light of the World.</string>
 
     <!-- Day 20 -->
-    <string name="devotional_verse_20">For I know the plans I have for you, declares the Lord.</string>
+    <string name="devotional_verse_20">For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end.</string>
     <string name="devotional_ref_20">Jeremiah 29:11</string>
-    <string name="devotional_reflect_20">His plans are for your good. Walk with confidence in His future for you.</string>
+    <string name="devotional_reflect_20">Trust in His providence. Thy future is secure in the hands of the Great Architect.</string>
 
     <!-- Day 21 -->
-    <string name="devotional_verse_21">The steadfast love of the Lord never ceases.</string>
-    <string name="devotional_ref_21">Lamentations 3:22</string>
-    <string name="devotional_reflect_21">His mercies are new every morning. Start today with a fresh perspective.</string>
+    <string name="devotional_verse_21">It is of the LORD\'s mercies that we are not consumed, because his compassions fail not. They are new every morning.</string>
+    <string name="devotional_ref_21">Lamentations 3:22-23</string>
+    <string name="devotional_reflect_21">Behold the dawn of His mercy. Every morning is a fresh opportunity to walk in His grace.</string>
 
     <!-- Day 22 -->
-    <string name="devotional_verse_22">My grace is sufficient for you.</string>
+    <string name="devotional_verse_22">My grace is sufficient for thee: for my strength is made perfect in weakness.</string>
     <string name="devotional_ref_22">2 Corinthians 12:9</string>
-    <string name="devotional_reflect_22">When you feel weak, remember that His power is made perfect in you.</string>
+    <string name="devotional_reflect_22">Glory in thy limitations, for they are the vessels through which His power is revealed.</string>
 
     <!-- Day 23 -->
-    <string name="devotional_verse_23">Do not be conformed to this world.</string>
+    <string name="devotional_verse_23">And be not conformed to this world: but be ye transformed by the renewing of your mind.</string>
     <string name="devotional_ref_23">Romans 12:2</string>
-    <string name="devotional_reflect_23">Let God transform your mind so you can discern His perfect will.</string>
+    <string name="devotional_reflect_23">Let not the world mould thee. Be changed by the power of the Word and the Spirit.</string>
 
     <!-- Day 24 -->
-    <string name="devotional_verse_24">The name of the Lord is a fortified tower.</string>
+    <string name="devotional_verse_24">The name of the LORD is a strong tower: the righteous runneth into it, and is safe.</string>
     <string name="devotional_ref_24">Proverbs 18:10</string>
-    <string name="devotional_reflect_24">Run to Him when you need protection. He is your safe place.</string>
+    <string name="devotional_reflect_24">When the storms of life arise, call upon His Name. He is thy Fortress and thy Shield.</string>
 
     <!-- Day 25 -->
-    <string name="devotional_verse_25">He who began a good work in you will carry it on to completion.</string>
+    <string name="devotional_verse_25">Being confident of this very thing, that he which hath begun a good work in you will perform it until the day of Jesus Christ.</string>
     <string name="devotional_ref_25">Philippians 1:6</string>
-    <string name="devotional_reflect_25">You are a work in progress. Trust the Master to finish what He started.</string>
+    <string name="devotional_reflect_25">He is the Author and the Finisher. Trust Him to complete the tapestry of thy life.</string>
 
     <!-- Day 26 -->
-    <string name="devotional_verse_26">Peace I leave with you; my peace I give you.</string>
+    <string name="devotional_verse_26">Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you.</string>
     <string name="devotional_ref_26">John 14:27</string>
-    <string name="devotional_reflect_26">Do not let your heart be troubled. Accept His supernatural peace today.</string>
+    <string name="devotional_reflect_26">Accept His supernatural quietness. Let not thy heart be troubled, nor let it be afraid.</string>
 
     <!-- Day 27 -->
-    <string name="devotional_verse_27">Commit to the Lord whatever you do.</string>
+    <string name="devotional_verse_27">Commit thy works unto the LORD, and thy thoughts shall be established.</string>
     <string name="devotional_ref_27">Proverbs 16:3</string>
-    <string name="devotional_reflect_27">Surrender your plans to Him, and He will establish your steps.</string>
+    <string name="devotional_reflect_27">Hand over thy plans to Him this morning. He shall direct thy paths and steady thy mind.</string>
 
     <!-- Day 28 -->
-    <string name="devotional_verse_28">In everything, by prayer and petition, present your requests to God.</string>
+    <string name="devotional_verse_28">In every thing by prayer and supplication with thanksgiving let your requests be made known unto God.</string>
     <string name="devotional_ref_28">Philippians 4:6</string>
-    <string name="devotional_reflect_28">Trade your anxiety for prayer. He is listening to every word.</string>
+    <string name="devotional_reflect_28">Turn thy cares into prayers. Gratitude in the midst of asking brings profound peace.</string>
 
     <!-- Day 29 -->
-    <string name="devotional_verse_29">The Lord will fight for you; you need only to be still.</string>
+    <string name="devotional_verse_29">The LORD shall fight for you, and ye shall hold your peace.</string>
     <string name="devotional_ref_29">Exodus 14:14</string>
-    <string name="devotional_reflect_29">You don\'t have to fight every battle alone. Let God take the lead.</string>
+    <string name="devotional_reflect_29">Cease thy striving. The battle is not thine, but the Lord\'s. Trust in His sovereign hand today.</string>
 
     <!-- Day 30 -->
-    <string name="devotional_verse_30">Walk by faith, not by sight.</string>
+    <string name="devotional_verse_30">For we walk by faith, not by sight.</string>
     <string name="devotional_ref_30">2 Corinthians 5:7</string>
-    <string name="devotional_reflect_30">Trust what God has said more than what you see around you.</string>
+    <string name="devotional_reflect_30">Look beyond the visible. Let the eye of thy spirit be fixed upon the eternal promises of God.</string>
 
     <!-- Day 31 -->
-    <string name="devotional_verse_31">Let us not become weary in doing good.</string>
+    <string name="devotional_verse_31">And let us not be weary in well doing: for in due season we shall reap, if we faint not.</string>
     <string name="devotional_ref_31">Galatians 6:9</string>
-    <string name="devotional_reflect_31">Your perseverance will bear fruit. Don\'t give up on your disciplines.</string>
+    <string name="devotional_reflect_31">Faint not in thy disciplines. The harvest of righteousness is certain for the steadfast soul.</string>
 
     <!-- Day 32 -->
-    <string name="devotional_verse_32">As for me and my household, we will serve the Lord.</string>
+    <string name="devotional_verse_32">But as for me and my house, we will serve the LORD.</string>
     <string name="devotional_ref_32">Joshua 24:15</string>
-    <string name="devotional_reflect_32">Make a firm decision today to put God at the center of your home.</string>
+    <string name="devotional_reflect_32">Dedicate thy home anew to the Master. Let thy family be a sanctuary of His presence.</string>
 
     <!-- Day 33 -->
-    <string name="devotional_verse_33">A friend loves at all times.</string>
+    <string name="devotional_verse_33">A friend loveth at all times, and a brother is born for adversity.</string>
     <string name="devotional_ref_33">Proverbs 17:17</string>
-    <string name="devotional_reflect_33">Be a reflection of Christ\'s love to your friends and family today.</string>
+    <string name="devotional_reflect_33">Be a vessel of Christ\'s love to thy brethren. Loyalty is a hallmark of the redeemed.</string>
 
     <!-- Day 34 -->
-    <string name="devotional_verse_34">He restores my soul.</string>
+    <string name="devotional_verse_34">He restoreth my soul: he leadeth me in the paths of righteousness for his name\'s sake.</string>
     <string name="devotional_ref_34">Psalm 23:3</string>
-    <string name="devotional_reflect_34">Let God renew your inner strength and bring peace to your mind.</string>
+    <string name="devotional_reflect_34">Allow the Good Shepherd to heal thy spirit and guide thy steps toward holiness.</string>
 
     <!-- Day 35 -->
-    <string name="devotional_verse_35">I have fought the good fight, I have finished the race.</string>
+    <string name="devotional_verse_35">I have fought a good fight, I have finished my course, I have kept the faith.</string>
     <string name="devotional_ref_35">2 Timothy 4:7</string>
-    <string name="devotional_reflect_35">Keep running your spiritual race with endurance. The finish line is worth it.</string>
+    <string name="devotional_reflect_35">Press on toward the mark. Thy perseverance today buildeth a legacy for eternity.</string>
+
+    <!-- Day 36 -->
+    <string name="devotional_verse_36">The Lord is my light and my salvation; whom shall I fear?</string>
+    <string name="devotional_ref_36">Psalm 27:1</string>
+    <string name="devotional_reflect_36">When darkness seeketh to overwhelm thee, remember the Light of the King. Thou art safe.</string>
+
+    <!-- Day 37 -->
+    <string name="devotional_verse_37">Commit thy way unto the Lord; trust also in him; and he shall bring it to pass.</string>
+    <string name="devotional_ref_37">Psalm 37:5</string>
+    <string name="devotional_reflect_37">Cast thy future upon His shoulders. His timing is perfect, and His hand is steady.</string>
+
+    <!-- Day 38 -->
+    <string name="devotional_verse_38">He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty.</string>
+    <string name="devotional_ref_38">Psalm 91:1</string>
+    <string name="devotional_reflect_38">Find thy refuge in prayer. The shadow of the Almighty is thy sure protection from all harm.</string>
+
+    <!-- Day 39 -->
+    <string name="devotional_verse_39">Behold, I stand at the door, and knock: if any man hear my voice, and open the door, I will come in to him.</string>
+    <string name="devotional_ref_39">Revelation 3:20</string>
+    <string name="devotional_reflect_39">Hark! The Master seeketh fellowship with thee. Open thy heart wide to His presence this hour.</string>
+
+    <!-- Day 40 -->
+    <string name="devotional_verse_40">Cast thy burden upon the Lord, and he shall sustain thee.</string>
+    <string name="devotional_ref_40">Psalm 55:22</string>
+    <string name="devotional_reflect_40">Thy load is too heavy for thee, but not for Him. Let His strength be thy support.</string>
+
+    <!-- Day 41 -->
+    <string name="devotional_verse_41">Great is the Lord, and greatly to be praised in the city of our God.</string>
+    <string name="devotional_ref_41">Psalm 48:1</string>
+    <string name="devotional_reflect_41">Exalt His Name with thy whole heart. Praise is the atmosphere where miracles are born.</string>
+
+    <!-- Day 42 -->
+    <string name="devotional_verse_42">Wait on the Lord: be of good courage, and he shall strengthen thine heart.</string>
+    <string name="devotional_ref_42">Psalm 27:14</string>
+    <string name="devotional_reflect_42">Do not hasten before His time. Courage is found in the waiting room of the Most High.</string>
+
+    <!-- Day 43 -->
+    <string name="devotional_verse_43">God is our refuge and strength, a very present help in trouble.</string>
+    <string name="devotional_ref_43">Psalm 46:1</string>
+    <string name="devotional_reflect_43">He is not far off. In thy moment of need, He is the nearest and surest Help.</string>
+
+    <!-- Day 44 -->
+    <string name="devotional_verse_44">In all thy ways acknowledge him, and he shall direct thy paths.</string>
+    <string name="devotional_ref_44">Proverbs 3:6</string>
+    <string name="devotional_reflect_44">Include the Lord in every decision. He shall lead thee beside the still waters of His will.</string>
+
+    <!-- Day 45 -->
+    <string name="devotional_verse_45">Let the words of my mouth, and the meditation of my heart, be acceptable in thy sight.</string>
+    <string name="devotional_ref_45">Psalm 19:14</string>
+    <string name="devotional_reflect_45">Watch thy speech and thy hidden thoughts. Let them be a sweet savour unto thy God.</string>
+
+    <!-- Day 46 -->
+    <string name="devotional_verse_46">Draw nigh to God, and he will draw nigh to you.</string>
+    <string name="devotional_ref_46">James 4:8</string>
+    <string name="devotional_reflect_46">Take but one step toward Him, and thou shalt find Him rushing to meet thee in love.</string>
+
+    <!-- Day 47 -->
+    <string name="devotional_verse_47">Blessed is the man that trusteth in the Lord, and whose hope the Lord is.</string>
+    <string name="devotional_ref_47">Jeremiah 17:7</string>
+    <string name="devotional_reflect_47">Thy roots shall go deep by the river of life. Trusting Him is the secret to true prosperity.</string>
+
+    <!-- Day 48 -->
+    <string name="devotional_verse_48">He giveth power to the faint; and to them that have no might he increaseth strength.</string>
+    <string name="devotional_ref_48">Isaiah 40:29</string>
+    <string name="devotional_reflect_48">Art thou at thy wit\'s end? Here is where His glory beginneth. Receive His divine energy.</string>
+
+    <!-- Day 49 -->
+    <string name="devotional_verse_49">The grass withereth, the flower fadeth: but the word of our God shall stand for ever.</string>
+    <string name="devotional_ref_49">Isaiah 40:8</string>
+    <string name="devotional_reflect_49">Build thy life upon that which is eternal. The world passeth away, but His truth remaineth.</string>
+
+    <!-- Day 50 -->
+    <string name="devotional_verse_50">Thou wilt keep him in perfect peace, whose mind is stayed on thee: because he trusteth in thee.</string>
+    <string name="devotional_ref_50">Isaiah 26:3</string>
+    <string name="devotional_reflect_50">Fix thy gaze upon Jesus. A mind anchored in Him is immune to the storms of anxiety.</string>
+
+    <!-- Day 51 -->
+    <string name="devotional_verse_51">For with God nothing shall be impossible.</string>
+    <string name="devotional_ref_51">Luke 1:37</string>
+    <string name="devotional_reflect_51">Remove the word \'impossible\' from thy vocabulary. With thy God, all things are within reach.</string>
+
+    <!-- Day 52 -->
+    <string name="devotional_verse_52">Sing unto the Lord a new song; for he hath done marvellous things.</string>
+    <string name="devotional_ref_52">Psalm 98:1</string>
+    <string name="devotional_reflect_52">Let a new praise arise from thy lips. His wonders are fresh and His deeds are glorious.</string>
+
+    <!-- Day 53 -->
+    <string name="devotional_verse_53">Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you.</string>
+    <string name="devotional_ref_53">Matthew 7:7</string>
+    <string name="devotional_reflect_53">Be persistent in thy petitions. Thy Father delighteth to open the windows of heaven for thee.</string>
+
+    <!-- Day 54 -->
+    <string name="devotional_verse_54">If ye love me, keep my commandments.</string>
+    <string name="devotional_ref_54">John 14:15</string>
+    <string name="devotional_reflect_54">Obedience is the highest form of worship. Let thy love for Him be seen in thy faithfulness.</string>
+
+    <!-- Day 55 -->
+    <string name="devotional_verse_55">Greater love hath no man than this, that a man lay down his life for his friends.</string>
+    <string name="devotional_ref_55">John 15:13</string>
+    <string name="devotional_reflect_55">Behold the Cross. Let the sacrificial love of Christ inspire thee to serve others today.</string>
+
+    <!-- Day 56 -->
+    <string name="devotional_verse_56">I am the vine, ye are the branches: He that abideth in me... bringeth forth much fruit.</string>
+    <string name="devotional_ref_56">John 15:5</string>
+    <string name="devotional_reflect_56">Stay connected to the Source. Apart from Him, thy works are hollow; in Him, they are fruitful.</string>
+
+    <!-- Day 57 -->
+    <string name="devotional_verse_57">And let the peace of God rule in your hearts.</string>
+    <string name="devotional_ref_57">Colossians 3:15</string>
+    <string name="devotional_reflect_57">Let His peace be the umpire of thy soul. If peace be absent, seek His face until it returneth.</string>
+
+    <!-- Day 58 -->
+    <string name="devotional_verse_58">Preach the word; be instant in season, out of season.</string>
+    <string name="devotional_ref_58">2 Timothy 4:2</string>
+    <string name="devotional_reflect_58">Be ready to share thy hope. Thy life and thy words may be the only Bible some will ever read.</string>
+
+    <!-- Day 59 -->
+    <string name="devotional_verse_59">But grow in grace, and in the knowledge of our Lord and Saviour Jesus Christ.</string>
+    <string name="devotional_ref_59">2 Peter 3:18</string>
+    <string name="devotional_reflect_59">Never settle for thy current stature. Press on to know Him more deeply with each passing hour.</string>
+
+    <!-- Day 60 -->
+    <string name="devotional_verse_60">Behold, what manner of love the Father hath bestowed upon us, that we should be called the sons of God.</string>
+    <string name="devotional_ref_60">1 John 3:1</string>
+    <string name="devotional_reflect_60">Marvel at thy new identity. Thou art a child of the King! Walk with the dignity of thy calling.</string>
+
+    <!-- Day 61 -->
+    <string name="devotional_verse_61">The Lord is faithful, who shall stablish you, and keep you from evil.</string>
+    <string name="devotional_ref_61">2 Thessalonians 3:3</string>
+    <string name="devotional_reflect_61">He is thy Guardian. Trust His faithfulness to steady thy feet and shield thee from the enemy.</string>
+
+    <!-- Day 62 -->
+    <string name="devotional_verse_62">The Lord bless thee, and keep thee: The Lord make his face shine upon thee.</string>
+    <string name="devotional_ref_62">Numbers 6:24-25</string>
+    <string name="devotional_reflect_62">Receive the priestly blessing. Let the light of His countenance be thy constant joy today.</string>
+
+    <!-- Day 63 -->
+    <string name="devotional_verse_63">For the wages of sin is death; but the gift of God is eternal life through Jesus Christ our Lord.</string>
+    <string name="devotional_ref_63">Romans 6:23</string>
+    <string name="devotional_reflect_63">Remember the price that was paid. Celebrate the free gift of life that thou hast received.</string>
+
+    <!-- Day 64 -->
+    <string name="devotional_verse_64">He must increase, but I must decrease.</string>
+    <string name="devotional_ref_64">John 3:30</string>
+    <string name="devotional_reflect_64">Let self fade into the background. Let the glory of Jesus be the central theme of thy life.</string>
+
+    <!-- Day 65 -->
+    <string name="devotional_verse_65">Stand fast therefore in the liberty wherewith Christ hath made us free.</string>
+    <string name="devotional_ref_65">Galatians 5:1</string>
+    <string name="devotional_reflect_65">Return not to the chains of thy past. Thou art free! Walk in the joyous liberty of the Spirit.</string>
+
+    <!-- Day 66 -->
+    <string name="devotional_verse_66">Watch and pray, that ye enter not into temptation.</string>
+    <string name="devotional_ref_66">Matthew 26:41</string>
+    <string name="devotional_reflect_66">Be vigilant. Prayer is thy radar and thy armour against the wiles of the tempter.</string>
+
+    <!-- Day 67 -->
+    <string name="devotional_verse_67">If we confess our sins, he is faithful and just to forgive us our sins.</string>
+    <string name="devotional_ref_67">1 John 1:9</string>
+    <string name="devotional_reflect_67">Keep short accounts with God. His cleansing fountain is always open for the contrite heart.</string>
+
+    <!-- Day 68 -->
+    <string name="devotional_verse_68">Finally, my brethren, be strong in the Lord, and in the power of his might.</string>
+    <string name="devotional_ref_68">Ephesians 6:10</string>
+    <string name="devotional_reflect_68">Thy strength is found in thy union with Him. Clothe thyself in His divine power this day.</string>
+
+    <!-- Day 69 -->
+    <string name="devotional_verse_69">For God so loved the world, that he gave his only begotten Son.</string>
+    <string name="devotional_ref_69">John 3:16</string>
+    <string name="devotional_reflect_69">Ponder the depth of His sacrifice. Let such love compel thee to live solely for His pleasure.</string>
+
+    <!-- Day 70 -->
+    <string name="devotional_verse_70">Surely I come quickly. Amen. Even so, come, Lord Jesus.</string>
+    <string name="devotional_ref_70">Revelation 22:20</string>
+    <string name="devotional_reflect_70">Live with expectancy. Our King returneth soon. Let thy lamp be trimmed and thy heart ready.</string>
 
     <!-- Categories -->
-    <string name="cat_spiritual">Spiritual</string>    <string name="cat_prayer">Prayer</string>
+    <string name="cat_spiritual">Spiritual</string>
+    <string name="cat_prayer">Prayer</string>
     <string name="cat_praise">Praise</string>
     <string name="cat_bible">Bible Study</string>
     <string name="cat_discipline">Discipline</string>
@@ -358,4 +534,12 @@
     <string name="paywall_payment_pending">Your payment is being processed. We will unlock your Pro stewardship as soon as Google Play confirms it.</string>
 
     <string name="progress_best_streak">Best: %1$d d</string>
+
+    <!-- Billing / Paywall error messages -->
+    <string name="paywall_error_cancelled">Purchase cancelled</string>
+    <string name="paywall_error_no_active_subscription">No active subscription found to restore</string>
+    <string name="paywall_error_store_connection">Error connecting to Store: %1$s</string>
+    <string name="billing_error_product_not_found">Product not found</string>
+    <string name="billing_error_no_offer">No valid offer found</string>
+    <string name="billing_error_store_generic">Store error: %1$d</string>
 </resources>

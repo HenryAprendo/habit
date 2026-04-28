@@ -54,9 +54,8 @@ class HomeViewModel @Inject constructor (
         val packageName = application.packageName
         val dayOfYear = LocalDate.now().dayOfYear
 
-        // We have 15 days of content, so we use modulo to cycle them
-        // day 1-15 -> 1-15, day 16 -> 1, day 17 -> 2...
-        val dayIndex = ((dayOfYear-1) % 15) + 1
+        // We have 70 days of content, so we use modulo to cycle them
+        val dayIndex = ((dayOfYear-1) % 70) + 1
 
         val verseId = res.getIdentifier("devotional_verse_$dayIndex", "string", packageName)
         val refId = res.getIdentifier("devotional_ref_$dayIndex", "string", packageName)

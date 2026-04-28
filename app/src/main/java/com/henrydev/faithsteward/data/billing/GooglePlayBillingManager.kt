@@ -13,6 +13,7 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.queryProductDetails
+import com.henrydev.faithsteward.R
 import com.henrydev.faithsteward.domain.billing.BillingService
 import com.henrydev.faithsteward.domain.billing.PurchaseResult
 import com.henrydev.faithsteward.domain.subscription.repository.SubscriptionRepository
@@ -94,11 +95,12 @@ class GooglePlayBillingManager @Inject constructor(
      * Note: This is a simplified version to establish the architecture.
      */
     override suspend fun purchaseProduct(activity: Activity, productId: String): PurchaseResult {
-        val productDetails = queryProductDetails(productId) ?: return PurchaseResult.Error("Product not found")
+        val productDetails = queryProductDetails(productId)
+            ?: return PurchaseResult.Error(context.getString(R.string.billing_error_product_not_found))
 
         // We select the first offer (which usually contains the 7-day Free Trial)
-        val offerToken = productDetails.subscriptionOfferDetails?.firstOrNull()?.offerToken ?:
-        return PurchaseResult.Error("No valid offer found")
+        val offerToken = productDetails.subscriptionOfferDetails?.firstOrNull()?.offerToken
+            ?: return PurchaseResult.Error(context.getString(R.string.billing_error_no_offer))
 
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
@@ -246,7 +248,9 @@ class GooglePlayBillingManager @Inject constructor(
                 }
             }
             else -> {
-                val errorMessage = billingResult.debugMessage.ifEmpty { "Store error: ${billingResult.responseCode}" }
+                val errorMessage = billingResult.debugMessage.ifEmpty {
+                    context.getString(R.string.billing_error_store_generic, billingResult.responseCode)
+                }
                 scope.launch {
                     _purchaseResult.emit(PurchaseResult.Error(errorMessage))
                 }
