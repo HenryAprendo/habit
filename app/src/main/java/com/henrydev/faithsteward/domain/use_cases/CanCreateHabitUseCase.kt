@@ -18,7 +18,7 @@ class CanCreateHabitUseCase @Inject constructor (
         ) { habits, status ->
             when(status) {
                 is UserStatus.Pro -> true
-                is UserStatus.Free -> habits.size < 3
+                is UserStatus.Free -> habits.size < 4
             }
         }
     }
