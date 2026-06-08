@@ -17,10 +17,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.henrydev.faithsteward.domain.reminder.usecase.ApplyReminderScheduleUseCase
 import com.henrydev.faithsteward.domain.subscription.usecase.IsProUserUseCase
 import com.henrydev.faithsteward.domain.use_cases.CanCreateHabitUseCase
 import com.henrydev.faithsteward.ui.components.NotificationRationaleDialog
-import com.henrydev.faithsteward.ui.notifications.NotificationScheduler
 import com.henrydev.faithsteward.ui.theme.HabitTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -31,7 +33,7 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var isProUserUseCase: IsProUserUseCase
     @Inject lateinit var canCreateHabitUseCase: CanCreateHabitUseCase
 
-    @Inject lateinit var notificationScheduler: NotificationScheduler
+    @Inject lateinit var applyReminderScheduleUseCase: ApplyReminderScheduleUseCase
 
     private var showRationale by mutableStateOf(false)
 
@@ -41,8 +43,8 @@ class MainActivity : ComponentActivity() {
     ) { isGranted: Boolean ->
         android.util.Log.d("MainActivity", "Permission result: isGranted=$isGranted")
         if (isGranted) {
-            android.util.Log.d("MainActivity", "Calling scheduleDailyReminder() from permission callback")
-            notificationScheduler.scheduleDailyReminder()
+            android.util.Log.d("MainActivity", "Applying reminder from preferences after permission granted")
+            lifecycleScope.launch { applyReminderScheduleUseCase() }
         }
     }
 
@@ -80,8 +82,8 @@ class MainActivity : ComponentActivity() {
             PackageManager.PERMISSION_GRANTED
         android.util.Log.d("MainActivity", "onCreate: hasPermission=$hasPermission, SDK=${Build.VERSION.SDK_INT}")
         if (hasPermission) {
-            android.util.Log.d("MainActivity", "Calling scheduleDailyReminder() from onCreate")
-            notificationScheduler.scheduleDailyReminder()
+            android.util.Log.d("MainActivity", "Applying reminder from preferences from onCreate")
+            lifecycleScope.launch { applyReminderScheduleUseCase() }
         }
 
         checkAndRequestNotificationPermission()

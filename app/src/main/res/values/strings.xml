@@ -527,6 +527,19 @@
     <string name="notification_action_allow">Enable</string>
     <string name="notification_action_not_now">Not now</string>
 
+    <!-- Daily reminder settings -->
+    <string name="settings_reminders_title">Daily Reminder</string>
+    <string name="settings_reminder_enable_label">Daily reminder</string>
+    <string name="settings_reminder_enable_desc">Receive a gentle nudge to keep your spiritual disciplines.</string>
+    <string name="settings_reminder_time_label">Reminder time</string>
+
+    <!-- Notification channel &amp; content -->
+    <string name="notification_channel_name">Daily Reminders</string>
+    <string name="notification_channel_desc">Reminders to stay faithful to your spiritual disciplines.</string>
+    <string name="notification_reminder_title">Don\'t break your streak!</string>
+    <string name="notification_reminder_single">You have 1 active challenge waiting for you today.</string>
+    <string name="notification_reminder_multi">You have %1$d challenges to complete before the day ends.</string>
+
     <string name="paywall_plan_annual_trial">7 Days Free Trial</string>
     <string name="paywall_trial_disclaimer">You won\'t be charged today. Cancel anytime in Google
         Play before the trial ends.
