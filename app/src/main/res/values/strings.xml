@@ -57,6 +57,8 @@
     <string name="progress_pro_feature">PRO Feature</string>
     <string name="progress_unlock_analysis">Unlock Analysis</string>
     <string name="progress_last_month_walk">Your walk over the last month</string>
+    <string name="progress_legend_done">Completed</string>
+    <string name="progress_legend_none">No activity</string>
     <string name="progress_empty_state">Begin your spiritual walk. Complete your first discipline to see your progress</string>
 
     <!-- Add Habit Screen -->

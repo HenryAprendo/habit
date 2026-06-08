@@ -4,7 +4,8 @@ import com.henrydev.faithsteward.domain.repository.HabitRepository
 import com.henrydev.faithsteward.domain.subscription.model.HabitStats
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.util.Calendar
+import java.time.Instant
+import java.time.ZoneId
 import javax.inject.Inject
 
 class GetGlobalStatsUseCase @Inject constructor(
@@ -25,9 +26,10 @@ class GetGlobalStatsUseCase @Inject constructor(
                 completedLogs.toFloat() / totalPossibleLogs else 0f
             //Procesamiento para Heatmap (agrupado por dia)
             //Agrupamos todos los logs por fecha (sin hora)
+            // Group completed logs by calendar day (key = epoch day via LocalDate).
             val heatmap = allLogs
                 .filter { it.isCompleted }
-                .groupBy { truncateDate(it.date) }
+                .groupBy { toEpochDay(it.date) }
                 .mapValues { entry ->
                     entry.value.isNotEmpty()
                 }
@@ -43,33 +45,25 @@ class GetGlobalStatsUseCase @Inject constructor(
         }
     }
 
-    private fun truncateDate(timestamp: Long): Long {
-        val cal = Calendar.getInstance().apply {
-            timeInMillis = timestamp
-            set(Calendar.HOUR_OF_DAY,0)
-            set(Calendar.MINUTE,0)
-            set(Calendar.SECOND,0)
-            set(Calendar.MILLISECOND,0)
-        }
-        return cal.timeInMillis
-    }
+    /** Converts an epoch-millis timestamp to its local calendar day (epoch day). */
+    private fun toEpochDay(timestamp: Long): Long =
+        Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDate().toEpochDay()
 
-    private fun calculateBestStreak(sortedDates: List<Long>): Int {
-        if (sortedDates.isEmpty()) return 0
+    /** Longest run of consecutive calendar days (epoch-day diff == 1). */
+    private fun calculateBestStreak(sortedDays: List<Long>): Int {
+        if (sortedDays.isEmpty()) return 0
         var maxStreak = 1
         var currentStreak = 1
 
-        for (i in 0 until sortedDates.size - 1) {
-            val diff = sortedDates[i+1] - sortedDates[i]
-            val oneDay = 24 * 60 * 60 * 1000L
-            if (diff <= oneDay + 1000) {
+        for (i in 0 until sortedDays.size - 1) {
+            if (sortedDays[i + 1] - sortedDays[i] == 1L) {
                 currentStreak++
             } else {
-                maxStreak = maxOf(maxStreak,currentStreak)
+                maxStreak = maxOf(maxStreak, currentStreak)
                 currentStreak = 1
             }
         }
-        return maxOf(maxStreak,currentStreak)
+        return maxOf(maxStreak, currentStreak)
     }
 
 }
