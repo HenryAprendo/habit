@@ -555,6 +555,17 @@
     <string name="notification_reminder_single">Tienes 1 desafío activo esperándote hoy.</string>
     <string name="notification_reminder_multi">Tienes %1$d desafíos por completar antes de que termine el día.</string>
 
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Saltar</string>
+    <string name="onboarding_next">Siguiente</string>
+    <string name="onboarding_start">Comenzar</string>
+    <string name="onboarding_p1_title">Construye disciplinas espirituales</string>
+    <string name="onboarding_p1_desc">Crea hábitos de fe diarios y márcalos para mantener tu constancia en el caminar con Dios.</string>
+    <string name="onboarding_p2_title">Crece cada día</string>
+    <string name="onboarding_p2_desc">Lee un devocional diario y participa en desafíos guiados para profundizar tu fe.</string>
+    <string name="onboarding_p3_title">Mira tu fidelidad</string>
+    <string name="onboarding_p3_desc">Sigue tus rachas y progreso, y recibe un recordatorio diario suave para no detenerte.</string>
+
     <string name="paywall_plan_annual_trial">Prueba de 7 días gratis</string>
     <string name="paywall_trial_disclaimer">No se te cobrará hoy. Cancela en cualquier momento en Google Play antes de que termine la prueba.</string>
     <string name="paywall_payment_pending">Tu pago está en proceso. Desbloquearemos tu mayordomía Pro en cuanto Google Play lo confirme.</string>

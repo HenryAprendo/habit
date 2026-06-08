@@ -1,5 +1,7 @@
 package com.henrydev.faithsteward
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CutCornerShape
@@ -28,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -37,11 +40,34 @@ import com.henrydev.faithsteward.domain.subscription.usecase.IsProUserUseCase
 import com.henrydev.faithsteward.domain.use_cases.CanCreateHabitUseCase
 import com.henrydev.faithsteward.ui.navigation.HabitNavHost
 import com.henrydev.faithsteward.ui.navigation.HabitScreen
+import com.henrydev.faithsteward.ui.screen.onboarding.OnboardingScreen
+import com.henrydev.faithsteward.ui.screen.onboarding.OnboardingViewModel
 
+
+@Composable
+fun HabitApp(
+    isProUserUseCase: IsProUserUseCase,
+    canCreateHabitUseCase: CanCreateHabitUseCase,
+    modifier: Modifier = Modifier
+) {
+    val onboardingViewModel: OnboardingViewModel = hiltViewModel()
+    val onboardingCompleted by onboardingViewModel.completed.collectAsStateWithLifecycle()
+
+    when (onboardingCompleted) {
+        // null = flag still loading; keep a blank surface to avoid flashing onboarding.
+        null -> Box(modifier = Modifier.fillMaxSize())
+        false -> OnboardingScreen(onFinish = { onboardingViewModel.complete() })
+        else -> MainApp(
+            isProUserUseCase = isProUserUseCase,
+            canCreateHabitUseCase = canCreateHabitUseCase,
+            modifier = modifier
+        )
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HabitApp(
+private fun MainApp(
     isProUserUseCase: IsProUserUseCase,
     canCreateHabitUseCase: CanCreateHabitUseCase,
     modifier: Modifier = Modifier
