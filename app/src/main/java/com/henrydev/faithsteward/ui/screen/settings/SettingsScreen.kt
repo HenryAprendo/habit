@@ -1,9 +1,11 @@
 package com.henrydev.faithsteward.ui.screen.settings
 
+import android.app.TimePickerDialog
 import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +32,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -56,6 +59,7 @@ fun SettingsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val exportStatus by viewModel.exportStatus.collectAsStateWithLifecycle()
+    val reminderPrefs by viewModel.reminderPreferences.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     // Local Scroll Behavior for collapsing TopBar
@@ -119,6 +123,25 @@ fun SettingsScreen(
             SubscriptionStatusCard(
                 status = uiState.userStatus,
                 onUpgradeClick = onNavigateToPaywall
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+            ReminderSection(
+                enabled = reminderPrefs.enabled,
+                hour = reminderPrefs.hour,
+                minute = reminderPrefs.minute,
+                onEnabledChange = { viewModel.setReminderEnabled(it) },
+                onTimeClick = {
+                    TimePickerDialog(
+                        context,
+                        { _, selectedHour, selectedMinute ->
+                            viewModel.setReminderTime(selectedHour, selectedMinute)
+                        },
+                        reminderPrefs.hour,
+                        reminderPrefs.minute,
+                        android.text.format.DateFormat.is24HourFormat(context)
+                    ).show()
+                }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -231,6 +254,76 @@ fun SubscriptionStatusCard(
 
 
 
+}
+
+@Composable
+fun ReminderSection(
+    enabled: Boolean,
+    hour: Int,
+    minute: Int,
+    onEnabledChange: (Boolean) -> Unit,
+    onTimeClick: () -> Unit
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            text = stringResource(R.string.settings_reminders_title),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
+
+        ElevatedCard(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(R.string.settings_reminder_enable_label),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = stringResource(R.string.settings_reminder_enable_desc),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Switch(
+                        checked = enabled,
+                        onCheckedChange = onEnabledChange
+                    )
+                }
+
+                if (enabled) {
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onTimeClick() }
+                            .padding(vertical = 8.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.settings_reminder_time_label),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Text(
+                            text = String.format(java.util.Locale.getDefault(), "%02d:%02d", hour, minute),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable

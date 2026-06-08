@@ -529,6 +529,19 @@
     <string name="notification_action_allow">Activar</string>
     <string name="notification_action_not_now">Ahora no</string>
 
+    <!-- Daily reminder settings -->
+    <string name="settings_reminders_title">Recordatorio Diario</string>
+    <string name="settings_reminder_enable_label">Recordatorio diario</string>
+    <string name="settings_reminder_enable_desc">Recibe un aviso suave para mantener tus disciplinas espirituales.</string>
+    <string name="settings_reminder_time_label">Hora del recordatorio</string>
+
+    <!-- Notification channel y contenido -->
+    <string name="notification_channel_name">Recordatorios Diarios</string>
+    <string name="notification_channel_desc">Recordatorios para mantenerte fiel a tus disciplinas espirituales.</string>
+    <string name="notification_reminder_title">¡No rompas tu racha!</string>
+    <string name="notification_reminder_single">Tienes 1 desafío activo esperándote hoy.</string>
+    <string name="notification_reminder_multi">Tienes %1$d desafíos por completar antes de que termine el día.</string>
+
     <string name="paywall_plan_annual_trial">Prueba de 7 días gratis</string>
     <string name="paywall_trial_disclaimer">No se te cobrará hoy. Cancela en cualquier momento en Google Play antes de que termine la prueba.</string>
     <string name="paywall_payment_pending">Tu pago está en proceso. Desbloquearemos tu mayordomía Pro en cuanto Google Play lo confirme.</string>

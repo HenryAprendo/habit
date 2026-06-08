@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.henrydev.faithsteward.R
 import com.henrydev.faithsteward.domain.use_cases.CheckPendingChallengesUseCase
 import com.henrydev.faithsteward.ui.notifications.HabitNotificationHelper
 import dagger.assisted.Assisted
@@ -41,11 +42,14 @@ class ChallengeNotificationWorker @AssistedInject constructor(
             val pendingChallenges = checkPendingChallengesUseCase()
 
             if (pendingChallenges.isNotEmpty()) {
-                val notificationTitle = "Don't break your streak!"
+                val notificationTitle = applicationContext.getString(R.string.notification_reminder_title)
                 val notificationMessage = if (pendingChallenges.size == 1) {
-                    "You have 1 active challenge waiting for you today"
+                    applicationContext.getString(R.string.notification_reminder_single)
                 } else {
-                    "You have ${pendingChallenges.size} challenges to complete before the day ends"
+                    applicationContext.getString(
+                        R.string.notification_reminder_multi,
+                        pendingChallenges.size
+                    )
                 }
                 notificationHelper.showChallengeReminder(
                     title = notificationTitle,
