@@ -13,6 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,6 +31,22 @@ class PaywallViewModel @Inject constructor(
     init {
         billingService.connect()
         observePurchaseResults()
+        loadProductPrices()
+    }
+
+    /**
+     * Loads the real, localized prices from Google Play (ProductDetails) so the
+     * paywall shows what the user will actually be charged in their currency,
+     * instead of a hardcoded value. Falls back to the string resource in the UI
+     * if billing never becomes ready (e.g. offline).
+     */
+    private fun loadProductPrices() {
+        viewModelScope.launch {
+            billingService.isReady.first { it } // wait until billing is connected
+            val annual = billingService.getProductPrice(PRODUCT_ID_ANNUAL)
+            val monthly = billingService.getProductPrice(PRODUCT_ID_MONTHLY)
+            _uiState.update { it.copy(annualPrice = annual, monthlyPrice = monthly) }
+        }
     }
 
     private fun observePurchaseResults() {
@@ -133,5 +150,7 @@ data class PaywallUiState(
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
     val isPendingPayment: Boolean = false,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val annualPrice: String? = null,
+    val monthlyPrice: String? = null
 )
