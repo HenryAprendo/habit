@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-enum class HabitField { NAME, DESCRIPTION, FREQUENCY }
+enum class HabitField { NAME, DESCRIPTION }
 
 @HiltViewModel
 class AddItemViewModel @Inject constructor(
@@ -46,16 +46,9 @@ class AddItemViewModel @Inject constructor(
         }
     }
 
-    fun validate(uiState: HabitDetail = _uiState.value.habitDetail): Boolean {
-        with(uiState){
-            return name.isNotBlank() &&
-                    description.isNotBlank() &&
-                    frequency.isNotBlank() &&
-                    frequency.isNotBlank() &&
-                    (frequency.toIntOrNull() ?: 0) > 0 &&
-                    frequency.toInt() in 1..5
-        }
-    }
+    // Only the name is required; the spiritual purpose is optional.
+    fun validate(uiState: HabitDetail = _uiState.value.habitDetail): Boolean =
+        uiState.name.isNotBlank()
 
 }
 
@@ -70,28 +63,22 @@ data class AddHabitUiState(
 
 // Extension function to help UI check if a field should show error
 fun AddHabitUiState.shouldShowError(field: HabitField): Boolean {
-    val detail = this.habitDetail
-    val isTouched = this.touchedFields.contains(field)
-
-    return if (!isTouched) false else {
-        when (field) {
-            HabitField.NAME -> detail.name.isBlank()
-            HabitField.DESCRIPTION -> detail.description.isBlank()
-            HabitField.FREQUENCY -> detail.frequency.isBlank() || (detail.frequency.toIntOrNull() ?: 0) <= 0 || (detail.frequency.toIntOrNull() ?: 0) > 5
-        }
+    if (!touchedFields.contains(field)) return false
+    return when (field) {
+        HabitField.NAME -> habitDetail.name.isBlank()
+        HabitField.DESCRIPTION -> false // optional field, never an error
     }
 }
 
 data class HabitDetail(
     val name: String = "",
     val description: String = "",
-    val frequency: String = "",
 )
 
 fun HabitDetail.toHabit(): Habit = Habit(
     id = 0,
     name = this.name,
     description = this.description,
-    frequency = this.frequency.toIntOrNull() ?: 1,
+    frequency = 1, // retained in the schema but no longer user-facing
     createdAt = System.currentTimeMillis()
 )

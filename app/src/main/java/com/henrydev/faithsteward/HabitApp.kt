@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -17,9 +18,13 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -51,6 +56,35 @@ fun HabitApp(
     }
 
     val canCreateHabit by canCreateHabitUseCase().collectAsStateWithLifecycle(true)
+    var showLimitDialog by remember { mutableStateOf(false) }
+
+    if (showLimitDialog) {
+        AlertDialog(
+            onDismissRequest = { showLimitDialog = false },
+            title = { Text(stringResource(R.string.habit_limit_title)) },
+            text = {
+                Text(
+                    stringResource(
+                        R.string.habit_limit_message,
+                        CanCreateHabitUseCase.FREE_HABIT_LIMIT
+                    )
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    showLimitDialog = false
+                    navController.navigate(HabitScreen.Paywall.route)
+                }) {
+                    Text(stringResource(R.string.habit_limit_cta))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showLimitDialog = false }) {
+                    Text(stringResource(R.string.habit_limit_dismiss))
+                }
+            }
+        )
+    }
 
     Scaffold(
         bottomBar = {
@@ -95,7 +129,7 @@ fun HabitApp(
                         if (canCreateHabit) {
                             navController.navigate(HabitScreen.AddHabit.route)
                         } else {
-                            navController.navigate(HabitScreen.Paywall.route)
+                            showLimitDialog = true
                         }
                     },
                     shape = CutCornerShape(topStart = 15.dp, bottomEnd = 15.dp),

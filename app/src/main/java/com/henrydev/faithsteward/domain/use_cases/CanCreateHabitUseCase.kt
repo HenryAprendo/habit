@@ -18,8 +18,13 @@ class CanCreateHabitUseCase @Inject constructor (
         ) { habits, status ->
             when(status) {
                 is UserStatus.Pro -> true
-                is UserStatus.Free -> habits.size < 4
+                is UserStatus.Free -> habits.size < FREE_HABIT_LIMIT
             }
         }
+    }
+
+    companion object {
+        /** Maximum number of habits a free-tier user can create. */
+        const val FREE_HABIT_LIMIT = 4
     }
 }

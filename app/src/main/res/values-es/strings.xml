@@ -70,10 +70,14 @@
     <string name="add_habit_name_supporting">Nombra tu compromiso espiritual</string>
     <string name="add_habit_purpose_label">Propósito Espiritual</string>
     <string name="add_habit_purpose_placeholder">¿Por qué es importante esta disciplina para tu caminar?</string>
-    <string name="add_habit_frequency_label">Dedicación Diaria</string>
+    <string name="add_habit_purpose_optional">Opcional</string>
     <string name="add_habit_error_name">Nombre de disciplina requerido</string>
-    <string name="add_habit_error_purpose">Propósito de disciplina requerido</string>
-    <string name="add_habit_error_frequency">Campo requerido. Mínimo 1 y Máximo 5</string>
+
+    <!-- Diálogo de límite de hábitos gratis -->
+    <string name="habit_limit_title">Límite del plan gratuito</string>
+    <string name="habit_limit_message">El plan gratuito permite hasta %1$d disciplinas. Pásate a Pro para añadir disciplinas espirituales ilimitadas.</string>
+    <string name="habit_limit_cta">Ver Pro</string>
+    <string name="habit_limit_dismiss">Ahora no</string>
 
     <!-- Settings Screen -->
     <string name="settings_app_stewardship">Administración de la App</string>

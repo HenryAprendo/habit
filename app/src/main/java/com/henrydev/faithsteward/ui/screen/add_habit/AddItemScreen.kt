@@ -14,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -34,7 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -191,47 +189,16 @@ fun InputForm(
                 Icon(
                     imageVector = Icons.Default.Description,
                     contentDescription = null,
-                    tint = if (uiState.shouldShowError(HabitField.DESCRIPTION)) MaterialTheme.colorScheme.error
-                    else MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary
                 )
             },
-            isError = uiState.shouldShowError(HabitField.DESCRIPTION),
             supportingText = {
-                if (uiState.shouldShowError(HabitField.DESCRIPTION)) {
-                    Text(text = stringResource(R.string.add_habit_error_purpose))
-                }
+                Text(text = stringResource(R.string.add_habit_purpose_optional))
             },
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Done
             ),
             minLines = 3,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        OutlinedTextField(
-            value = habitDetail.frequency,
-            onValueChange = { onValueChange(habitDetail.copy(frequency = it), HabitField.FREQUENCY) },
-            label = { Text(stringResource(R.string.add_habit_frequency_label)) },
-            placeholder = { Text("1") },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Numbers,
-                    contentDescription = null,
-                    tint = if (uiState.shouldShowError(HabitField.FREQUENCY)) MaterialTheme.colorScheme.error
-                    else MaterialTheme.colorScheme.primary
-                )
-            },
-            isError = uiState.shouldShowError(HabitField.FREQUENCY),
-            supportingText = {
-                if (uiState.shouldShowError(HabitField.FREQUENCY)) {
-                    Text(text = stringResource(R.string.add_habit_error_frequency))
-                }
-            },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Number
-            ),
-            singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
     }
