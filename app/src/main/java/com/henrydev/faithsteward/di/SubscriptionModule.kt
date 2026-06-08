@@ -5,8 +5,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.henrydev.faithsteward.data.onboarding.repository.OfflineOnboardingPreferencesRepository
 import com.henrydev.faithsteward.data.reminder.repository.OfflineReminderPreferencesRepository
 import com.henrydev.faithsteward.data.subscription.repository.OfflineSubscriptionRepository
+import com.henrydev.faithsteward.domain.onboarding.repository.OnboardingPreferencesRepository
 import com.henrydev.faithsteward.domain.reminder.ReminderScheduler
 import com.henrydev.faithsteward.domain.reminder.repository.ReminderPreferencesRepository
 import com.henrydev.faithsteward.domain.subscription.repository.SubscriptionRepository
@@ -40,6 +42,12 @@ abstract class SubscriptionModule {
     abstract fun bindReminderScheduler(
         imp: NotificationScheduler
     ): ReminderScheduler
+
+    @Binds
+    @Singleton
+    abstract fun bindOnboardingPreferencesRepository(
+        imp: OfflineOnboardingPreferencesRepository
+    ): OnboardingPreferencesRepository
 
     companion object {
         private const val SUBSCRIPTION_PREFERENCES = "subscription_prefs"
