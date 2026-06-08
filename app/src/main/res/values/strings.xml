@@ -132,6 +132,8 @@
     <string name="paywall_plan_monthly_title">Monthly Journey</string>
     <string name="paywall_plan_monthly_price">$4.99 / month</string>
     <string name="paywall_plan_monthly_desc">Flexible spiritual commitment</string>
+    <string name="paywall_price_per_year">%1$s / year</string>
+    <string name="paywall_price_per_month">%1$s / month</string>
     <string name="paywall_continue_basic">Continue with Basic Walk</string>
     <string name="paywall_restore_purchases">Paywall restore purchases</string>
 

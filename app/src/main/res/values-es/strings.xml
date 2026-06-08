@@ -132,6 +132,8 @@
     <string name="paywall_plan_monthly_title">Jornada Mensual</string>
     <string name="paywall_plan_monthly_price">$4.99 / mes</string>
     <string name="paywall_plan_monthly_desc">Compromiso espiritual flexible</string>
+    <string name="paywall_price_per_year">%1$s / año</string>
+    <string name="paywall_price_per_month">%1$s / mes</string>
     <string name="paywall_continue_basic">Continuar con el Camino Básico</string>
     <string name="paywall_restore_purchases">Compras de restauración de muro de pago</string>
 

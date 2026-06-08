@@ -124,7 +124,9 @@ fun PaywallScreen(
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             PricingCard(
                 title = stringResource(R.string.paywall_plan_annual_title),
-                price = stringResource(R.string.paywall_plan_annual_price),
+                price = uiState.annualPrice?.let {
+                    stringResource(R.string.paywall_price_per_year, it)
+                } ?: stringResource(R.string.paywall_plan_annual_price),
                 description = stringResource(R.string.paywall_plan_annual_desc),
                 trialPeriod = stringResource(R.string.paywall_plan_annual_trial),
                 isHighlighted = true,
@@ -134,7 +136,9 @@ fun PaywallScreen(
 
             PricingCard(
                 title = stringResource(R.string.paywall_plan_monthly_title),
-                price = stringResource(R.string.paywall_plan_monthly_price),
+                price = uiState.monthlyPrice?.let {
+                    stringResource(R.string.paywall_price_per_month, it)
+                } ?: stringResource(R.string.paywall_plan_monthly_price),
                 description = stringResource(R.string.paywall_plan_monthly_desc),
                 trialPeriod = null,
                 isHighlighted = false,
