@@ -70,10 +70,14 @@
     <string name="add_habit_name_supporting">Name your spiritual commitment</string>
     <string name="add_habit_purpose_label">Spiritual Purpose</string>
     <string name="add_habit_purpose_placeholder">Why is this discipline important for your walk?</string>
-    <string name="add_habit_frequency_label">Daily Dedication</string>
+    <string name="add_habit_purpose_optional">Optional</string>
     <string name="add_habit_error_name">Add discipline name required</string>
-    <string name="add_habit_error_purpose">Add discipline purpose required</string>
-    <string name="add_habit_error_frequency">Field required. Minimum 1 and Maximum 5</string>
+
+    <!-- Free habit limit dialog -->
+    <string name="habit_limit_title">Free plan limit reached</string>
+    <string name="habit_limit_message">The free plan allows up to %1$d disciplines. Upgrade to Pro to add unlimited spiritual disciplines.</string>
+    <string name="habit_limit_cta">See Pro</string>
+    <string name="habit_limit_dismiss">Not now</string>
 
     <!-- Settings Screen -->
     <string name="settings_app_stewardship">App Stewardship</string>

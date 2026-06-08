@@ -38,6 +38,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -264,6 +265,16 @@ fun ReminderSection(
     onEnabledChange: (Boolean) -> Unit,
     onTimeClick: () -> Unit
 ) {
+    val context = LocalContext.current
+    // Format respecting the device's 12h/24h setting: "1:00 PM" or "13:00".
+    val timeText = remember(hour, minute) {
+        val locale = java.util.Locale.getDefault()
+        val skeleton = if (android.text.format.DateFormat.is24HourFormat(context)) "Hm" else "hm"
+        val pattern = android.text.format.DateFormat.getBestDateTimePattern(locale, skeleton)
+        java.time.LocalTime.of(hour, minute)
+            .format(java.time.format.DateTimeFormatter.ofPattern(pattern, locale))
+    }
+
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
             text = stringResource(R.string.settings_reminders_title),
@@ -314,7 +325,7 @@ fun ReminderSection(
                             style = MaterialTheme.typography.bodyLarge
                         )
                         Text(
-                            text = String.format(java.util.Locale.getDefault(), "%02d:%02d", hour, minute),
+                            text = timeText,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary
