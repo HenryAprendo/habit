@@ -3,6 +3,7 @@ package com.henrydev.faithsteward.ui.screen.challenges
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -29,6 +30,7 @@ import com.henrydev.faithsteward.domain.model.Habit
 @Composable
 fun ChallengesScreen(
     onNavigateToPaywall: () -> Unit,
+    onNavigateToAddHabit: () -> Unit,
     viewModel: ChallengesViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -55,6 +57,10 @@ fun ChallengesScreen(
             onHabitSelected = { habitId ->
                 viewModel.joinChallenge(selectedChallenge!!, habitId)
                 showDialog = false
+            },
+            onCreateHabit = {
+                showDialog = false
+                onNavigateToAddHabit()
             }
         )
     }
@@ -99,13 +105,15 @@ fun ChallengesScreen(
 fun HabitSelectionDialog(
     habits: List<Habit>,
     onDismiss: () -> Unit,
-    onHabitSelected: (Long) -> Unit
+    onHabitSelected: (Long) -> Unit,
+    onCreateHabit: () -> Unit
 ) {
+    val hasHabits = habits.isNotEmpty()
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.challenges_choose_discipline_dialog)) },
         text = {
-            if (habits.isEmpty()) {
+            if (!hasHabits) {
                 Text(stringResource(R.string.challenges_no_habits_msg))
             } else {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
@@ -119,6 +127,14 @@ fun HabitSelectionDialog(
             }
         },
         confirmButton = {
+            // When there are no habits, offer a way out of the dead end.
+            if (!hasHabits) {
+                TextButton(onClick = onCreateHabit) {
+                    Text(stringResource(R.string.challenges_create_discipline))
+                }
+            }
+        },
+        dismissButton = {
             TextButton(onClick = onDismiss) { Text(stringResource(R.string.challenges_not_now)) }
         }
     )
@@ -132,20 +148,68 @@ private fun ChallengesList(
     joinStatus: JoinChallengeStatus,
     isUserPro: Boolean
 ) {
+    if (challenges.isEmpty()) {
+        Box(
+            modifier = Modifier.fillMaxSize().padding(32.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = stringResource(R.string.challenges_empty),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        return
+    }
+
+    // Classify each challenge from its progress so we can group the list.
+    fun progressOf(c: Challenge) = progressMap[c.id]
+    fun isJoined(c: Challenge): Boolean = progressOf(c)?.let { it.linkedHabitId != 0L } == true
+    fun isCompleted(c: Challenge): Boolean =
+        progressOf(c)?.let { it.linkedHabitId != 0L && it.completedDays >= it.totalDays } == true
+
+    val active = challenges.filter { isJoined(it) && !isCompleted(it) }
+    val available = challenges.filter { !isJoined(it) }
+    val completed = challenges.filter { isCompleted(it) }
+
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier.fillMaxSize()
     ) {
-        items(challenges, key = { it.id }) { challenge ->
-            ChallengeItem(
-                challenge = challenge,
-                onJoinClick = { onJoinClick(challenge) },
-                isLoading = joinStatus is JoinChallengeStatus.Loading,
-                progress = progressMap[challenge.id],
-                isUserPro = isUserPro
-            )
-        }
+        challengeSection(R.string.challenges_section_active, active, progressMap, joinStatus, isUserPro, onJoinClick)
+        challengeSection(R.string.challenges_section_available, available, progressMap, joinStatus, isUserPro, onJoinClick)
+        challengeSection(R.string.challenges_section_completed, completed, progressMap, joinStatus, isUserPro, onJoinClick)
+    }
+}
+
+/** Adds a titled section to the list, skipping it entirely when empty. */
+private fun LazyListScope.challengeSection(
+    titleRes: Int,
+    challenges: List<Challenge>,
+    progressMap: Map<Long, ChallengeProgress>,
+    joinStatus: JoinChallengeStatus,
+    isUserPro: Boolean,
+    onJoinClick: (Challenge) -> Unit
+) {
+    if (challenges.isEmpty()) return
+    item(key = "header_$titleRes") {
+        Text(
+            text = stringResource(titleRes),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+    }
+    items(challenges, key = { it.id }) { challenge ->
+        ChallengeItem(
+            challenge = challenge,
+            onJoinClick = { onJoinClick(challenge) },
+            isLoading = joinStatus is JoinChallengeStatus.Loading,
+            progress = progressMap[challenge.id],
+            isUserPro = isUserPro
+        )
     }
 }
 

@@ -53,6 +53,9 @@ fun HabitNavHost(
             ChallengesScreen(
                 onNavigateToPaywall = {
                     controller.navigate(HabitScreen.Paywall.route)
+                },
+                onNavigateToAddHabit = {
+                    controller.navigate(HabitScreen.AddHabit.route)
                 }
             )
         }

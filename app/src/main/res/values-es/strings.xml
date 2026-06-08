@@ -107,6 +107,11 @@
     <string name="challenges_status_on_walk">En el Camino</string>
     <string name="challenges_status_advanced">Viaje Espiritual Avanzado</string>
     <string name="challenges_status_start">Empezar Viaje</string>
+    <string name="challenges_section_active">En el Camino</string>
+    <string name="challenges_section_available">Disponibles</string>
+    <string name="challenges_section_completed">Completados</string>
+    <string name="challenges_create_discipline">Crear disciplina</string>
+    <string name="challenges_empty">Aún no hay desafíos disponibles. Vuelve pronto.</string>
 
     <!-- Paywall Screen -->
     <string name="paywall_commit_spiritual_growth">Comprométete con tu\nCrecimiento Espiritual</string>
