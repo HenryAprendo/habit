@@ -3,6 +3,7 @@ package com.henrydev.faithsteward.di
 import android.content.Context
 import androidx.room.Room
 import com.henrydev.faithsteward.data.db.ChallengeDao
+import com.henrydev.faithsteward.data.db.DatabaseMigrations
 import com.henrydev.faithsteward.data.db.HabitDao
 import com.henrydev.faithsteward.data.db.HabitDatabase
 import com.henrydev.faithsteward.data.db.HabitDatabaseCallback
@@ -42,7 +43,11 @@ object DatabaseModule {
                     habitDaoProvider = habitDaoProvider
                 )
             )
-            .fallbackToDestructiveMigration()
+            // Real migrations preserve user data on upgrades (none yet at version 1).
+            .addMigrations(*DatabaseMigrations.ALL)
+            // Safety net ONLY for downgrades (rare; mostly during testing). Upgrades are
+            // never destructive — a schema bump without a migration will fail loudly instead.
+            .fallbackToDestructiveMigrationOnDowngrade(dropAllTables = true)
             .build()
     }
 
