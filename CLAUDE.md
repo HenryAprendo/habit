@@ -111,11 +111,18 @@ Implementadas según el feedback de testers (un PR por área, todas mergeadas a 
    DST. Nota: el faithfulness sigue usando base 30 (no cambió).
 6. **Onboarding** de primer arranque (pager de 3 páginas), se muestra una sola vez (DataStore);
    respeta system bars (edge-to-edge).
+7. **Migración de Room (infra)** — se quitó `fallbackToDestructiveMigration` (borraba datos en
+   upgrades). Builder ahora con `addMigrations(*DatabaseMigrations.ALL)` +
+   `fallbackToDestructiveMigrationOnDowngrade()` (red de seguridad solo en downgrade). `version`
+   sigue en **1** (no hubo cambio de esquema). Receta para el próximo cambio de esquema en
+   `data/db/DatabaseMigrations.kt`.
 
 ### Pendiente antes del release 1.0.5
-1. **Migración de Room** (quitar `fallbackToDestructiveMigration`, añadir `Migration` real) —
-   próximo en agenda.
-2. **Bump de versión** a 1.0.5 / vCode 6 — SOLO cuando el usuario lo pida.
-3. **PR de release `develop → master`** + tag `v1.0.5`.
-4. **Firebase Crashlytics** (requiere setup en Firebase Console + actualizar Data Safety en Play).
-5. **Screenshots de Play** a actualizar: onboarding, progreso, challenges.
+1. **Bump de versión** a 1.0.5 / vCode 6 — SOLO cuando el usuario lo pida.
+2. **PR de release `develop → master`** + tag `v1.0.5`.
+3. **Firebase Crashlytics** (requiere setup en Firebase Console + actualizar Data Safety en Play).
+4. **Screenshots de Play** a actualizar: onboarding, progreso, challenges.
+
+### Backlog (futuro)
+- **Eliminar la columna `frequency`** de `Habit` (ya no se usa): será el **primer uso real** de la
+  infraestructura de migración (sube a `version = 2`, requiere recrear la tabla en SQLite).
