@@ -57,6 +57,8 @@
     <string name="progress_pro_feature">Función PRO</string>
     <string name="progress_unlock_analysis">Desbloquear Análisis</string>
     <string name="progress_last_month_walk">Tu caminar durante el último mes</string>
+    <string name="progress_legend_done">Completado</string>
+    <string name="progress_legend_none">Sin actividad</string>
     <string name="progress_empty_state">Comienza tu caminar espiritual. Completa tu primera disciplina para ver tu progreso</string>
 
     <!-- Add Habit Screen -->
@@ -70,10 +72,14 @@
     <string name="add_habit_name_supporting">Nombra tu compromiso espiritual</string>
     <string name="add_habit_purpose_label">Propósito Espiritual</string>
     <string name="add_habit_purpose_placeholder">¿Por qué es importante esta disciplina para tu caminar?</string>
-    <string name="add_habit_frequency_label">Dedicación Diaria</string>
+    <string name="add_habit_purpose_optional">Opcional</string>
     <string name="add_habit_error_name">Nombre de disciplina requerido</string>
-    <string name="add_habit_error_purpose">Propósito de disciplina requerido</string>
-    <string name="add_habit_error_frequency">Campo requerido. Mínimo 1 y Máximo 5</string>
+
+    <!-- Diálogo de límite de hábitos gratis -->
+    <string name="habit_limit_title">Límite del plan gratuito</string>
+    <string name="habit_limit_message">El plan gratuito permite hasta %1$d disciplinas. Pásate a Pro para añadir disciplinas espirituales ilimitadas.</string>
+    <string name="habit_limit_cta">Ver Pro</string>
+    <string name="habit_limit_dismiss">Ahora no</string>
 
     <!-- Settings Screen -->
     <string name="settings_app_stewardship">Administración de la App</string>
@@ -101,6 +107,11 @@
     <string name="challenges_status_on_walk">En el Camino</string>
     <string name="challenges_status_advanced">Viaje Espiritual Avanzado</string>
     <string name="challenges_status_start">Empezar Viaje</string>
+    <string name="challenges_section_active">En el Camino</string>
+    <string name="challenges_section_available">Disponibles</string>
+    <string name="challenges_section_completed">Completados</string>
+    <string name="challenges_create_discipline">Crear disciplina</string>
+    <string name="challenges_empty">Aún no hay desafíos disponibles. Vuelve pronto.</string>
 
     <!-- Paywall Screen -->
     <string name="paywall_commit_spiritual_growth">Comprométete con tu\nCrecimiento Espiritual</string>
@@ -121,6 +132,8 @@
     <string name="paywall_plan_monthly_title">Jornada Mensual</string>
     <string name="paywall_plan_monthly_price">$4.99 / mes</string>
     <string name="paywall_plan_monthly_desc">Compromiso espiritual flexible</string>
+    <string name="paywall_price_per_year">%1$s / año</string>
+    <string name="paywall_price_per_month">%1$s / mes</string>
     <string name="paywall_continue_basic">Continuar con el Camino Básico</string>
     <string name="paywall_restore_purchases">Compras de restauración de muro de pago</string>
 
@@ -528,6 +541,30 @@
 
     <string name="notification_action_allow">Activar</string>
     <string name="notification_action_not_now">Ahora no</string>
+
+    <!-- Daily reminder settings -->
+    <string name="settings_reminders_title">Recordatorio Diario</string>
+    <string name="settings_reminder_enable_label">Recordatorio diario</string>
+    <string name="settings_reminder_enable_desc">Recibe un aviso suave para mantener tus disciplinas espirituales.</string>
+    <string name="settings_reminder_time_label">Hora del recordatorio</string>
+
+    <!-- Notification channel y contenido -->
+    <string name="notification_channel_name">Recordatorios Diarios</string>
+    <string name="notification_channel_desc">Recordatorios para mantenerte fiel a tus disciplinas espirituales.</string>
+    <string name="notification_reminder_title">¡No rompas tu racha!</string>
+    <string name="notification_reminder_single">Tienes 1 desafío activo esperándote hoy.</string>
+    <string name="notification_reminder_multi">Tienes %1$d desafíos por completar antes de que termine el día.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Saltar</string>
+    <string name="onboarding_next">Siguiente</string>
+    <string name="onboarding_start">Comenzar</string>
+    <string name="onboarding_p1_title">Construye disciplinas espirituales</string>
+    <string name="onboarding_p1_desc">Crea hábitos de fe diarios y márcalos para mantener tu constancia en el caminar con Dios.</string>
+    <string name="onboarding_p2_title">Crece cada día</string>
+    <string name="onboarding_p2_desc">Lee un devocional diario y participa en desafíos guiados para profundizar tu fe.</string>
+    <string name="onboarding_p3_title">Mira tu fidelidad</string>
+    <string name="onboarding_p3_desc">Sigue tus rachas y progreso, y recibe un recordatorio diario suave para no detenerte.</string>
 
     <string name="paywall_plan_annual_trial">Prueba de 7 días gratis</string>
     <string name="paywall_trial_disclaimer">No se te cobrará hoy. Cancela en cualquier momento en Google Play antes de que termine la prueba.</string>

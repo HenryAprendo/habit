@@ -2,6 +2,10 @@ package com.henrydev.faithsteward.ui.screen.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.henrydev.faithsteward.domain.reminder.model.ReminderPreferences
+import com.henrydev.faithsteward.domain.reminder.usecase.GetReminderPreferencesUseCase
+import com.henrydev.faithsteward.domain.reminder.usecase.SetReminderEnabledUseCase
+import com.henrydev.faithsteward.domain.reminder.usecase.SetReminderTimeUseCase
 import com.henrydev.faithsteward.domain.subscription.model.UserStatus
 import com.henrydev.faithsteward.domain.subscription.repository.SubscriptionRepository
 import com.henrydev.faithsteward.domain.use_cases.ExportDataUseCase
@@ -19,6 +23,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val subscriptionRepository: SubscriptionRepository,
+    getReminderPreferencesUseCase: GetReminderPreferencesUseCase,
+    private val setReminderEnabledUseCase: SetReminderEnabledUseCase,
+    private val setReminderTimeUseCase: SetReminderTimeUseCase,
     private val exportDataUseCase: ExportDataUseCase,
     private val importDataUseCase: ImportDataUseCase
 ): ViewModel() {
@@ -34,6 +41,22 @@ class SettingsViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = SettingsUiState()
             )
+
+    val reminderPreferences: StateFlow<ReminderPreferences> =
+        getReminderPreferencesUseCase()
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = ReminderPreferences()
+            )
+
+    fun setReminderEnabled(enabled: Boolean) {
+        viewModelScope.launch { setReminderEnabledUseCase(enabled) }
+    }
+
+    fun setReminderTime(hour: Int, minute: Int) {
+        viewModelScope.launch { setReminderTimeUseCase(hour, minute) }
+    }
 
     fun startExport() {
         viewModelScope.launch {

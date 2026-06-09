@@ -11,6 +11,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import com.henrydev.faithsteward.data.worker.ChallengeNotificationWorker
+import com.henrydev.faithsteward.domain.reminder.ReminderScheduler
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.Duration
 import java.time.LocalDateTime
@@ -18,12 +19,21 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Framework implementation of [ReminderScheduler] using WorkManager.
+ * Pure scheduling mechanics — orchestration (reading user preferences,
+ * deciding whether to schedule or cancel) lives in the domain use cases.
+ */
 @Singleton
 class NotificationScheduler @Inject constructor(
     @ApplicationContext private val context: Context
-) {
-    fun scheduleDailyReminder() {
-        android.util.Log.d("NotificationScheduler", "scheduleDailyReminder() called")
+) : ReminderScheduler {
+
+    override fun schedule(hour: Int, minute: Int) {
+        android.util.Log.d("NotificationScheduler", "schedule() at $hour:$minute")
+
+        // Cancel first so a time change deterministically takes effect.
+        cancel()
 
         val constraint = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
@@ -31,7 +41,7 @@ class NotificationScheduler @Inject constructor(
             .setRequiresDeviceIdle(false)
             .build()
 
-        val delay = calculateInitialDelay()
+        val delay = calculateInitialDelay(hour, minute)
 
         // One-time request for the first notification (fires at the target hour today/tomorrow)
         val oneTimeRequest = OneTimeWorkRequestBuilder<ChallengeNotificationWorker>()
@@ -63,7 +73,7 @@ class NotificationScheduler @Inject constructor(
         try {
             val workManager = WorkManager.getInstance(context)
 
-            // Schedule one-time: KEEP avoids rescheduling if already pending
+            // We just cancelled any existing schedule, so KEEP is effectively a fresh enqueue.
             workManager.enqueueUniqueWork(
                 "challenge_reminder_once",
                 ExistingWorkPolicy.KEEP,
@@ -71,7 +81,6 @@ class NotificationScheduler @Inject constructor(
             )
             android.util.Log.d("NotificationScheduler", "One-time work enqueued, delay=${delay / 1000 / 60} min")
 
-            // Schedule periodic: KEEP so it doesn't reset on each app open
             workManager.enqueueUniquePeriodicWork(
                 "challenge_reminder_periodic",
                 ExistingPeriodicWorkPolicy.KEEP,
@@ -84,9 +93,15 @@ class NotificationScheduler @Inject constructor(
         }
     }
 
-    private fun calculateInitialDelay(): Long {
+    override fun cancel() {
+        val workManager = WorkManager.getInstance(context)
+        workManager.cancelUniqueWork("challenge_reminder_once")
+        workManager.cancelUniqueWork("challenge_reminder_periodic")
+    }
+
+    private fun calculateInitialDelay(hour: Int, minute: Int): Long {
         val now = LocalDateTime.now()
-        var target = now.withHour(9).withMinute(0).withSecond(0).withNano(0)
+        var target = now.withHour(hour).withMinute(minute).withSecond(0).withNano(0)
 
         if (now.isAfter(target)) {
             target = target.plusDays(1)

@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -53,7 +51,9 @@ import com.henrydev.faithsteward.R
 import com.henrydev.faithsteward.domain.model.HabitProgressDetail
 import com.henrydev.faithsteward.domain.subscription.model.HabitStats
 import java.time.LocalDate
-import java.time.ZoneId
+import java.time.format.TextStyle
+import java.time.temporal.WeekFields
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -356,46 +356,81 @@ fun MonthlyHeatmap(
     heatmapData: Map<Long, Boolean>,
     modifier: Modifier = Modifier
 ) {
-    // Modern LocalDate logic to replace Calendar
-    val last35Days = remember(heatmapData) {
-        val today = LocalDate.now()
-        (34 downTo 0).map { dayOffset ->
-            today.minusDays(dayOffset.toLong())
-                .atStartOfDay(ZoneId.systemDefault())
-                .toInstant()
-                .toEpochMilli()
+    val locale = Locale.getDefault()
+    val firstDayOfWeek = remember(locale) { WeekFields.of(locale).firstDayOfWeek }
+    val today = remember { LocalDate.now() }
+
+    // Weekday header labels ordered by the locale's first day of week.
+    val weekdayLabels = remember(firstDayOfWeek, locale) {
+        (0 until 7).map { offset ->
+            firstDayOfWeek.plus(offset.toLong()).getDisplayName(TextStyle.NARROW, locale)
+        }
+    }
+
+    // Weekday-aligned grid: last 5 weeks ending with the current week.
+    val weeks = remember(today, firstDayOfWeek) {
+        val weeksToShow = 5
+        val todayColumn = ((today.dayOfWeek.value - firstDayOfWeek.value) + 7) % 7
+        val currentWeekStart = today.minusDays(todayColumn.toLong())
+        val gridStart = currentWeekStart.minusWeeks((weeksToShow - 1).toLong())
+        (0 until weeksToShow).map { week ->
+            (0 until 7).map { day -> gridStart.plusWeeks(week.toLong()).plusDays(day.toLong()) }
         }
     }
 
     ElevatedCard(modifier = modifier) {
         Column(modifier = Modifier.padding(16.dp)) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(7),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1.4f),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                userScrollEnabled = false
+            // Weekday headers, aligned to the day columns below.
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                items(last35Days.size) { index ->
-                    val timestamp = last35Days[index]
-                    val isActive = heatmapData[timestamp] ?: false
-                    Box(
-                        modifier = Modifier
-                            .aspectRatio(1f)
-                            .clip(MaterialTheme.shapes.extraSmall)
-                            .background(
-                                if (isActive) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
-                            )
+                weekdayLabels.forEach { label ->
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                        modifier = Modifier.weight(1f)
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(6.dp))
+
+            weeks.forEach { week ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 2.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    week.forEach { date ->
+                        val isFuture = date.isAfter(today)
+                        val isActive = heatmapData[date.toEpochDay()] ?: false
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .aspectRatio(1f)
+                                .clip(MaterialTheme.shapes.extraSmall)
+                                .background(
+                                    when {
+                                        isFuture -> Color.Transparent
+                                        isActive -> MaterialTheme.colorScheme.primary
+                                        else -> MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+                                    }
+                                )
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+            HeatmapLegend()
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = stringResource(R.string.progress_last_month_walk),
                 style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.align(Alignment.End)
             )
         }
@@ -403,18 +438,64 @@ fun MonthlyHeatmap(
 }
 
 @Composable
+private fun HeatmapLegend(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        LegendItem(
+            color = MaterialTheme.colorScheme.primary,
+            label = stringResource(R.string.progress_legend_done)
+        )
+        LegendItem(
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+            label = stringResource(R.string.progress_legend_none)
+        )
+    }
+}
+
+@Composable
+private fun LegendItem(color: Color, label: String) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(12.dp)
+                .clip(MaterialTheme.shapes.extraSmall)
+                .background(color)
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
 fun EmptyStatsComponent() {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(32.dp), // Añadimos margen generoso para el estado vacío
-        contentAlignment = Alignment.Center
+            .padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
+        Icon(
+            imageVector = Icons.Default.AutoGraph,
+            contentDescription = null,
+            modifier = Modifier.size(64.dp),
+            tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(R.string.progress_empty_state),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center // Centramos el párrafo
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center
         )
     }
 }

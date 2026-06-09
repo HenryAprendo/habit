@@ -28,8 +28,8 @@ class HabitNotificationHelper @Inject constructor(
      */
     fun createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Challenge Reminders"
-            val descriptionText = "Notifications to remind you of pending habit in your active challenges"
+            val name = context.getString(R.string.notification_channel_name)
+            val descriptionText = context.getString(R.string.notification_channel_desc)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
 
             val channel = NotificationChannel(

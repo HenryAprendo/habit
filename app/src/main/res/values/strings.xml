@@ -57,6 +57,8 @@
     <string name="progress_pro_feature">PRO Feature</string>
     <string name="progress_unlock_analysis">Unlock Analysis</string>
     <string name="progress_last_month_walk">Your walk over the last month</string>
+    <string name="progress_legend_done">Completed</string>
+    <string name="progress_legend_none">No activity</string>
     <string name="progress_empty_state">Begin your spiritual walk. Complete your first discipline to see your progress</string>
 
     <!-- Add Habit Screen -->
@@ -70,10 +72,14 @@
     <string name="add_habit_name_supporting">Name your spiritual commitment</string>
     <string name="add_habit_purpose_label">Spiritual Purpose</string>
     <string name="add_habit_purpose_placeholder">Why is this discipline important for your walk?</string>
-    <string name="add_habit_frequency_label">Daily Dedication</string>
+    <string name="add_habit_purpose_optional">Optional</string>
     <string name="add_habit_error_name">Add discipline name required</string>
-    <string name="add_habit_error_purpose">Add discipline purpose required</string>
-    <string name="add_habit_error_frequency">Field required. Minimum 1 and Maximum 5</string>
+
+    <!-- Free habit limit dialog -->
+    <string name="habit_limit_title">Free plan limit reached</string>
+    <string name="habit_limit_message">The free plan allows up to %1$d disciplines. Upgrade to Pro to add unlimited spiritual disciplines.</string>
+    <string name="habit_limit_cta">See Pro</string>
+    <string name="habit_limit_dismiss">Not now</string>
 
     <!-- Settings Screen -->
     <string name="settings_app_stewardship">App Stewardship</string>
@@ -101,6 +107,11 @@
     <string name="challenges_status_on_walk">On the Walk</string>
     <string name="challenges_status_advanced">Advanced Spiritual Journey</string>
     <string name="challenges_status_start">Start Journey</string>
+    <string name="challenges_section_active">On the Walk</string>
+    <string name="challenges_section_available">Available</string>
+    <string name="challenges_section_completed">Completed</string>
+    <string name="challenges_create_discipline">Create a discipline</string>
+    <string name="challenges_empty">No challenges available yet. Check back soon.</string>
 
     <!-- Paywall Screen -->
     <string name="paywall_commit_spiritual_growth">Commit to Your\nSpiritual Growth</string>
@@ -121,6 +132,8 @@
     <string name="paywall_plan_monthly_title">Monthly Journey</string>
     <string name="paywall_plan_monthly_price">$4.99 / month</string>
     <string name="paywall_plan_monthly_desc">Flexible spiritual commitment</string>
+    <string name="paywall_price_per_year">%1$s / year</string>
+    <string name="paywall_price_per_month">%1$s / month</string>
     <string name="paywall_continue_basic">Continue with Basic Walk</string>
     <string name="paywall_restore_purchases">Paywall restore purchases</string>
 
@@ -526,6 +539,30 @@
     </string>
     <string name="notification_action_allow">Enable</string>
     <string name="notification_action_not_now">Not now</string>
+
+    <!-- Daily reminder settings -->
+    <string name="settings_reminders_title">Daily Reminder</string>
+    <string name="settings_reminder_enable_label">Daily reminder</string>
+    <string name="settings_reminder_enable_desc">Receive a gentle nudge to keep your spiritual disciplines.</string>
+    <string name="settings_reminder_time_label">Reminder time</string>
+
+    <!-- Notification channel &amp; content -->
+    <string name="notification_channel_name">Daily Reminders</string>
+    <string name="notification_channel_desc">Reminders to stay faithful to your spiritual disciplines.</string>
+    <string name="notification_reminder_title">Don\'t break your streak!</string>
+    <string name="notification_reminder_single">You have 1 active challenge waiting for you today.</string>
+    <string name="notification_reminder_multi">You have %1$d challenges to complete before the day ends.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_start">Get started</string>
+    <string name="onboarding_p1_title">Build spiritual disciplines</string>
+    <string name="onboarding_p1_desc">Create daily faith habits and check them off to stay consistent in your walk with God.</string>
+    <string name="onboarding_p2_title">Grow every day</string>
+    <string name="onboarding_p2_desc">Read a daily devotional and take on guided challenges to deepen your faith.</string>
+    <string name="onboarding_p3_title">See your faithfulness</string>
+    <string name="onboarding_p3_desc">Track your streaks and progress, and get a gentle daily reminder to keep going.</string>
 
     <string name="paywall_plan_annual_trial">7 Days Free Trial</string>
     <string name="paywall_trial_disclaimer">You won\'t be charged today. Cancel anytime in Google
