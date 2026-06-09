@@ -91,9 +91,10 @@ Capas `domain` / `data` / `ui`:
 _Actualizar esta sección a medida que avanza el proyecto._
 
 ### Producción
-- **v1.0.4 (versionCode 5)** en el track; pruebas cerradas aprobadas, producción habilitada.
+- **v1.0.4 (versionCode 5)** es lo que está publicado; pruebas cerradas aprobadas, producción habilitada.
+- **1.0.5 (versionCode 6)** ya bumpeado en `build.gradle.kts`, en `develop`, listo para release.
 
-### En `develop` — 6 mejoras listas para release como **1.0.5 (vCode 6)**
+### En `develop` — 7 cambios listos para release como **1.0.5 (vCode 6)**
 Implementadas según el feedback de testers (un PR por área, todas mergeadas a `develop`):
 
 1. **Recordatorios configurables** — hora elegible + on/off en Ajustes (DataStore); `domain` con
@@ -117,11 +118,15 @@ Implementadas según el feedback de testers (un PR por área, todas mergeadas a 
    sigue en **1** (no hubo cambio de esquema). Receta para el próximo cambio de esquema en
    `data/db/DatabaseMigrations.kt`.
 
-### Pendiente antes del release 1.0.5
-1. **Bump de versión** a 1.0.5 / vCode 6 — SOLO cuando el usuario lo pida.
-2. **PR de release `develop → master`** + tag `v1.0.5`.
-3. **Firebase Crashlytics** (requiere setup en Firebase Console + actualizar Data Safety en Play).
+### Release 1.0.5 (en curso)
+1. ✅ **Bump de versión** a 1.0.5 / vCode 6 (hecho).
+2. **PR de release `develop → master`** + tag `v1.0.5` (siguiente paso).
+3. Generar AAB firmado desde `master` y subir a Play (lo hace el usuario en Play Console).
 4. **Screenshots de Play** a actualizar: onboarding, progreso, challenges.
+
+### Siguiente release (1.0.6)
+- **Firebase Crashlytics** (requiere setup en Firebase Console + actualizar Data Safety en Play).
+  Se decidió liberar 1.0.5 primero (Opción 1) y meter Crashlytics en 1.0.6.
 
 ### Backlog (futuro)
 - **Eliminar la columna `frequency`** de `Habit` (ya no se usa): será el **primer uso real** de la
