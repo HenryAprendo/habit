@@ -18,7 +18,7 @@ room = "2.6.1"
 serialization = "1.7.3"
 hiltWork = "1.2.0"
 workRuntimeKtx = "2.11.2"
-billingKtx = "7.1.1"
+billingKtx = "8.0.0"
 
 [libraries]
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }

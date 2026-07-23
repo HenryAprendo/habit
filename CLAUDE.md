@@ -91,11 +91,12 @@ Capas `domain` / `data` / `ui`:
 _Actualizar esta sección a medida que avanza el proyecto._
 
 ### Producción
-- **v1.0.4 (versionCode 5)** es lo que está publicado; pruebas cerradas aprobadas, producción habilitada.
-- **1.0.5 (versionCode 6)** ya bumpeado en `build.gradle.kts`, en `develop`, listo para release.
+- **v1.0.5 (versionCode 6)** es lo PUBLICADO: pasó revisión de Play y desde el **2026-06-17**
+  está visible en producción en Play Store. Mergeado a `master` (PR #10) y tageado `v1.0.5`.
+- v1.0.4 (versionCode 5) fue la versión anterior en producción.
 
-### En `develop` — 7 cambios listos para release como **1.0.5 (vCode 6)**
-Implementadas según el feedback de testers (un PR por área, todas mergeadas a `develop`):
+### En 1.0.5 (vCode 6) — 7 cambios incluidos (ya publicados)
+Implementados según el feedback de testers (un PR por área, todos mergeados a `develop` → `master`):
 
 1. **Recordatorios configurables** — hora elegible + on/off en Ajustes (DataStore); `domain` con
    interface `ReminderScheduler` + use cases. Se localizaron los textos de notificación (estaban
@@ -118,13 +119,13 @@ Implementadas según el feedback de testers (un PR por área, todas mergeadas a 
    sigue en **1** (no hubo cambio de esquema). Receta para el próximo cambio de esquema en
    `data/db/DatabaseMigrations.kt`.
 
-### Release 1.0.5 (en curso)
-1. ✅ **Bump de versión** a 1.0.5 / vCode 6 (hecho).
-2. **PR de release `develop → master`** + tag `v1.0.5` (siguiente paso).
-3. Generar AAB firmado desde `master` y subir a Play (lo hace el usuario en Play Console).
-4. **Screenshots de Play** a actualizar: onboarding, progreso, challenges.
+### Release 1.0.5 — COMPLETADO ✅
+1. ✅ **Bump de versión** a 1.0.5 / vCode 6.
+2. ✅ **PR de release `develop → master`** (#10) + tag `v1.0.5`.
+3. ✅ AAB firmado subido a Play; **pasó revisión y en producción desde 2026-06-17**.
+4. Screenshots de Play (onboarding, progreso, challenges): confirmar si se actualizaron.
 
-### Siguiente release (1.0.6)
+### Siguiente release (1.0.6) — próximo foco
 - **Firebase Crashlytics** (requiere setup en Firebase Console + actualizar Data Safety en Play).
   Se decidió liberar 1.0.5 primero (Opción 1) y meter Crashlytics en 1.0.6.
 
