@@ -8,7 +8,7 @@ Guía de proyecto para Claude Code. Léela al iniciar cada sesión. Mantén la s
 ## Proyecto
 
 App Android cristiana de seguimiento de hábitos ("disciplinas espirituales"). Freemium con
-Google Play Billing v7. Ya en producción (pruebas cerradas aprobadas; solicitando producción).
+Google Play Billing v8. Ya en producción (v1.0.6 publicada).
 
 - `applicationId` / namespace: `com.henrydev.faithsteward`
 - Nombre: EN "Faith Steward" · ES "Mayordomo de Fe"
@@ -22,7 +22,7 @@ Google Play Billing v7. Ya en producción (pruebas cerradas aprobadas; solicitan
 ## Stack
 
 - 100% **Kotlin** + **Jetpack Compose** + **Material 3**
-- **Room** (KSP) · **Hilt** (DI) · **WorkManager** · **DataStore** · **Google Play Billing v7**
+- **Room** (KSP) · **Hilt** (DI) · **WorkManager** · **DataStore** · **Google Play Billing v8**
 - `minSdk 24`, `targetSdk 36`, `compileSdk 36` · módulo único `app`
 - Entorno de desarrollo: **Windows + PowerShell**
 
@@ -34,7 +34,7 @@ Capas `domain` / `data` / `ui`:
   Android (nada de `Context`/`WorkManager`/`Calendar`). Si un use case necesita un servicio del
   framework, define una **interface en `domain`** y bindea la implementación con Hilt `@Binds`
   (ej.: `ReminderScheduler` ← `NotificationScheduler`).
-- **data**: implementaciones `Offline*` de los repositorios (Room, DataStore, Billing).
+- **data**: implementaciones `Offline*` de los repositorios (Room, DataStore, Billing v8).
 - **ui**: pantallas Compose + ViewModels. **La lógica vive en use cases**; el ViewModel solo
   colecta estado y delega.
 - DI con **Hilt**.
@@ -70,6 +70,7 @@ Capas `domain` / `data` / `ui`:
 
 ## Billing — NO ROMPER
 
+- **Google Play Billing Library v8.0.0** (Actualización obligatoria cumplida).
 - IDs de producto (contrato con Play Console, **nunca cambiar**): `pro_monthly_plan`,
   `pro_annual_plan` (constantes en `PaywallViewModel`).
 - Precios/trials viven en **Play Console**, no en código. Mostrar el **precio real localizado**
@@ -91,42 +92,26 @@ Capas `domain` / `data` / `ui`:
 _Actualizar esta sección a medida que avanza el proyecto._
 
 ### Producción
-- **v1.0.4 (versionCode 5)** es lo que está publicado; pruebas cerradas aprobadas, producción habilitada.
-- **1.0.5 (versionCode 6)** ya bumpeado en `build.gradle.kts`, en `develop`, listo para release.
+- **v1.0.6 (versionCode 7)** es lo ÚLTIMO: mergeado a `master` y tageado `v1.0.6` (2026-07-23).
+- **v1.0.5 (versionCode 6)** fue la versión anterior en producción (2026-06-17).
 
-### En `develop` — 7 cambios listos para release como **1.0.5 (vCode 6)**
-Implementadas según el feedback de testers (un PR por área, todas mergeadas a `develop`):
+### En 1.0.6 (vCode 7) — Cambios realizados ✅
+1. **Google Play Billing v8.0.0** — Actualización obligatoria realizada. Limpieza de dependencias duplicadas en Gradle.
+2. **Expansión de Devocionales (70 días)** — Se pasó de 15 a 70 días de contenido único.
+   - **Inglés:** King James Version (KJV).
+   - **Español:** Reina Valera 1960 (RV1960).
+   - Reflexiones adaptadas culturalmente, no solo traducidas.
+3. **Build Fix: Experimental API** — Resuelto el error de compilación de `combinedClickable` mediante `opt-in` global en `build.gradle.kts`.
+4. **Estabilidad de Build** — Aumentado `networkTimeout` a 60s en `gradle-wrapper.properties` para evitar fallos de descarga de Gradle.
 
-1. **Recordatorios configurables** — hora elegible + on/off en Ajustes (DataStore); `domain` con
-   interface `ReminderScheduler` + use cases. Se localizaron los textos de notificación (estaban
-   en inglés fijo).
-2. **Gestión de hábitos** — descripción **opcional**; se quitó el campo **`frequency`** del
-   formulario (no se usaba); diálogo amable al topar el límite del plan gratuito
-   (`CanCreateHabitUseCase.FREE_HABIT_LIMIT = 4`) en vez de saltar al paywall.
-3. **Precios reales del paywall** — desde `ProductDetails` (moneda local del usuario), con
-   fallback al string fijo si billing no está listo.
-4. **Navegación de challenges** — agrupados en secciones (En el Camino / Disponibles /
-   Completados) + salida "Crear disciplina" cuando no hay hábitos.
-5. **Visibilidad del progreso** — heatmap rediseñado, alineado por día de semana con leyenda
-   (`java.time`); `GetGlobalStatsUseCase` migrado a `LocalDate.toEpochDay()` y racha a prueba de
-   DST. Nota: el faithfulness sigue usando base 30 (no cambió).
-6. **Onboarding** de primer arranque (pager de 3 páginas), se muestra una sola vez (DataStore);
-   respeta system bars (edge-to-edge).
-7. **Migración de Room (infra)** — se quitó `fallbackToDestructiveMigration` (borraba datos en
-   upgrades). Builder ahora con `addMigrations(*DatabaseMigrations.ALL)` +
-   `fallbackToDestructiveMigrationOnDowngrade()` (red de seguridad solo en downgrade). `version`
-   sigue en **1** (no hubo cambio de esquema). Receta para el próximo cambio de esquema en
-   `data/db/DatabaseMigrations.kt`.
+### Release 1.0.6 — COMPLETADO ✅
+1. ✅ **Bump de versión** a 1.0.6 / vCode 7.
+2. ✅ **PR de release `develop → master`** + tag `v1.0.6`.
+3. ✅ AAB generado y listo para subir.
 
-### Release 1.0.5 (en curso)
-1. ✅ **Bump de versión** a 1.0.5 / vCode 6 (hecho).
-2. **PR de release `develop → master`** + tag `v1.0.5` (siguiente paso).
-3. Generar AAB firmado desde `master` y subir a Play (lo hace el usuario en Play Console).
-4. **Screenshots de Play** a actualizar: onboarding, progreso, challenges.
-
-### Siguiente release (1.0.6)
-- **Firebase Crashlytics** (requiere setup en Firebase Console + actualizar Data Safety en Play).
-  Se decidió liberar 1.0.5 primero (Opción 1) y meter Crashlytics en 1.0.6.
+### Próximo foco (1.0.7)
+- **Firebase Crashlytics** (pendiente desde versiones anteriores).
+- Monitoreo de la estabilidad de la nueva Billing Library v8.
 
 ### Backlog (futuro)
 - **Eliminar la columna `frequency`** de `Habit` (ya no se usa): será el **primer uso real** de la
