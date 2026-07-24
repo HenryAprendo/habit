@@ -16,7 +16,7 @@ interface ChallengeDao {
     fun getAllChallenges(): Flow<List<ChallengeEntity>>
 
     @Query("""
-        SELECT * FROM challenges
+        SELECT challenges.* FROM challenges
         INNER JOIN challenge_subscriptions ON challenges.id = challenge_subscriptions.challengeId
         WHERE challenge_subscriptions.status = 'ACTIVE'
     """)
