@@ -15,8 +15,8 @@ android {
         applicationId = "com.henrydev.faithsteward"
         minSdk = 24
         targetSdk = 36
-        versionCode = 6
-        versionName = "1.0.5"
+        versionCode = 7
+        versionName = "1.0.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -70,7 +70,6 @@ dependencies {
     //DB
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    implementation(libs.billing.ktx)
     ksp(libs.room.compiler)
 
     //DI
@@ -82,7 +81,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.compose.material.icons.extended)
-    // Removed implementation("androidx.compose.animation:animation:1.10.5") - let BOM handle it or use standard version
 
     //DataStore
     implementation(libs.androidx.datastore.preferences)
@@ -99,7 +97,7 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     //Google play billing
-    implementation("com.android.billingclient:billing-ktx:7.1.1")
+    implementation(libs.billing.ktx)
 
     implementation("androidx.core:core-splashscreen:1.2.0")
 
